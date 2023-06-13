@@ -1,0 +1,49 @@
+// -------------------------
+// --- You can add your custom CSS here and it will overwrite template styles.
+// -------------------------
+$cm-category-box-shadow : 0 0 10px 2px rgba(0,0,0,0.2);
+
+.cm-categories {
+  .cm-category{
+    text-align: center;
+    margin-bottom: 1rem;
+    background-color: white;
+    padding: 0.5rem;
+    box-shadow: 0, 0, 0m;
+    -webkit-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.2);
+    transition: box-shadow 0.3s ease-in-out;
+    
+    
+    &:hover {
+      box-shadow: $cm-category-box-shadow;
+    }
+    &__figure{
+        height: 175px;
+      img{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+    &__title{
+      font-size: 1.25rem;
+      color: #333;
+    }
+
+  }
+}
+
+
+
+
+.color__item{
+  color:gray;
+  font-size: 0.75rem;
+  padding:  0.01rem 0.5rem;
+  border: 1px solid gray;
+  border-radius: 2px;
+  margin-inline-end: 0.5rem;
+  cursor: pointer !important;
+}
