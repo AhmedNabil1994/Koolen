@@ -1,6 +1,8 @@
 // react
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 // third-party
 import { Helmet } from 'react-helmet-async';
@@ -21,57 +23,78 @@ import { toastError, toastSuccess } from '../toast/toastComponent';
 import { getToken } from '../../api/network';
 
 function AccountPageLogin(props) {
-    // props
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [regEmail, setRegEmail] = useState('');
-    const [regName, setRegName] = useState('');
-    const [regphone, setRegPhone] = useState('');
-    const [regPass, setRegPass] = useState('');
-    const [regMatchingPass, setRegMatchingPass] = useState('');
     const { dispatch } = props;
     const intl = useIntl();
-
-    // const breadcrumb = [
-    //     { title: 'Home', url: '/' },
-    //     { title: 'My Account', url: '' },
-    // ];
-
-    function resetData() {
-        setRegEmail('');
-        setRegName('');
-        setRegPhone('');
-        setRegPass('');
-        setRegMatchingPass('');
-    }
-
-    function submitLogin(e) {
-        e.preventDefault();
-        loginUser({ email, password }, (success) => {
-            if (success.success) {
-                const { access_token: token, user } = success;
-                getToken(token);
-                dispatch({ type: LOGIN, payload: { token, user } });
-            } else {
-                toastError(success);
-            }
-        }, (fail) => {
-            toastError(fail);
-        });
-    }
-
-    function register(e) {
-        e.preventDefault();
-        signUpUser({
-            name: regName, email: regEmail, password: regPass, phone: regphone,
-        }, (success) => {
-            if (success.success) toastSuccess(success);
-            resetData();
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: '',
         },
-        (fail) => {
-            toastError(fail);
-        });
-    }
+        validationSchema: Yup.object({
+            email: Yup.string().email(intl.formatMessage({ id: 'validation.email.format' })).required(intl.formatMessage({ id: 'validation.email.required' })),
+            password: Yup.string().min(6, intl.formatMessage({ id: 'validation.password.format' })).required(intl.formatMessage({ id: 'validation.password.required' })),
+        }),
+        onSubmit: (values) => {
+            const { email, password } = values;
+            loginUser({ email, password }, (success) => {
+                if (success.success) {
+                    const { access_token: token, user } = success;
+                    getToken(token);
+                    dispatch({ type: LOGIN, payload: { token, user } });
+                } else {
+                    toastError(success);
+                }
+            }, (fail) => {
+                toastError(fail);
+            });
+        },
+    });
+    const registrationFormik = useFormik({
+        initialValues: {
+            fullName: '',
+            email: '',
+            phone: '',
+            password: '',
+            repeatPassword: '',
+        },
+        validationSchema: Yup.object({
+            fullName: Yup.string().required(intl.formatMessage({ id: 'validation.fullName.required' })),
+            email: Yup.string().email().required(intl.formatMessage({ id: 'validation.fullName.required' })),
+            phone: Yup.number().typeError(intl.formatMessage({ id: 'validation.phone.format' })).required(intl.formatMessage({ id: 'validation.phone.required' })).positive(intl.formatMessage({ id: 'validation.phone.format' }))
+                .integer(intl.formatMessage({ id: 'validation.phone.format' })),
+            password: Yup.string().min(6, intl.formatMessage({ id: 'validation.password.format' })).required(intl.formatMessage({ id: 'validation.repeatPassword.required' })),
+            repeatPassword: Yup.string().oneOf([Yup.ref('password'), null], intl.formatMessage({ id: 'validation.repeatPassword.format' })),
+        }),
+        onSubmit(values) {
+            const {
+                fullName, phone, email, password,
+            } = values;
+            signUpUser({
+                name: fullName, email, password, phone,
+            }, (success) => {
+                if (success.success) toastSuccess(success);
+            },
+            (fail) => {
+                toastError(fail);
+            });
+        },
+    });
+
+    // eslint-disable-next-line
+                // resetData();
+    // function resetData() {
+    //     registrationFormik.resetForm();
+    // }
+
+    // reset data
+
+    // function resetData() {
+    // setRegEmail('');
+    // setRegName('');
+    // setRegPhone('');
+    // setRegPass('');
+    // setRegMatchingPass('');
+    // }
 
     return (
         <React.Fragment>
@@ -90,33 +113,55 @@ function AccountPageLogin(props) {
                             <div className="card flex-grow-1 mb-md-0">
                                 <div className="card-body">
                                     <h3 className="card-title">{intl.formatMessage({ id: 'login.login' })}</h3>
-                                    <form>
-                                        <div className="form-group">
+                                    <form className="needs-validation" onSubmit={formik.handleSubmit} noValidate>
+                                        <div className="form-group needs-validation">
                                             <label htmlFor="login-email">{intl.formatMessage({ id: 'login.email' })}</label>
                                             <input
                                                 id="login-email"
                                                 type="email"
-                                                className="form-control"
+                                                name="email"
                                                 placeholder={intl.formatMessage({ id: 'login.email' })}
-                                                value={email}
-                                                onChange={(e) => setEmail(e.target.value)}
+                                                className={`form-control ${formik.errors.email && formik.touched.email && 'is-invalid'}`}
+                                                onChange={formik.handleChange}
+                                                value={formik.values.email}
+                                                {...formik.getFieldProps('email')}
                                             />
+                                            {
+                                                formik.touched.email && formik.errors.email
+                                                    ? (
+                                                        <div className="invalid-feedback">
+                                                            {formik.errors.email}
+                                                        </div>
+                                                    )
+                                                    : null
+                                            }
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="login-password">{intl.formatMessage({ id: 'login.password' })}</label>
                                             <input
                                                 id="login-password"
                                                 type="password"
-                                                className="form-control"
+                                                name="password"
+                                                className={`form-control ${formik.touched.password && formik.errors.password && ' is-invalid'}`}
                                                 placeholder={intl.formatMessage({ id: 'login.password' })}
-                                                value={password}
-                                                onChange={(e) => setPassword(e.target.value)}
+                                                onChange={formik.handleChange}
+                                                value={formik.values.password}
+                                                {...formik.getFieldProps('password')}
                                             />
-                                            <small className="form-text text-muted">
-                                                <Link to="/">{intl.formatMessage({ id: 'login.forgetPass' })}</Link>
-                                            </small>
+                                            {
+                                                formik.touched.password && formik.errors.password
+                                                    ? (
+                                                        <div className="invalid-feedback">
+                                                            {formik.errors.password}
+                                                        </div>
+                                                    )
+                                                    : null
+                                            }
                                         </div>
-                                        <button type="submit" onClick={submitLogin} className="btn btn-primary mt-2 mt-md-3 mt-lg-4">
+                                        <small className="form-text text-muted">
+                                            <Link to="/">{intl.formatMessage({ id: 'login.forgetPass' })}</Link>
+                                        </small>
+                                        <button type="submit" className="btn btn-primary mt-2 mt-md-3 mt-lg-4">
                                             {intl.formatMessage({ id: 'login.login' })}
                                         </button>
                                     </form>
@@ -127,18 +172,28 @@ function AccountPageLogin(props) {
                             <div className="card flex-grow-1 mb-0">
                                 <div className="card-body">
                                     <h3 className="card-title">{intl.formatMessage({ id: 'login.register' })}</h3>
-                                    <form>
+                                    <form onSubmit={registrationFormik.handleSubmit}>
                                         <div className="form-group">
                                             <label htmlFor="name">{intl.formatMessage({ id: 'login.fullName' })}</label>
                                             <input
                                                 id="name"
                                                 type="text"
-                                                name="name"
-                                                className="form-control"
+                                                name="fullName"
+                                                className={`form-control ${registrationFormik.touched.fullName && registrationFormik.errors.fullName && 'is-invalid'}`}
                                                 placeholder={intl.formatMessage({ id: 'login.fullName' })}
-                                                value={regName}
-                                                onChange={(e) => setRegName(e.target.value)}
+                                                value={registrationFormik.values.fullName}
+                                                onChange={registrationFormik.handleChange}
+                                                {...registrationFormik.getFieldProps('fullName')}
                                             />
+                                            {
+                                                registrationFormik.touched.fullName && registrationFormik.errors.fullName
+                                                    ? (
+                                                        <div className="invalid-feedback">
+                                                            {registrationFormik.errors.fullName}
+                                                        </div>
+                                                    )
+                                                    : null
+                                            }
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="phone">{intl.formatMessage({ id: 'login.phone' })}</label>
@@ -146,33 +201,59 @@ function AccountPageLogin(props) {
                                                 id="phone"
                                                 type="text"
                                                 name="phone"
-                                                className="form-control"
+                                                className={`form-control ${registrationFormik.touched.phone && registrationFormik.errors.phone && 'is-invalid'}`}
                                                 placeholder={intl.formatMessage({ id: 'login.phone' })}
-                                                value={regphone}
-                                                onChange={(e) => setRegPhone(e.target.value)}
+                                                value={registrationFormik.values.phone}
+                                                onChange={registrationFormik.handleChange}
+                                                {...registrationFormik.getFieldProps('phone')}
                                             />
+                                            {registrationFormik.touched.phone && registrationFormik.errors.phone
+                                                ? (
+                                                    <div className="invalid-feedback">
+                                                        {registrationFormik.errors.phone}
+                                                    </div>
+                                                )
+                                                : null }
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="register-email">{intl.formatMessage({ id: 'login.email' })}</label>
                                             <input
                                                 id="register-email"
                                                 type="email"
-                                                className="form-control"
+                                                name="email"
+                                                className={`form-control ${registrationFormik.touched.email && registrationFormik.errors.email && 'is-invalid'}`}
                                                 placeholder={intl.formatMessage({ id: 'login.email' })}
-                                                value={regEmail}
-                                                onChange={(e) => setRegEmail(e.target.value)}
+                                                value={registrationFormik.values.email}
+                                                onChange={registrationFormik.handleChange}
+                                                {...registrationFormik.getFieldProps('email')}
                                             />
+                                            {registrationFormik.touched.email && registrationFormik.errors.email
+                                                ? (
+                                                    <div className="invalid-feedback">
+                                                        {registrationFormik.errors.email}
+                                                    </div>
+                                                )
+                                                : null }
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="register-password">{intl.formatMessage({ id: 'login.password' })}</label>
                                             <input
                                                 id="register-password"
                                                 type="password"
-                                                className="form-control"
+                                                name="password"
+                                                className={`form-control ${registrationFormik.touched.password && registrationFormik.errors.password && 'is-invalid'}`}
                                                 placeholder={intl.formatMessage({ id: 'login.password' })}
-                                                value={regPass}
-                                                onChange={(e) => setRegPass(e.target.value)}
+                                                value={registrationFormik.values.password}
+                                                onChange={registrationFormik.handleChange}
+                                                {...registrationFormik.getFieldProps('password')}
                                             />
+                                            {registrationFormik.touched.password && registrationFormik.errors.password
+                                                ? (
+                                                    <div className="invalid-feedback">
+                                                        {registrationFormik.errors.password}
+                                                    </div>
+                                                )
+                                                : null }
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="register-confirm">
@@ -181,13 +262,22 @@ function AccountPageLogin(props) {
                                             <input
                                                 id="register-confirm"
                                                 type="password"
-                                                className="form-control"
+                                                name="repeatPassword"
+                                                className={`form-control ${registrationFormik.touched.repeatPassword && registrationFormik.errors.repeatPassword && 'is-invalid'}`}
                                                 placeholder={intl.formatMessage({ id: 'login.repeatPass' })}
-                                                value={regMatchingPass}
-                                                onChange={(e) => setRegMatchingPass(e.target.value)}
+                                                value={registrationFormik.values.repeatPassword}
+                                                onChange={registrationFormik.handleChange}
+                                                {...registrationFormik.getFieldProps('repeatPassword')}
                                             />
+                                            {registrationFormik.touched.repeatPassword && registrationFormik.errors.repeatPassword
+                                                ? (
+                                                    <div className="invalid-feedback">
+                                                        {registrationFormik.errors.repeatPassword}
+                                                    </div>
+                                                )
+                                                : null }
                                         </div>
-                                        <button onClick={register} type="submit" className="btn btn-primary mt-2 mt-md-3 mt-lg-4">
+                                        <button type="submit" className="btn btn-primary mt-2 mt-md-3 mt-lg-4">
                                             {intl.formatMessage({ id: 'login.register' })}
                                         </button>
                                     </form>

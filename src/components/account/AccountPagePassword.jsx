@@ -1,10 +1,12 @@
 // react
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { useIntl, FormattedMessage } from 'react-intl';
 
 // third-party
 import { Helmet } from 'react-helmet-async';
-import { FormattedMessage } from 'react-intl';
 
 // data stubs
 import theme from '../../data/theme';
@@ -14,31 +16,32 @@ import { editUserInfo } from '../../api/auth';
 import { toastSuccess, toastError } from '../toast/toastComponent';
 
 function AccountPagePassword({ auth }) {
-    const [password, setPassword] = useState({
-        new: '',
-        reenter: '',
-    });
     const { name, email, phone } = auth.user;
-
-    function onChange(e) {
-        setPassword((prev) => ({
-            ...prev,
-            [e.target.name]: e.target.value,
-        }));
-    }
-
-    function createPass() {
-        const payload = {
-            name, email, phone, password: password.new, confirmPassword: password.reenter,
-        };
-        editUserInfo(payload, (success) => {
-            if (success.success) {
-                toastSuccess(success);
-            } else {
-                toastError(success);
-            }
-        }, (fail) => toastError(fail));
-    }
+    const intl = useIntl();
+    const formik = useFormik({
+        initialValues: {
+            password: '',
+            repeatPassword: '',
+        },
+        enableReinitialize: true,
+        validationSchema: Yup.object({
+            password: Yup.string().min(6, intl.formatMessage({ id: 'validation.password.format' })).required(intl.formatMessage({ id: 'validation.repeatPassword.required' })),
+            repeatPassword: Yup.string().oneOf([Yup.ref('password'), null], intl.formatMessage({ id: 'validation.repeatPassword.format' })),
+        }),
+        onSubmit: (values) => {
+            const { password, repeatPassword } = values;
+            const payload = {
+                name, email, phone, password, confirmPassword: repeatPassword,
+            };
+            editUserInfo(payload, (success) => {
+                if (success.success) {
+                    toastSuccess(success);
+                } else {
+                    toastError(success);
+                }
+            }, (fail) => toastError(fail));
+        },
+    });
 
     return (
         <div className="card">
@@ -52,35 +55,53 @@ function AccountPagePassword({ auth }) {
             <div className="card-divider" />
             <div className="card-body">
                 <div className="row no-gutters">
-                    <div className="col-12 col-lg-7 col-xl-6">
+                    <form className="col-12 col-lg-7 col-xl-6 needs-validation" onSubmit={formik.handleSubmit} noValidate>
                         <div className="form-group">
-                            <label htmlFor="password-new">New Password</label>
+                            <label htmlFor="password-new">{intl.formatMessage({ id: 'newPassword' })}</label>
                             <input
                                 type="password"
-                                name="new"
+                                name="password"
                                 className="form-control"
                                 id="password-new"
-                                placeholder="New Password"
-                                value={password.new}
-                                onChange={onChange}
+                                placeholder={intl.formatMessage({ id: 'newPassword' })}
+                                value={formik.values.password}
+                                onChange={formik.handleChange}
+                                {...formik.getFieldProps('password')}
                             />
+                            {formik.touched.password && formik.errors.password
+                                ? (
+                                    <div className="invalid-feedback">
+                                        {formik.errors.password}
+                                    </div>
+                                )
+                                : null }
                         </div>
                         <div className="form-group">
-                            <label htmlFor="password-confirm">Re-Enter New Password</label>
+                            <label htmlFor="password-confirm">{intl.formatMessage({ id: 'reenterPassword' })}</label>
                             <input
                                 type="password"
-                                name="reenter"
+                                name="repeatPassword"
                                 className="form-control"
                                 id="password-confirm"
-                                placeholder="Reenter New Password"
-                                value={password.reenter}
-                                onChange={onChange}
+                                placeholder={intl.formatMessage({ id: 'reenterPassword' })}
+                                value={formik.values.repeatPassword}
+                                onChange={formik.handleChange}
+                                {...formik.getFieldProps('repeatPassword')}
                             />
+                            {formik.touched.repeatPassword && formik.errors.repeatPassword
+                                ? (
+                                    <div className="invalid-feedback">
+                                        {formik.errors.repeatPassword}
+                                    </div>
+                                )
+                                : null }
                         </div>
                         <div className="form-group mt-5 mb-0">
-                            <button onClick={createPass} type="button" className="btn btn-primary">Change</button>
+                            <button type="submit" className="btn btn-primary">
+                                {intl.formatMessage({ id: 'change' })}
+                            </button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

@@ -85,6 +85,7 @@ function FilterRange(props) {
         }
     }, [min, max, data, onChangeValue, direction, setTimer, setState]);
 
+    // eslint-disable-next-line
     function handleChangeComplete() {
         setSelectedPrices(state);
     }
@@ -110,7 +111,7 @@ function FilterRange(props) {
                 <span className="filter-price__max-value"><Currency value={toLabel} /></span>
             </div>
         </div>
-    ), [min, max, from, to, fromLabel, toLabel, handleChange]);
+    ), [min, max, from, to, fromLabel, toLabel, handleChange, handleChangeComplete, intl]);
 }
 
 FilterRange.propTypes = {

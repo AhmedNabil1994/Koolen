@@ -1,12 +1,12 @@
 // react
 import React from 'react';
 import { connect } from 'react-redux';
+import { useIntl } from 'react-intl';
 
 // third-party
 import classNames from 'classnames';
 import {
-    Link,
-    matchPath,
+    Link, matchPath,
     Redirect,
     Switch,
     Route,
@@ -34,21 +34,20 @@ import { logout } from '../../api/auth';
 
 function AccountLayout(props) {
     const { match, location, dispatch } = props;
+    const intl = useIntl();
 
-    const breadcrumb = [
-        { title: 'Home', url: '' },
-        { title: 'My Account', url: '' },
-    ];
+    //   "account.dashboard": "Dashboard",
+    //   "account.editProfile": "Edit Profile",
+    //   "account.orderHistory": "Order History",
 
     const links = [
-        { title: 'Dashboard', url: 'dashboard' },
-        { title: 'Edit Profile', url: 'profile' },
-        { title: 'Order History', url: 'orders' },
-        { title: 'Order Details', url: 'orders/5' },
-        { title: 'Addresses', url: 'addresses' },
-        { title: 'Add Address', url: 'addresses/add' },
-        { title: 'Password', url: 'password' },
-        { title: 'Logout', url: 'login', isLogout: true },
+        { title: intl.formatMessage({ id: 'account.dashboard' }), url: 'dashboard' },
+        { title: intl.formatMessage({ id: 'account.editProfile' }), url: 'profile' },
+        { title: intl.formatMessage({ id: 'account.addresses' }), url: 'addresses' },
+        { title: intl.formatMessage({ id: 'account.addAddress' }), url: 'addresses/add' },
+        { title: intl.formatMessage({ id: 'account.orderDetails' }), url: 'orders/5' },
+        { title: intl.formatMessage({ id: 'changePassword' }), url: 'password' },
+        { title: intl.formatMessage({ id: 'login.logout' }), url: 'login', isLogout: true },
     ].map((link) => {
         const url = `${match.url}/${link.url}`;
         const isActive = matchPath(location.pathname, { path: url, exact: true });
@@ -96,14 +95,15 @@ function AccountLayout(props) {
 
     return (
         <React.Fragment>
-            <PageHeader header="My Account" breadcrumb={breadcrumb} />
+            <div className="mt-2" />
+            <PageHeader header={intl.formatMessage({ id: 'myAccount' })} />
 
             <div className="block">
                 <div className="container">
                     <div className="row">
                         <div className="col-12 col-lg-3 d-flex">
                             <div className="account-nav flex-grow-1">
-                                <h4 className="account-nav__title">Navigation</h4>
+                                <h4 className="account-nav__title">{intl.formatMessage({ id: 'navigation' })}</h4>
                                 <ul>{links}</ul>
                             </div>
                         </div>
