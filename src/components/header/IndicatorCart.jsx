@@ -1,5 +1,6 @@
 // react
 import React from 'react';
+import { useIntl } from 'react-intl';
 
 // third-party
 import classNames from 'classnames';
@@ -18,6 +19,7 @@ function IndicatorCart(props) {
     const { cart, cartRemoveItem } = props;
     let dropdown;
     let totals;
+    const intl = useIntl();
 
     if (cart.extraLines.length > 0) {
         const extraLines = cart.extraLines.map((extraLine, index) => (
@@ -127,7 +129,7 @@ function IndicatorCart(props) {
         dropdown = (
             <div className="dropcart">
                 <div className="dropcart__empty">
-                    Your shopping cart is empty!
+                    {intl.formatMessage({ id: 'emptyCart' })}
                 </div>
             </div>
         );

@@ -85,5 +85,19 @@
   "validation.email.format": "Please enter a valid email address",
   "validation.password.format": "Your password must be at least 6 characters long",
   "validation.phone.format": "Please enter a valid phone number",
-  "validation.repeatPassword.format": "Your passwords do not match"
+  "validation.repeatPassword.format": "Your passwords do not match",
+  "emptyCart": "Youe shopping cart is empty!",
+  "latestProducts": "Latest Products",
+  "popularCategories":"Popular Categories",
+  "bestSellers":"Bestsellers",
+  "continue":"Continue",
+  "shoppingCart": "Shopping Cart",
+  "wishlist": "Wishlist", 
+  "emptyWishlist": "Your wish list is empty!",
+  "image": "Image",
+  "product": "Product",
+  "stockState": "Stock State",
+  "price": "Price",
+  "inStock": "In Stock",
+  "addToCart": "Add To Cart"
 }

@@ -1,5 +1,6 @@
 // react
 import React from 'react';
+import { useIntl } from 'react-intl';
 
 // third-party
 import classNames from 'classnames';
@@ -22,11 +23,7 @@ import theme from '../../data/theme';
 
 function ShopPageWishlist(props) {
     const { wishlist, cartAddItem, wishlistRemoveItem } = props;
-    const breadcrumb = [
-        { title: 'Home', url: '' },
-        { title: 'Wishlist', url: '' },
-    ];
-
+    const { formatMessage } = useIntl();
     let content;
 
     if (wishlist.length) {
@@ -48,7 +45,7 @@ function ShopPageWishlist(props) {
                     'btn-loading': loading,
                 });
 
-                return <button type="button" onClick={run} className={classes}>Add To Cart</button>;
+                return <button type="button" onClick={run} className={classes}>{formatMessage({ id: 'addToCart' })}</button>;
             };
 
             const renderRemoveButton = ({ run, loading }) => {
@@ -72,7 +69,7 @@ function ShopPageWishlist(props) {
                         </div>
                     </td>
                     <td className="wishlist__column wishlist__column--stock">
-                        <div className="badge badge-success">In Stock</div>
+                        <div className="badge badge-success">{formatMessage({ id: 'inStock' })}</div>
                     </td>
                     <td className="wishlist__column wishlist__column--price"><Currency value={item.price} /></td>
                     <td className="wishlist__column wishlist__column--tocart">
@@ -97,10 +94,18 @@ function ShopPageWishlist(props) {
                     <table className="wishlist">
                         <thead className="wishlist__head">
                             <tr className="wishlist__row">
-                                <th className="wishlist__column wishlist__column--image">Image</th>
-                                <th className="wishlist__column wishlist__column--product">Product</th>
-                                <th className="wishlist__column wishlist__column--stock">Stock Status</th>
-                                <th className="wishlist__column wishlist__column--price">Price</th>
+                                <th className="wishlist__column wishlist__column--image">
+                                    {formatMessage({ id: 'image' })}
+                                </th>
+                                <th className="wishlist__column wishlist__column--product">
+                                    {formatMessage({ id: 'product' })}
+                                </th>
+                                <th className="wishlist__column wishlist__column--stock">
+                                    {formatMessage({ id: 'stockState' })}
+                                </th>
+                                <th className="wishlist__column wishlist__column--price">
+                                    {formatMessage({ id: 'price' })}
+                                </th>
                                 <th className="wishlist__column wishlist__column--tocart" aria-label="Add to cart" />
                                 <th className="wishlist__column wishlist__column--remove" aria-label="Remove" />
                             </tr>
@@ -117,9 +122,9 @@ function ShopPageWishlist(props) {
             <div className="block block-empty">
                 <div className="container">
                     <div className="block-empty__body">
-                        <div className="block-empty__message">Your wish list is empty!</div>
+                        <div className="block-empty__message">{formatMessage({ id: 'emptyWishlist' })}</div>
                         <div className="block-empty__actions">
-                            <Link to="/" className="btn btn-primary btn-sm">Continue</Link>
+                            <Link to="/" className="btn btn-primary btn-sm">{formatMessage({ id: 'continue' })}</Link>
                         </div>
                     </div>
                 </div>
@@ -133,7 +138,7 @@ function ShopPageWishlist(props) {
                 <title>{`Wish List — ${theme.name}`}</title>
             </Helmet>
 
-            <PageHeader header="Wishlist" breadcrumb={breadcrumb} />
+            <PageHeader header={formatMessage({ id: 'wishlist' })} />
 
             {content}
         </React.Fragment>

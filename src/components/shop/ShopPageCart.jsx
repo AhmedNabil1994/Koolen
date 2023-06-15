@@ -8,6 +8,7 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 
 // application
+import { FormattedMessage } from 'react-intl';
 import AsyncAction from '../shared/AsyncAction';
 import Currency from '../shared/Currency';
 import InputNumber from '../shared/InputNumber';
@@ -274,10 +275,6 @@ class ShopPageCart extends Component {
 
     render() {
         const { cart } = this.props;
-        const breadcrumb = [
-            { title: 'Home', url: '' },
-            { title: 'Shopping Cart', url: '' },
-        ];
 
         let content;
 
@@ -288,10 +285,12 @@ class ShopPageCart extends Component {
                 <div className="block block-empty">
                     <div className="container">
                         <div className="block-empty__body">
-                            <div className="block-empty__message">Your shopping cart is empty!</div>
+                            <div className="block-empty__message">
+                                <FormattedMessage id="emptyCart" />
+                            </div>
                             <div className="block-empty__actions">
                                 <Link to="/" className="btn btn-primary btn-sm">
-                                    Continue
+                                    <FormattedMessage id="continue" />
                                 </Link>
                             </div>
                         </div>
@@ -306,7 +305,7 @@ class ShopPageCart extends Component {
                     <title>{`Shopping Cart — ${theme.name}`}</title>
                 </Helmet>
 
-                <PageHeader header="Shopping Cart" breadcrumb={breadcrumb} />
+                <PageHeader header={<FormattedMessage id="shoppingCart" />} />
 
                 {content}
             </React.Fragment>

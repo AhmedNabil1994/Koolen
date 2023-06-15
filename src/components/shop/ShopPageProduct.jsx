@@ -1,5 +1,6 @@
 // react
 import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
 // import { useParams } from 'react-router-dom';
 
 // third-party
@@ -35,6 +36,7 @@ function ShopPageProduct(props) {
     const [product, setProduct] = useState(null);
     const [relatedProducts, setRelatedProducts] = useState([]);
     const [latestProducts, setLatestProducts] = useState([]);
+    const intl = useIntl();
 
     useEffect(() => {
         setIsLoading(true);
@@ -100,7 +102,7 @@ function ShopPageProduct(props) {
                         <WidgetCategories categories={categories} location="shop" />
                     </div>
                     <div className="block-sidebar__item d-none d-lg-block">
-                        <WidgetProducts title="Latest Products" products={latestProducts} />
+                        <WidgetProducts title={intl.formatMessage({ id: 'latestProducts' })} products={latestProducts} />
                     </div>
                 </div>
             </div>

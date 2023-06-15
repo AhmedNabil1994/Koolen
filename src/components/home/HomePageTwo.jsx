@@ -1,5 +1,6 @@
 // react
 import React, { useMemo, useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
 
 // third-party
 import { Helmet } from 'react-helmet-async';
@@ -29,6 +30,7 @@ function HomePageTwo() {
     const [bestsellingProductsLoading, setBestsellingProductsLoading] = useState(false);
     const [bestsellingProducts, setBestsellingProducts] = useState([]);
     const latestProductsNumber = 10;
+    const intl = useIntl();
 
     // getLatesProducts
     useEffect(() => {
@@ -105,7 +107,7 @@ function HomePageTwo() {
 
             {useMemo(() => (
                 <BlockProducts
-                    title="Bestsellers"
+                    title={intl.formatMessage({ id: 'bestSellers' })}
                     layout="large-last"
                     featuredProduct={bestsellingProducts[0]}
                     products={bestsellingProducts}
@@ -115,7 +117,7 @@ function HomePageTwo() {
 
             {useMemo(() => (
                 <BlockCategories
-                    title="Popular Categories"
+                    title={intl.formatMessage({ id: 'popularCategories' })}
                     layout="compact" // classic
                     categories={categories}
                 />
@@ -123,7 +125,7 @@ function HomePageTwo() {
 
             {useMemo(() => (
                 <BlockProductsCarousel
-                    title="Latest Products"
+                    title={intl.formatMessage({ id: 'latestProducts' })}
                     layout="grid-5"
                     products={latestProducts}
                     loading={latestProductsLoading}
