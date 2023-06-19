@@ -99,5 +99,10 @@
   "stockState": "Stock State",
   "price": "Price",
   "inStock": "In Stock",
-  "addToCart": "Add To Cart"
+  "addToCart": "Add To Cart",
+  "reviews": "Reviews",
+  "sale": "Sale",
+  "hot": "Hot",
+  "new": "New",
+  "send": "Send"
 }

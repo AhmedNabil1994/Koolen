@@ -7,20 +7,20 @@ import { Helmet } from 'react-helmet-async';
 
 // blocks
 import BlockBanner from '../blocks/BlockBanner';
-import BlockBrands from '../blocks/BlockBrands';
-import BlockCategories from '../blocks/BlockCategories';
 import BlockFeatures from '../blocks/BlockFeatures';
 import BlockProducts from '../blocks/BlockProducts';
 import BlockProductsCarousel from '../blocks/BlockProductsCarousel';
 import BlockSlideShow from '../blocks/BlockSlideShow';
 
 // data stubs
-import categories from '../../data/shopBlockCategories';
 import theme from '../../data/theme';
 // api and helpers
 import productSchema from '../../helpers/productSchema';
 import { getNewArrivalProducts, getBestSellingProducts } from '../../api/products';
 import { toastError } from '../toast/toastComponent';
+// eslint-disable-next-line
+import BlockCategoreisCarousel from '../blocks/BlockCategoriesCarousel';
+import { getAllCategories } from '../../api/categories';
 
 function HomePageTwo() {
     const [latestProductsLoading, setLatestProductsLoading] = useState(false);
@@ -30,7 +30,23 @@ function HomePageTwo() {
     const [bestsellingProductsLoading, setBestsellingProductsLoading] = useState(false);
     const [bestsellingProducts, setBestsellingProducts] = useState([]);
     const latestProductsNumber = 10;
+    // eslint-disable-next-line
+    const [categories, setCategories] = useState([]);
+    // eslint-disable-next-line
+    const [isCategoriesLoading, setIsCategoriesLoading] = useState(false);
     const intl = useIntl();
+
+    useEffect(() => {
+        getAllCategories((success) => {
+            setIsCategoriesLoading(false);
+            if (success) {
+                setCategories([...success.data, ...success.data, ...success.data, ...success.data, ...success.data, ...success.data, ...success.data, ...success.data, ...success.data, ...success.data]);
+            }
+        }, (fail) => {
+            setIsCategoriesLoading(false);
+            toastError(fail);
+        });
+    }, []);
 
     // getLatesProducts
     useEffect(() => {
@@ -65,9 +81,10 @@ function HomePageTwo() {
         });
     }, []);
 
-    // /**
+    //  *
     //  * Featured products.
     //  */
+
     // const featuredProducts = useProductTabs(
     //     useMemo(() => [
     //         { id: 1, name: 'All', categorySlug: undefined },
@@ -84,7 +101,7 @@ function HomePageTwo() {
     return (
         <React.Fragment>
             <Helmet>
-                <title>{`Home Page Two — ${theme.name}`}</title>
+                <title>{theme.name}</title>
             </Helmet>
 
             {useMemo(() => <BlockSlideShow />, [])}
@@ -103,8 +120,6 @@ function HomePageTwo() {
                 />
             ), [featuredProducts])} */}
 
-            {useMemo(() => <BlockBanner />, [])}
-
             {useMemo(() => (
                 <BlockProducts
                     title={intl.formatMessage({ id: 'bestSellers' })}
@@ -114,14 +129,20 @@ function HomePageTwo() {
                     loading={bestsellingProductsLoading}
                 />
             ), [bestsellingProducts])}
+            {
+                useMemo(() => (
+                    <div className="mt-4">
+                        <BlockCategoreisCarousel
+                            title={intl.formatMessage({ id: 'popularCategories' })}
+                            layout="grid-5"
+                            products={categories}
+                            loading={isCategoriesLoading}
+                        />
+                    </div>
+                ), [categories])
+            }
 
-            {useMemo(() => (
-                <BlockCategories
-                    title={intl.formatMessage({ id: 'popularCategories' })}
-                    layout="compact" // classic
-                    categories={categories}
-                />
-            ), [])}
+            {useMemo(() => <BlockBanner />, [])}
 
             {useMemo(() => (
                 <BlockProductsCarousel
@@ -132,7 +153,6 @@ function HomePageTwo() {
                 />
             ), [latestProducts])}
 
-            {useMemo(() => <BlockBrands />, [])}
         </React.Fragment>
     );
 }

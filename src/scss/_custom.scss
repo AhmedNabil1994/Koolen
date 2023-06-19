@@ -1,5 +1,139 @@
+
 // -------------------------
-// --- You can add your custom CSS here and it will overwrite template styles.
+// -------- Products--------
+// -------------------------
+
+.k-product {
+	padding: 1.125rem;
+	width: 100%;
+	position: relative;
+
+	&:hover {
+		.product-image__img {
+			opacity: 0;
+			transform: scale(1.15);
+
+			&.first {
+				opacity: 1;
+			}
+		}
+
+		.k-product__actions {
+				opacity: 1;
+				transform: translateX(5px);
+		}
+
+		.button-container{
+			button{
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+	}
+
+	&__img-container {
+		margin-bottom: 1rem;
+	}
+
+	&__figure {
+		margin-bottom: 0 !important;
+		position: relative;
+		overflow: hidden;
+		border: 1px solid #cacaca;
+		padding: 0.5rem !important;
+		-webkit-transition: all 0.5s ease-in-out;
+		-moz-transition: all 0.5s ease-in-out;
+		-o-transition: all 0.5s ease-in-out;
+		transition: all 0.5s ease-in-out;
+	}
+
+	.product-image__img {
+		transform: scale(1);
+		-webkit-transition: all 0.5s ease-in-out;
+		-moz-transition: all 0.5s ease-in-out;
+		-o-transition: all 0.5s ease-in-out;
+		transition: all 0.5s ease-in-out;
+		&.first {
+			opacity: 0;
+		}
+
+	}
+
+	.k-product__actions {
+		position: absolute;
+		top: 0px;
+		inset-inline-start: 0;
+		opacity: 0;
+		transform: translateX(-50%);
+		-webkit-transition: all 0.5s ease-in-out;
+		-moz-transition: all 0.5s ease-in-out;
+		-o-transition: all 0.5s ease-in-out;
+		transition: all 0.5s ease-in-out;
+		background-color: rgba(#fff, 0.6);
+		margin-top: 0.25rem;
+		
+		svg,
+		path {
+			fill: #3d464d !important;
+			color: #3d464d !important;
+		}
+	}
+
+	.button-container{
+		width: 100%;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		display: flex;
+		justify-content: center;
+		button{
+			width: 100%;
+			opacity: 0;
+			transform: translateY(10px);
+			-webkit-transition: all 0.5s ease-in-out;
+			-moz-transition: all 0.5s ease-in-out;
+			-o-transition: all 0.5s ease-in-out;
+			transition: all 0.5s ease-in-out;
+			border-radius: 0;
+		}
+	}
+
+	&__info {
+		text-align: center;
+	}
+
+	&__title {
+		margin-bottom: 0.5rem;
+		a {
+			font-size: 1.025rem;
+			font-weight: 500;
+
+			color: rgba(#333, 1) !important;
+			opacity: 1;
+		}
+	}
+
+	&__rating {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-bottom: 0.5rem;
+		.review {
+			font-size: 0.75rem;
+			color: gray;
+			margin-inline-start: 0.5rem;
+		}
+	}
+
+	&__price {
+		font-size: 1rem;
+		font-weight: 500;
+	}
+}
+
+// -------------------------
+// --- Categories.
 // -------------------------
 $cm-category-box-shadow : 0 0 10px 2px rgba(0,0,0,0.2);
 
@@ -36,6 +170,24 @@ $cm-category-box-shadow : 0 0 10px 2px rgba(0,0,0,0.2);
 }
 
 
+.category-item{
+	text-align: center;
+	border: 1px solid #cacaca;
+	figure {
+		width: 100%;
+		margin-bottom: 0.5rem !important;
+		
+		img{
+		width: 100% !important;
+		}
+	}
+	&__title {
+		color: #333;
+		font-weight: 700;
+		margin-bottom: 0.5rem;
+	}
+}
+
 
 
 .color__item{
@@ -46,4 +198,17 @@ $cm-category-box-shadow : 0 0 10px 2px rgba(0,0,0,0.2);
   border-radius: 2px;
   margin-inline-end: 0.5rem;
   cursor: pointer !important;
+}
+
+html[dir="rtl"]{
+	.k-product {
+			.k-product__actions {
+				transform: translateX(50%);
+			}
+		&:hover {
+			.k-product__actions {
+					transform: translateX(-5px);
+			}
+		}
+	}
 }

@@ -8,6 +8,7 @@ import { FormattedMessage } from 'react-intl';
 // application
 import Dropdown from './Dropdown';
 import { localeChange } from '../../store/locale';
+import { getCurrentLanguage } from '../../api/network';
 
 function DropdownLanguage(props) {
     const { locale, localeChange: changeLocale } = props;
@@ -19,13 +20,6 @@ function DropdownLanguage(props) {
             code: 'EN',
             icon: 'images/languages/language-1.png',
             icon_srcset: 'images/languages/language-1.png 1x, images/languages/language-1@2x.png 2x',
-        },
-        {
-            title: 'Russian',
-            locale: 'ru',
-            code: 'RU',
-            icon: 'images/languages/language-2.png',
-            icon_srcset: 'images/languages/language-2.png 1x, images/languages/language-2@2x.png 2x',
         },
         {
             title: 'RTL',
@@ -51,7 +45,10 @@ function DropdownLanguage(props) {
             title={title}
             withIcons
             items={languages}
-            onClick={(item) => changeLocale(item.locale)}
+            onClick={(item) => {
+                getCurrentLanguage(item.code);
+                changeLocale(item.locale);
+            }}
         />
     );
 }

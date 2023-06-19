@@ -19,6 +19,28 @@ export function signUpUser({
     };
     postRequest(path, data, onSuccess, onFail);
 }
+export function resendCode(
+    onSuccess, onFail,
+) {
+    const path = '/api/v1/auth/resend-code';
+
+    getRequest(path, onSuccess, onFail);
+}
+export function getUserInfo(onSuccess, onFail) {
+    const path = '/api/v1/user/info';
+    getRequest(path, onSuccess, onFail);
+}
+
+export function editUserInfo(data, onSuccess, onFail) {
+    const path = '/api/v1/user/info/update';
+    postRequest(path, data, onSuccess, onFail);
+}
+
+export function createNewPassword(email, onSuccess, onFail) {
+    const path = '/api/v1/auth/password/create';
+    const data = { email };
+    postRequest(path, data, onSuccess, onFail);
+}
 
 export function resetPassword({
     code,
@@ -31,26 +53,7 @@ export function resetPassword({
     postRequest(path, data, onSuccess, onFail);
 }
 
-export function resendCode(
-    onSuccess, onFail,
-) {
-    const path = '/api/v1/auth/resend-code';
-
-    getRequest(path, onSuccess, onFail);
-}
-export function getUserInfo(onSuccess, onFail) {
-    const path = '/api/v1/user/info';
-
-    getRequest(path, onSuccess, onFail);
-}
-
-export function editUserInfo(data, onSuccess, onFail) {
-    const path = '/api/v1/user/info/update';
-    postRequest(path, data, onSuccess, onFail);
-}
-
 export function logout(onSuccess, onFail) {
     const path = '/api/v1/logout';
-
     getRequest(path, onSuccess, onFail);
 }

@@ -13,7 +13,9 @@ import Indicator from './Indicator';
 import IndicatorAccount from './IndicatorAccount';
 import IndicatorSearch from './IndicatorSearch';
 import NavLinks from './NavLinks';
+// , LogoSmallSvg
 import { Heart20Svg, LogoSmallSvg } from '../../svg';
+// import LogoImg from '../../imgs/logo.png';
 
 function NavPanel(props) {
     const { layout, wishlist } = props;
@@ -25,7 +27,11 @@ function NavPanel(props) {
     if (layout === 'compact') {
         logo = (
             <div className="nav-panel__logo">
-                <Link to="/"><LogoSmallSvg /></Link>
+                <Link to="/">
+
+                    {/* <img src={LogoImg} alt="Koolen" /> */}
+                    <LogoSmallSvg />
+                </Link>
             </div>
         );
 

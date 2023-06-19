@@ -79,8 +79,11 @@ function AccountLayout(props) {
                             onClick={logoutUser}
                         >
                             {link.title}
+                            {' '}
 
                         </a>
+                        {' '}
+
                     </li>
                 ) : (
                     <li key={link.url} className={classes}>

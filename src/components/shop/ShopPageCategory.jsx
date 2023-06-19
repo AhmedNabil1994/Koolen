@@ -348,7 +348,7 @@ function ShopPageCategory(props) {
             </CategorySidebarItem>
             {offcanvas !== 'always' && (
                 <CategorySidebarItem className="d-none d-lg-block">
-                    <WidgetProducts title="Latest Products" products={latestProducts} />
+                    <WidgetProducts title={intl.formatMessage({ id: 'latestProducts' })} products={latestProducts} />
                 </CategorySidebarItem>
             )}
         </CategorySidebar>

@@ -12,7 +12,7 @@ function Categories() {
         getAllCategories((success) => {
             setIsLoading(false);
             if (success) {
-                setCategories(success.data);
+                setCategories([...success.data, ...success.data, ...success.data, ...success.data, ...success.data, ...success.data, ...success.data, ...success.data, ...success.data, ...success.data]);
             }
         }, (fail) => {
             setIsLoading(false);
@@ -67,6 +67,7 @@ function Categories() {
     return (
         <div className="container mt-4">
             <div className="cm-categories row">
+
                 {items}
             </div>
         </div>

@@ -159,7 +159,7 @@ function AccountPageLogin(props) {
                                             }
                                         </div>
                                         <small className="form-text text-muted">
-                                            <Link to="/">{intl.formatMessage({ id: 'login.forgetPass' })}</Link>
+                                            <Link to="/account/forget-password">{intl.formatMessage({ id: 'login.forgetPass' })}</Link>
                                         </small>
                                         <button type="submit" className="btn btn-primary mt-2 mt-md-3 mt-lg-4">
                                             {intl.formatMessage({ id: 'login.login' })}

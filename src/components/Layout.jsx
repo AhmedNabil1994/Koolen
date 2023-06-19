@@ -43,6 +43,8 @@ import theme from '../data/theme';
 
 // apis
 import { getToken } from '../api/network';
+import ForgetPassword from './account/ForgetPassword';
+import ChangePassword from './account/ChangePassword';
 
 const categoryLayouts = [
     ['/shop/category-grid-3-columns-sidebar', { columns: 3, viewMode: 'grid', sidebarPosition: 'start' }],
@@ -214,17 +216,18 @@ function Layout(props) {
 
                         {/*
                         // Account
+
                         */}
-                        {
-                            <Route
-                                exact
-                                path="/account/login"
-                                render={() => {
-                                    if (!auth?.token) return <AccountPageLogin />;
-                                    return <Redirect to="/" />;
-                                }}
-                            />
-                        }
+                        <Route path="/account/forget-password" component={ForgetPassword} />
+                        <Route path="/account/change-password" component={ChangePassword} />
+                        <Route
+                            exact
+                            path="/account/login"
+                            render={() => {
+                                if (!auth?.token) return <AccountPageLogin />;
+                                return <Redirect to="/" />;
+                            }}
+                        />
                         <Route path="/account" component={AccountLayout} />
 
                         {/*
