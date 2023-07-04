@@ -104,5 +104,8 @@
   "sale": "Sale",
   "hot": "Hot",
   "new": "New",
-  "send": "Send"
+  "send": "Send",
+  "ourAddress": "Our Address",
+  "leaveUsMessage": "Leave us a Message"
+
 }

@@ -47,8 +47,7 @@ function ShopPageProduct(props) {
                 setProduct(product[0]);
             } else toastError(success);
         }, (fail) => {
-            setIsLoading(true);
-
+            setIsLoading(false);
             toastError(fail);
         });
     }, [productSlug]);

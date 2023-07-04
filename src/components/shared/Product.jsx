@@ -146,7 +146,11 @@ class Product extends Component {
 
                         <form className="product__options">
                             <div className="form-group product__option">
-                                <div className="product__option-label">Color</div>
+                                {
+                                product?.colors?.length
+                                    ? <div className="product__option-label">Color</div>
+                                    : null
+                                }
                                 <div className="input-radio-color">
                                     <div className="input-radio-color__list">
                                         {
@@ -236,14 +240,19 @@ class Product extends Component {
                     </div>
 
                     <div className="product__footer">
-                        <div className="product__tags tags">
-                            <div className="tags__list">
-                                {
-                                   product?.tags?.length
-                                       ? product.tags.map((tag) => <Link to="/" onClick={(e) => e.preventDefault()}>{tag}</Link>) : null
-                                }
+                        {
+                    product?.tags?.length
+                        ? (
+                            <div className="product__tags tags">
+                                <div className="tags__list">
+                                    {
+                                        product.tags.map((tag) => <Link to="/" onClick={(e) => e.preventDefault()}>{tag}</Link>)
+                                    }
+                                </div>
                             </div>
-                        </div>
+                        )
+                        : null
+                        }
 
                         <div className="product__share-links share-links">
                             <ul className="share-links__list">

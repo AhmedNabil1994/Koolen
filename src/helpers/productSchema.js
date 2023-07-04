@@ -6,7 +6,13 @@ export function singleProductSchema(product) {
     const schema = [];
 
     const {
-        id, name, slug, base_discounted_price, base_price, thumbnail_image, photos, stock, rating, brand, tags, variation_options, description,
+        id,
+        name,
+        slug,
+        base_discounted_price,
+        base_price,
+        thumbnail_image,
+        photos, stock, rating, brand, tags, variation_options, description,
     } = product;
 
     const payload = {
@@ -15,7 +21,7 @@ export function singleProductSchema(product) {
         slug,
         price: base_discounted_price,
         images: [thumbnail_image, ...photos.filter((item) => item !== thumbnail_image)],
-        rating,
+        rating: rating || 0,
         stock,
         availability: stock ? 'in-stock' : 'out of stock',
         reviews: 0,
@@ -24,8 +30,8 @@ export function singleProductSchema(product) {
         categories: [],
         attributes: [],
         tags,
-        colors: variation_options[0].values,
-        description,
+        colors: variation_options?.length ? variation_options[0].values : [],
+        description: description || '',
     };
 
     if (base_price - base_discounted_price > 0) {

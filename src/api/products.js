@@ -32,6 +32,7 @@ export function getSearchedProduct(searchVal, onSuccess, onFail) {
 
 export function getProductDetails(slug, onSuccess, onFail) {
     const path = `/api/v1/product/details/${slug}`;
+    // getRequest(path, onSuccess, onFail);
     getRequest(path, onSuccess, onFail);
 }
 

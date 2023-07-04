@@ -181,7 +181,7 @@ function ShopPageCategory(props) {
     const [isLoading, setIsLoading] = useState(true);
     const [pages, setPages] = useState(1);
     const [selectedPage, setSelectedPage] = useState(1);
-    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState(props?.match?.params?.categorySlug || null);
     const [selectedPrices, setSelectedPrices] = useState([]);
     const latestProductsLimit = 5;
     const intl = useIntl();
@@ -233,8 +233,12 @@ function ShopPageCategory(props) {
     }, []);
 
     useEffect(() => {
-        getAllProducts();
-    }, [selectedPage, selectedCategory, selectedPrices]);
+        if (props?.match?.params?.categorySlug) {
+            getAllProducts();
+        } else {
+            getAllProducts();
+        }
+    }, [selectedPage, selectedCategory, selectedPrices, props?.match?.params?.categorySlug]);
 
     // Replace current url.
     useEffect(() => {

@@ -40,7 +40,7 @@ function HomePageTwo() {
         getAllCategories((success) => {
             setIsCategoriesLoading(false);
             if (success) {
-                setCategories([...success.data, ...success.data, ...success.data, ...success.data, ...success.data, ...success.data, ...success.data, ...success.data, ...success.data, ...success.data]);
+                setCategories(success.data);
             }
         }, (fail) => {
             setIsCategoriesLoading(false);

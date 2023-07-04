@@ -12,7 +12,7 @@ function Categories() {
         getAllCategories((success) => {
             setIsLoading(false);
             if (success) {
-                setCategories([...success.data, ...success.data, ...success.data, ...success.data, ...success.data, ...success.data, ...success.data, ...success.data, ...success.data, ...success.data]);
+                setCategories(success.data);
             }
         }, (fail) => {
             setIsLoading(false);

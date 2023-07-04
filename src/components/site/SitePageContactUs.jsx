@@ -1,5 +1,6 @@
 // react
 import React from 'react';
+import { useIntl } from 'react-intl';
 
 // third-party
 import { Helmet } from 'react-helmet-async';
@@ -14,10 +15,7 @@ import BlockMap from '../blocks/BlockMap';
 import theme from '../../data/theme';
 
 function SitePageContactUs() {
-    const breadcrumb = [
-        { title: 'Home', url: '' },
-        { title: 'Contact Us', url: '' },
-    ];
+    const { formatMessage } = useIntl();
 
     return (
         <React.Fragment>
@@ -27,7 +25,7 @@ function SitePageContactUs() {
 
             <BlockMap />
 
-            <PageHeader header="Contact Us" breadcrumb={breadcrumb} />
+            <PageHeader header={formatMessage({ id: 'footer.contactus' })} />
 
             <div className="block">
                 <div className="container">
@@ -36,7 +34,7 @@ function SitePageContactUs() {
                             <div className="contact-us__container">
                                 <div className="row">
                                     <div className="col-12 col-lg-6 pb-4 pb-lg-0">
-                                        <h4 className="contact-us__header card-title">Our Address</h4>
+                                        <h4 className="contact-us__header card-title">{formatMessage({ id: 'ourAddress' })}</h4>
 
                                         <div className="contact-us__address">
                                             <p>
@@ -69,13 +67,13 @@ function SitePageContactUs() {
                                         </div>
                                     </div>
 
-                                    <div className="col-12 col-lg-6">
-                                        <h4 className="contact-us__header card-title">Leave us a Message</h4>
+                                    {/* <div className="col-12 col-lg-6">
+                                        <h4 className="contact-us__header card-title">{formatMessage({ id: 'leaveUsMessage' })}</h4>
 
                                         <form>
                                             <div className="form-row">
                                                 <div className="form-group col-md-6">
-                                                    <label htmlFor="form-name">Your Name</label>
+                                                    <label htmlFor="form-name">{formatMessage({ id: 'login.fullName' })}</label>
                                                     <input type="text" id="form-name" className="form-control" placeholder="Your Name" />
                                                 </div>
                                                 <div className="form-group col-md-6">
@@ -99,7 +97,7 @@ function SitePageContactUs() {
                                             <button type="submit" className="btn btn-primary">Send Message</button>
                                         </form>
 
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>

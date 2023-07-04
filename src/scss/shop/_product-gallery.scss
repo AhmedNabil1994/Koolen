@@ -13,6 +13,7 @@
     border-radius: $product-gallery-item-border-radius;
 
     .product-image {
+        background: $image-bg;
         padding: 20px;
     }
     .product-image__body:focus {
@@ -76,6 +77,7 @@
     border-radius: $product-gallery-item-border-radius;
     border: none;
     background: transparent;
+    background: $image-bg;
 
     &:focus {
         outline: none;
