@@ -33,7 +33,7 @@ function Categories() {
                         <div className="cm-category" key={index}>
                             <Link to={`/shop/catalog/${item.slug}`}>
                                 <figure className="cm-category__figure">
-                                    <img src={item.image} alt={item.name} />
+                                    <img style={{ objectFit: 'cover' }} src={item.image[1]} alt={item.name} />
                                 </figure>
                                 <div className="cm-category__title">
                                     {item.name}
@@ -50,7 +50,7 @@ function Categories() {
                     <div className="cm-category">
                         <Link to={`/shop/catalog/${item.slug}`}>
                             <figure className="cm-category__figure ">
-                                <img style={{ width: '100%' }} src={item.image} alt={item.name} />
+                                <img style={{ width: '100%' }} src={item.image[0]} alt={item.name} />
                             </figure>
                             <div className="cm-category__title">
                                 {item.name}

@@ -18,7 +18,6 @@ $local-dot-size: $local-dots-height - $local-dots-padding * 2;
 
     .slick-slide > div > div {
         vertical-align: middle;
-        border: 1px solid red;
 
         &:focus {
             outline: none;

@@ -56,7 +56,7 @@ class Product extends Component {
 
         return (
             <div className={`product product--layout--${layout} mt-3`}>
-                <div className="product__content">
+                <div className="product__content single-product">
                     <ProductGallery layout={layout} images={product.images} />
 
                     <div className="product__info">

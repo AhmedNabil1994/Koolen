@@ -12,8 +12,7 @@ import ToTop from './ToTop';
 import getFooterData from '../../api/footer';
 import { toastError } from '../toast/toastComponent';
 import BlockLoader from '../blocks/BlockLoader';
-// import { LogoSmallSvg } from '../../svg';
-import LogoBlack from '../../imgs/logo.png';
+import { LogoSmallSvg } from '../../svg';
 
 export default function Footer() {
     const [isLoading, setIsLoading] = useState(true);
@@ -78,8 +77,7 @@ export default function Footer() {
                         {data?.copyright_text}
                     </div>
                     <div className="site-footer__payments">
-                        {/* <LogoSmallSvg /> */}
-                        <img style={{ width: 155, height: 26, objectFit: 'contain' }} src={LogoBlack} alt="Koolen Logo" />
+                        <LogoSmallSvg />
                     </div>
                 </div>
             </div>

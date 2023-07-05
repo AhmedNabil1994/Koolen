@@ -9,7 +9,7 @@ const CategoryCard = ({ category }) => {
             <div className="category-item__container" key={slug}>
                 <Link to={`/shop/catalog/${slug}`}>
                     <figure>
-                        <img src={image} alt={name} />
+                        <img src={image[0]} alt={name} />
                     </figure>
                     <div className="category-item__title">
                         {name}

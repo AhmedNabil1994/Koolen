@@ -306,6 +306,7 @@ class ProductGallery extends Component {
                 'product-gallery__carousel-item--active': index === currentIndex,
             });
 
+            if (!image) return null;
             return (
                 <button
                     type="button"

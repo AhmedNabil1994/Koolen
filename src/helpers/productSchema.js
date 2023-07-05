@@ -15,12 +15,19 @@ export function singleProductSchema(product) {
         photos, stock, rating, brand, tags, variation_options, description,
     } = product;
 
+    let thumbnails;
+    if (Array.isArray(thumbnail_image)) {
+        thumbnails = [...new Set([...thumbnail_image, ...photos])];
+    } else {
+        thumbnails = [...new Set([thumbnail_image, ...photos])];
+    }
+
     const payload = {
         id,
         name,
         slug,
         price: base_discounted_price,
-        images: [thumbnail_image, ...photos.filter((item) => item !== thumbnail_image)],
+        images: thumbnails,
         rating: rating || 0,
         stock,
         availability: stock ? 'in-stock' : 'out of stock',
@@ -63,7 +70,7 @@ export default function productSchema(products) {
             name,
             slug,
             price: base_discounted_price,
-            images: [thumbnail_image],
+            images: Array.isArray(thumbnail_image) ? [...thumbnail_image] : [thumbnail_image],
             rating,
             stock,
             availability: stock > 0 ? 'in-stock' : 'out-of-stock',

@@ -67,6 +67,7 @@ function ProductCard(props) {
                     )}
                 </Link>
                 <div className="k-product__actions">
+
                     <div>
                         <AsyncAction
                             action={() => wishlistAddItem(product)}
