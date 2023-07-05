@@ -338,6 +338,7 @@ class ProductGallery extends Component {
                             {featured}
                         </StroykaSlick>
                     </div>
+
                     <div className="product-gallery__carousel">
                         <StroykaSlick {...slickSettingsThumbnails[layout]}>
                             {thumbnails}

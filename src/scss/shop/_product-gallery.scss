@@ -67,6 +67,7 @@
         }
     }
 }
+
 .product-gallery__carousel-item {
     vertical-align: middle;
     width: 100%;
@@ -84,5 +85,6 @@
     }
 }
 .product-gallery__carousel-item--active {
-    box-shadow: $product-gallery-item-active-shadow;
+    // box-shadow: $product-gallery-item-active-shadow;
+    border: 1px solid red;
 }

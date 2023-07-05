@@ -154,7 +154,7 @@ $cm-category-box-shadow : 0 0 10px 2px rgba(0,0,0,0.2);
       box-shadow: $cm-category-box-shadow;
     }
     &__figure{
-        height: 175px;
+        height: 334px;
       img{
         width: 100%;
         height: 100%;
@@ -164,7 +164,7 @@ $cm-category-box-shadow : 0 0 10px 2px rgba(0,0,0,0.2);
     }
     &__title{
       font-size: 1.25rem;
-      color: #333;
+      color: black;
     }
 
   }
@@ -173,17 +173,20 @@ $cm-category-box-shadow : 0 0 10px 2px rgba(0,0,0,0.2);
 
 .category-item{
 	text-align: center;
-	border: 1px solid #cacaca;
+
 	figure {
 		width: 100%;
 		margin-bottom: 0.5rem !important;
+		padding-inline: 0.5rem;
+    padding-top: 0.5rem;
 		
 		img{
 		width: 100% !important;
 		}
 	}
 	&__title {
-		color: #333;
+		color: black;
+		// color: #333;
 		font-weight: 700;
 		margin-bottom: 0.5rem;
 	}

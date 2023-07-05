@@ -2,6 +2,7 @@
 @import 'custom-variables';
 
 
+
 // ----------------------------------------
 // Table of Contents
 // ----------------------------------------
@@ -115,6 +116,7 @@
    // light
    $light-color:                    #fff                  !default;
    $light-opposite-color:           #3d464d               !default;
+   // $light-opposite-color:           #3d464d               !default;
    $light-opposite-muted-color:     #999                  !default;
    $light-opposite-alt-color:       #6c757d               !default;
    $light-divider-color:            #ebebeb               !default;
@@ -160,7 +162,8 @@
 // -- body
 // ----------------------------------------
    $body-bg:               $light-color                !default;
-   $body-font-color:       $light-opposite-color       !default;
+   // $body-font-color:       $light-opposite-color       !default;
+   $body-font-color:       black       !default;
    $body-font-muted-color: $light-opposite-muted-color !default;
    $body-font-alt-color:   $light-opposite-alt-color   !default;
    $body-font-family:      'Roboto', 'sans-serif'      !default;
