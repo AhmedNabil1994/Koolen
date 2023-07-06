@@ -2,14 +2,45 @@
 // ------ BlockVideo  --------
 // --------------------------- 
 
+
+// scaleup video
+.video-container {
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  position: relative;
+}
+
+.video-container video {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+// scaleup video
+
 .custom-video-player{
 	// margin-top: 1rem;
 	padding-bottom: 3rem;
 	&__wrapper{
-		overflow: hidden;	
+		// overflow: hidden;	
+  width: 100%;
+  height: 0;
+  padding-bottom: 22%;
+  position: relative;
+	@media (max-width: 768px) {
+  padding-bottom: 40%;
+	}
 	}
 	&__video{
 		width: 100%;
+		//   width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+	object-fit: cover;
 	}
 }
 
@@ -317,7 +348,6 @@ html[dir="rtl"]{
   --bg: hsl(var(--hue),90%,95%);
   --fg: hsl(var(--hue),90%,5%);
   --trans-dur: 0.3s;
-  font-size: calc(16px + (24px - 16px) * (690px - 320px) / (1280px - 320px));
 }
 
 .ip {

@@ -20,7 +20,12 @@ export default function FooterContacts({ data }) {
                 </li>
                 <li>
                     <i className="footer-contacts__icon fas fa-mobile-alt" />
-                    {`${data?.contact_numbers.contact_phone} - ${data?.contact_numbers.customers_service_number}`}
+
+                    {data?.contact_numbers.contact_phone}
+                    <span className="mx-1">
+                        {' / '}
+                    </span>
+                    {data?.contact_numbers.customers_service_number}
                 </li>
             </ul>
         </div>

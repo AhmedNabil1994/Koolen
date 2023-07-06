@@ -91,6 +91,40 @@ export default function FooterNewsletter({ data }) {
                             </li>
                         )
                     }
+                    {
+                        // data?.social_link?.snapshat
+                        true
+                        && (
+                            <li className="social-links__item">
+                                <a
+                                    className="social-links__link social-links_link--type--twitter"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    // href={data.social_link.twitter}
+                                    href="/"
+                                >
+                                    <i className="fab fa-snapchat-ghost" />
+                                </a>
+                            </li>
+                        )
+                    }
+                    {
+                        // data?.social_link?.snapshat
+                        true
+                        && (
+                            <li className="social-links__item">
+                                <a
+                                    className="social-links__link social-links_link--type--twitter"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    // href={data.social_link.twitter}
+                                    href="/"
+                                >
+                                    <i className="fab fa-tiktok" />
+                                </a>
+                            </li>
+                        )
+                    }
                 </ul>
             </div>
         </div>

@@ -7,7 +7,12 @@
 @import '../mixins/direction';
 
 
-.block-features {}
+.block-features {
+    @media (max-width: 768px) {
+        display: none;
+        
+    }
+}
 .block-features__list {
     @include card();
     display: flex;
