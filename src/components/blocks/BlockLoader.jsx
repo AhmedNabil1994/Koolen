@@ -5,33 +5,38 @@ export default function BlockLoader() {
     return (
         <div className="block-loader">
             {/* <div className="block-loader__spinner" /> */}
-            <div
+            {/* <div
                 className="block-loader__spinner"
-            />
-            {/* <svg className="svg-loader" width="500px" height="320px" viewBox="0 0 187.3 93.7" preserveAspectRatio="xMidYMid meet">
-                <path
-                    stroke="#ededed"
-                    id="outline"
-                    fill="none"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeMiterlimit="10"
-                    d="M93.9,46.4c9.3,9.5,13.8,17.9,23.5,17.9s17.5-7.8,17.5-17.5s-7.8-17.6-17.5-17.5c-9.7,0.1-13.3,7.2-22.1,17.1c-8.9,8.8-15.7,17.9-25.4,17.9s-17.5-7.8-17.5-17.5s7.8-17.5,17.5-17.5S86.2,38.6,93.9,46.4z"
-                />
-                <path
-                    id="outline-bg"
-                    opacity="0.05"
-                    fill="none"
-                    stroke="#ededed"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeMiterlimit="10"
-                    d="M93.9,46.4c9.3,9.5,13.8,17.9,23.5,17.9s17.5-7.8,17.5-17.5s-7.8-17.6-17.5-17.5c-9.7,0.1-13.3,7.2-22.1,17.1c-8.9,8.8-15.7,17.9-25.4,17.9s-17.5-7.8-17.5-17.5s7.8-17.5,17.5-17.5S86.2,38.6,93.9,46.4z"
-                />
-            </svg> */}
-            {/* </div> */}
+            /> */}
+
+            <div className="block-loader__spinner">
+                <svg xmlns="http://www.w3.org/2000/svg" height="128px" width="256px" viewBox="0 0 256 128" className="ip">
+                    <defs>
+                        <linearGradient y2="0" x2="1" y1="0" x1="0" id="grad1">
+                            <stop stopColor="#fc671a" offset="0%" />
+                            <stop stopColor="#fc671a" offset="33%" />
+                            <stop stopColor="#fc671a" offset="67%" />
+                            <stop stopColor="#fc671a" offset="100%" />
+                        </linearGradient>
+                        <linearGradient y2="0" x2="0" y1="0" x1="1" id="grad2">
+                            <stop stopColor="#fc671a" offset="0%" />
+                            <stop stopColor="#fc671a" offset="33%" />
+                            <stop stopColor="#fc671a" offset="67%" />
+                            <stop stopColor="#fc671a" offset="100%" />
+                        </linearGradient>
+                    </defs>
+                    <g strokeWidth="16" strokeLinecap="round" fill="none">
+                        <g stroke="#ddd" className="ip__track">
+                            <path d="M8,64s0-56,60-56,60,112,120,112,60-56,60-56" />
+                            <path d="M248,64s0-56-60-56-60,112-120,112S8,64,8,64" />
+                        </g>
+                        <g strokeDasharray="180 656">
+                            <path d="M8,64s0-56,60-56,60,112,120,112,60-56,60-56" strokeDashoffset="0" stroke="url(#grad1)" className="ip__worm1" />
+                            <path d="M248,64s0-56-60-56-60,112-120,112S8,64,8,64" strokeDashoffset="358" stroke="url(#grad2)" className="ip__worm2" />
+                        </g>
+                    </g>
+                </svg>
+            </div>
 
         </div>
     );

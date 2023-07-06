@@ -10,7 +10,7 @@ import BlockBanner from '../blocks/BlockBanner';
 import BlockFeatures from '../blocks/BlockFeatures';
 import BlockProducts from '../blocks/BlockProducts';
 import BlockProductsCarousel from '../blocks/BlockProductsCarousel';
-import BlockSlideShow from '../blocks/BlockSlideShow';
+// import BlockSlideShow from '../blocks/BlockSlideShow';
 
 // data stubs
 import theme from '../../data/theme';
@@ -20,6 +20,7 @@ import { getNewArrivalProducts, getBestSellingProducts } from '../../api/product
 import { toastError } from '../toast/toastComponent';
 // eslint-disable-next-line
 import BlockCategoreisCarousel from '../blocks/BlockCategoriesCarousel';
+import VideoPlayer from '../blocks/BlockVideoBanner';
 import { getAllCategories } from '../../api/categories';
 
 function HomePageTwo() {
@@ -87,7 +88,7 @@ function HomePageTwo() {
                 <title>{theme.name}</title>
             </Helmet>
 
-            {useMemo(() => <BlockSlideShow />, [])}
+            {useMemo(() => <VideoPlayer />, [])}
 
             {useMemo(() => <BlockFeatures layout="boxed" />, [])}
             {/*
