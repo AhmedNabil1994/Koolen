@@ -20,8 +20,10 @@ import { getNewArrivalProducts, getBestSellingProducts } from '../../api/product
 import { toastError } from '../toast/toastComponent';
 // eslint-disable-next-line
 import BlockCategoreisCarousel from '../blocks/BlockCategoriesCarousel';
-import VideoPlayer from '../blocks/BlockVideoBanner';
+// import VideoPlayer from '../blocks/BlockVideoBanner';
 import { getAllCategories } from '../../api/categories';
+import BlockSimpleSlider from '../blocks/BlockSimpleSlider';
+import BlockVideoBanner from '../blocks/BlockVideoBanner';
 
 function HomePageTwo() {
     const [latestProductsLoading, setLatestProductsLoading] = useState(false);
@@ -88,22 +90,10 @@ function HomePageTwo() {
                 <title>{theme.name}</title>
             </Helmet>
 
-            {useMemo(() => <VideoPlayer />, [])}
+            {/* {useMemo(() => <VideoPlayer />, [])} */}
+            {useMemo(() => <BlockSimpleSlider />, [])}
 
             {useMemo(() => <BlockFeatures layout="boxed" />, [])}
-            {/*
-            {useMemo(() => (
-                <BlockProductsCarousel
-                    title="Featured Products"
-                    layout="grid-5"
-                    rows={2}
-                    products={featuredProducts.data}
-                    loading={featuredProducts.isLoading}
-                    groups={featuredProducts.tabs}
-                    onGroupClick={featuredProducts.handleTabChange}
-                />
-            ), [featuredProducts])} */}
-
             {useMemo(() => (
                 <BlockProducts
                     title={intl.formatMessage({ id: 'bestSellers' })}
@@ -113,6 +103,8 @@ function HomePageTwo() {
                     loading={bestsellingProductsLoading}
                 />
             ), [bestsellingProducts])}
+
+            {useMemo(() => <BlockVideoBanner />)}
             {
                 useMemo(() => (
                     <div className="mt-4">

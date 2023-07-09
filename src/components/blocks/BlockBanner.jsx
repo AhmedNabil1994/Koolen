@@ -11,11 +11,11 @@ export default function BlockBanner() {
                 <Link to="/" className="block-banner__body">
                     <div
                         className="block-banner__image block-banner__image--desktop"
-                        style={{ backgroundImage: 'url("images/banners/banner-1.jpg")' }}
+                        style={{ backgroundImage: 'url("images/banners/banner-1.jpg")', backgroundSize: 'contain' }}
                     />
                     <div
                         className="block-banner__image block-banner__image--mobile"
-                        style={{ backgroundImage: 'url("images/banners/banner-1-mobile.jpg")' }}
+                        style={{ backgroundImage: 'url("images/banners/banner-1-mobile.jpg")', backgroundSize: 'contain' }}
                     />
                     {/* <div className="block-banner__title">
                         Hundreds

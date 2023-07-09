@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 
 // application
 import Dropdown from './Dropdown';
-import DropdownCurrency from './DropdownCurrency';
 import DropdownLanguage from './DropdownLanguage';
 
 function Topbar() {
@@ -45,9 +44,6 @@ function Topbar() {
                             title={<FormattedMessage id="topbar.myAccount" defaultMessage="My Account" />}
                             items={accountLinks}
                         />
-                    </div>
-                    <div className="topbar__item">
-                        <DropdownCurrency />
                     </div>
                     <div className="topbar__item">
                         <DropdownLanguage />

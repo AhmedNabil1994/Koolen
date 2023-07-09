@@ -28,8 +28,6 @@ function NavPanel(props) {
         logo = (
             <div className="nav-panel__logo">
                 <Link to="/">
-
-                    {/* <img src={LogoImg} alt="Koolen" /> */}
                     <LogoSmallSvg />
                 </Link>
             </div>

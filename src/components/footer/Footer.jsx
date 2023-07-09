@@ -79,6 +79,7 @@ export default function Footer() {
                     <div className="site-footer__payments">
                         <LogoSmallSvg />
                     </div>
+
                 </div>
             </div>
             <ToTop />

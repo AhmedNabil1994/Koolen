@@ -1,3 +1,4 @@
+
 // ---------------------------
 // ------ BlockVideo  --------
 // --------------------------- 
@@ -362,7 +363,7 @@ html[dir="rtl"]{
 
 .ip__worm1,
 .ip__worm2 {
-  animation: worm1 2s linear infinite;
+  animation: worm1 1s linear infinite;
 }
 
 .ip__worm2 {
@@ -389,12 +390,12 @@ html[dir="rtl"]{
 
   50% {
     animation-timing-function: steps(1);
-    stroke-dashoffset: -358;
+    stroke-dashoffset: -359;
   }
 
   50.01% {
     animation-timing-function: linear;
-    stroke-dashoffset: 358;
+    stroke-dashoffset: 359;
   }
 
   to {
@@ -404,7 +405,7 @@ html[dir="rtl"]{
 
 @keyframes worm2 {
   from {
-    stroke-dashoffset: 358;
+    stroke-dashoffset: 359;
   }
 
   50% {
@@ -412,7 +413,159 @@ html[dir="rtl"]{
   }
 
   to {
-    stroke-dashoffset: -358;
+    stroke-dashoffset: -359;
   }
 }
 
+
+// ---------------------------
+// ------ simple slider  -----
+// --------------------------- 
+$cm-slider-container: 60px;
+
+.cm-slider{
+	background-color: black;
+	color: white;
+	padding-inline:$cm-slider-container;
+	
+
+	height: 80vh;
+	padding-block: 32px;
+	margin-bottom: 2rem;
+	position: relative;
+	@media (max-width: 768px) {
+		padding-inline:1rem;
+		min-height: 625px;
+		height: 90vh;
+	}
+	@media (max-width: 420px) {
+		padding-inline:1rem;
+		min-height: 380px;
+		height: 40vh;
+	}
+
+	&-desktop{
+		display: none !important;
+			@media (min-width: 769px) {
+			display: flex !important;	
+		}
+	}
+
+	// mobile
+	&-mobile{
+		display: none !important;
+		@media (max-width: 768px) {
+			display: flex !important;	
+		}
+
+		.cm-slider__wrapper {
+			display: flex;
+			overflow: hidden;
+		}
+
+		figure {width: 100%}
+  }
+
+	&__wrapper {
+		display: flex;
+		min-height: 300px;
+		overflow: hidden;
+	}
+
+	&__txt { 
+		color:#efefef;
+		font-size: 2.5rem;
+		@media (max-width: 768px) {
+		font-size: 1.75rem;
+		}
+		font-weight: bold;
+		width: 35%;
+		display: flex;
+		align-items: center;
+		padding-inline-end: 2rem;
+		@media (max-width: 768px) {
+			width: 50%;
+		}
+	}
+
+	&__imgs {
+		display: flex;
+		width: 75%;
+		object-fit: contain;
+		@media (max-width: 768px) {
+			width: 50%;
+		}
+		figure {
+			width: 32%;
+			margin-inline-end: 1%;
+			@media (max-width: 768px) {
+				width: 100%;
+				margin-inline-end: 0 !important;
+			}
+			&:last-of-type{
+				margin-inline-end: 0;
+			}
+
+			img{
+				width: 100%;
+			}
+		}
+	}
+	
+	// controllers
+	&__controllers-container {
+		display: flex;
+		justify-content: end;
+		margin-top: 1rem;
+		padding-inline:$cm-slider-container;
+		position: absolute;
+		bottom: 1.25rem;
+		left: 0;
+		right: 0;
+
+		.controller {
+			border: 1px solid white;
+			border-radius: 50%;
+			width: 35px;
+			height: 35px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			background: trnsparent !important;
+			padding: 0;
+			
+
+			&:first-of-type {
+			margin-inline-end: 1rem;
+			}
+		}
+	}
+}
+
+
+// video
+.video-react-video
+{
+	position: relative;
+	&::after {
+		content: "";
+		position: absolute;
+		top:0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 99;
+		background: red;
+	}
+
+}
+
+
+.block.block-banner
+{
+	@media 
+	(max-width: 768px) {
+	display: none !important;	
+	}
+}
