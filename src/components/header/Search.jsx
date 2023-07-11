@@ -156,7 +156,7 @@ function Search(props) {
                         type="text"
                         autoComplete="off"
                     />
-                    <button className="search__button search__button--type--submit" type="submit">
+                    <button className="search__button search__button--type--submit" type="button">
                         <Search20Svg />
                     </button>
                     {closeButton}

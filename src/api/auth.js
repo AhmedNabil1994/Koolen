@@ -54,6 +54,6 @@ export function resetPassword({
 }
 
 export function logout(onSuccess, onFail) {
-    const path = '/api/v1/logout';
+    const path = '/api/v1/auth/logout';
     getRequest(path, onSuccess, onFail);
 }

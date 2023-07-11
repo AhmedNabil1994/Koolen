@@ -36,10 +36,6 @@ function AccountLayout(props) {
     const { match, location, dispatch } = props;
     const intl = useIntl();
 
-    //   "account.dashboard": "Dashboard",
-    //   "account.editProfile": "Edit Profile",
-    //   "account.orderHistory": "Order History",
-
     const links = [
         { title: intl.formatMessage({ id: 'account.dashboard' }), url: 'dashboard' },
         { title: intl.formatMessage({ id: 'account.editProfile' }), url: 'profile' },

@@ -80,55 +80,6 @@ export default function AccountPageOrderDetails() {
                     </div>
                 </div>
             </div>
-
-            <div className="row mt-3 no-gutters mx-n2">
-                <div className="col-sm-6 col-12 px-2">
-                    <div className="card address-card address-card--featured">
-                        <div className="address-card__body">
-                            <div className="address-card__badge address-card__badge--muted">Shipping Address</div>
-                            <div className="address-card__name">Helena Garcia</div>
-                            <div className="address-card__row">
-                                Random Federation
-                                <br />
-                                115302, Moscow
-                                <br />
-                                ul. Varshavskaya, 15-2-178
-                            </div>
-                            <div className="address-card__row">
-                                <div className="address-card__row-title">Phone Number</div>
-                                <div className="address-card__row-content">38 972 588-42-36</div>
-                            </div>
-                            <div className="address-card__row">
-                                <div className="address-card__row-title">Email Address</div>
-                                <div className="address-card__row-content">stroyka@example.com</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-sm-6 col-12 px-2 mt-sm-0 mt-3">
-                    <div className="card address-card address-card--featured">
-                        <div className="address-card__body">
-                            <div className="address-card__badge address-card__badge--muted">Billing Address</div>
-                            <div className="address-card__name">Helena Garcia</div>
-                            <div className="address-card__row">
-                                Random Federation
-                                <br />
-                                115302, Moscow
-                                <br />
-                                ul. Varshavskaya, 15-2-178
-                            </div>
-                            <div className="address-card__row">
-                                <div className="address-card__row-title">Phone Number</div>
-                                <div className="address-card__row-content">38 972 588-42-36</div>
-                            </div>
-                            <div className="address-card__row">
-                                <div className="address-card__row-title">Email Address</div>
-                                <div className="address-card__row-content">stroyka@example.com</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </React.Fragment>
     );
 }

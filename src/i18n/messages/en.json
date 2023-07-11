@@ -106,6 +106,8 @@
   "new": "New",
   "send": "Send",
   "ourAddress": "Our Address",
-  "leaveUsMessage": "Leave us a Message"
-
+  "leaveUsMessage": "Leave us a Message",
+  "aboutUs": "About Us",
+  "productHasBeenAddedToWishlistSuccessfully": "Product added to wishlist!",
+  "productHasBeenAddedToCartSuccessfully": "Product added to Cart!"
 }

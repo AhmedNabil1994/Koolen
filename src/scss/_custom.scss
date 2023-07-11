@@ -89,6 +89,10 @@
 			button{
 				opacity: 1;
 				transform: translateY(0);
+				color: white !important;
+				&:hover, &:focus {
+					color: white !important;
+				}
 			}
 		}
 	}
@@ -526,14 +530,19 @@ $cm-slider-container: 60px;
 		.controller {
 			border: 1px solid white;
 			border-radius: 50%;
-			width: 35px;
-			height: 35px;
+			width: 20px;
+			height: 20px;
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			cursor: pointer;
 			background: trnsparent !important;
 			padding: 0;
+
+			.fas{
+				color: black  !important;
+			}
+
 			
 
 			&:first-of-type {

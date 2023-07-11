@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const sliderData = [{
@@ -19,6 +19,7 @@ const sliderData = [{
 }];
 const BlockSimpleSlider = () => {
     const [activeItem, setActiveItem] = useState(1);
+
     function prevFun() {
         if (activeItem === 1) {
             setActiveItem(3);
@@ -33,6 +34,12 @@ const BlockSimpleSlider = () => {
         }
         setActiveItem((prev) => prev + 1);
     }
+    useEffect(() => {
+        const timer = setInterval(() => {
+            nextFun();
+        }, 3500);
+        return () => clearInterval(timer);
+    }, [activeItem]);
 
     return (
         <div className="cm-slider">

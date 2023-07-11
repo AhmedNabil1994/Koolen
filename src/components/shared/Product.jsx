@@ -40,6 +40,7 @@ class Product extends Component {
             cartAddItem,
         } = this.props;
         const { quantity } = this.state;
+        console.log(product);
         let prices;
 
         if (product.compareAtPrice) {

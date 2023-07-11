@@ -106,14 +106,10 @@ function Layout(props) {
 
                 <div className="site__body">
                     <Switch>
-                        {/*
-                        // Home
-                        */}
+                        {/* Home */}
                         <Route exact path={`${match.path}`} component={homeComponent} />
 
-                        {/*
-                        // Shop
-                        */}
+                        {/* Shop */}
                         <Redirect exact from="/shop" to="/shop/catalog" />
                         <Route
                             exact

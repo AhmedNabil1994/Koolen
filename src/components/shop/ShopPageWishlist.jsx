@@ -74,7 +74,7 @@ function ShopPageWishlist(props) {
                     <td className="wishlist__column wishlist__column--price"><Currency value={item.price} /></td>
                     <td className="wishlist__column wishlist__column--tocart">
                         <AsyncAction
-                            action={() => cartAddItem(item)}
+                            action={() => cartAddItem(item, [], 1, formatMessage({ id: 'productHasBeenAddedToCartSuccessfully' }))}
                             render={renderAddToCarButton}
                         />
                     </td>

@@ -10,10 +10,9 @@ import { Link } from 'react-router-dom';
 
 // application
 import AsyncAction from './AsyncAction';
-import Currency from './Currency';
-import Rating from './Rating';
+import Currency from './Currency'; import Rating from './Rating';
 import { cartAddItem } from '../../store/cart';
-import { Compare16Svg, Wishlist16Svg } from '../../svg';
+import { Wishlist16Svg } from '../../svg';
 import { compareAddItem } from '../../store/compare';
 import { quickviewOpen } from '../../store/quickview';
 import { url } from '../../services/utils';
@@ -22,7 +21,7 @@ import { wishlistAddItem } from '../../store/wishlist';
 function ProductCard(props) {
     const { formatMessage } = useIntl();
     const {
-        product, cartAddItem, wishlistAddItem, compareAddItem,
+        product, cartAddItem, wishlistAddItem,
     } = props;
 
     let badges = [];
@@ -70,7 +69,7 @@ function ProductCard(props) {
 
                     <div>
                         <AsyncAction
-                            action={() => wishlistAddItem(product)}
+                            action={() => wishlistAddItem(product, formatMessage({ id: 'productHasBeenAddedToWishlistSuccessfully' }))}
                             render={({ run, loading }) => (
                                 <button
                                     type="button"
@@ -87,7 +86,7 @@ function ProductCard(props) {
                             )}
                         />
                     </div>
-                    <div>
+                    {/* <div>
                         <AsyncAction
                             action={() => compareAddItem(product)}
                             render={({ run, loading }) => (
@@ -105,11 +104,11 @@ function ProductCard(props) {
                                 </button>
                             )}
                         />
-                    </div>
+                    </div> */}
                 </div>
                 <div className="button-container">
                     <AsyncAction
-                        action={() => cartAddItem(product)}
+                        action={() => cartAddItem(product, [], 1, formatMessage({ id: 'productHasBeenAddedToCartSuccessfully' }))}
                         render={({ run, loading }) => (
                             <React.Fragment>
                                 <button

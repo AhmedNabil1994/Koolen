@@ -13,6 +13,7 @@ import Pagination from '../shared/Pagination';
 import ProductCard from '../shared/ProductCard';
 
 import { sidebarOpen } from '../../store/sidebar';
+import BlockLoader from '../blocks/BlockLoader';
 
 function ProductsView(props) {
     const {
@@ -72,6 +73,8 @@ function ProductsView(props) {
                 </div>
             </div>
         );
+    } else if (!productsListItems?.length && isLoading) {
+        return <BlockLoader />;
     } else {
         content = (
             <div className="products-view__empty">
