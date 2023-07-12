@@ -12,7 +12,7 @@ import { getAddresses, deleteAddress } from '../../api/addresses';
 import { toastError, toastSuccess } from '../toast/toastComponent';
 import BlockLoader from '../blocks/BlockLoader';
 
-export default function AccountPageAddresses() {
+export default function AccountPageAddresses({ showOnly }) {
     const [addresses, setAddresses] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -79,11 +79,17 @@ export default function AccountPageAddresses() {
                         <div className="address-card__row-title">Phone Number</div>
                         <div className="address-card__row-content">{address.phone}</div>
                     </div>
-                    <div className="address-card__footer">
-                        <Link to={`/account/addresses/${address.id}`}>Edit</Link>
-                        &nbsp;&nbsp;
-                        <Link to="/" onClick={(e) => removeAddress(e, address.id)}>Remove</Link>
-                    </div>
+                    {
+                        !showOnly
+                        && (
+                            <div className="address-card__footer">
+                                <Link to={`/account/addresses/${address.id}`}>Edit</Link>
+                                        &nbsp;&nbsp;
+                                <Link to="/" onClick={(e) => removeAddress(e, address.id)}>Remove</Link>
+                            </div>
+                        )
+                    }
+
                 </div>
             </div>
             <div className="addresses-list__divider" />
@@ -98,13 +104,22 @@ export default function AccountPageAddresses() {
                 <title>{`Address List — ${theme.name}`}</title>
             </Helmet>
 
-            <Link to="/account/addresses/add" className="addresses-list__item addresses-list__item--new">
-                <div className="addresses-list__plus" />
-                <div className="btn btn-secondary btn-sm">
-                    Add New
-                </div>
-            </Link>
-            <div className="addresses-list__divider" />
+            {
+                !showOnly
+                && (
+                    <React.Fragment>
+                        <Link to="/account/addresses/add" className="addresses-list__item addresses-list__item--new">
+                            <div className="addresses-list__plus" />
+                            <div className="btn btn-secondary btn-sm">
+                                Add New
+                            </div>
+                        </Link>
+                        <div className="addresses-list__divider" />
+                    </React.Fragment>
+
+                )
+
+            }
             {addressesShow}
         </div>
     );

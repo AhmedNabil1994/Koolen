@@ -30,7 +30,7 @@ function reqHeader(method, path, data, reqAuth, multiPart, newPath = false) {
         reqData.data = data;
     }
 
-    if (token && reqAuth) {
+    if (token) {
         reqData.headers = {
             ...reqData.headers,
             Authorization: `Bearer ${token}`,

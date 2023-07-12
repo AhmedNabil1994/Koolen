@@ -19,6 +19,7 @@ export function singleProductSchema(product) {
         tags,
         variation_options,
         description,
+        variations,
     } = product;
 
     let thumbnails;
@@ -45,6 +46,7 @@ export function singleProductSchema(product) {
         tags,
         colors: variation_options?.length ? variation_options[0].values : [],
         description: description || '',
+        variations,
     };
 
     if (base_price - base_discounted_price > 0) {

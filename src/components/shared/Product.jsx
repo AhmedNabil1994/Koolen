@@ -24,6 +24,7 @@ class Product extends Component {
 
         this.state = {
             quantity: 1,
+            selectedColor: null,
         };
     }
 
@@ -31,199 +32,212 @@ class Product extends Component {
         this.setState({ quantity });
     };
 
-    render() {
-        const {
-            product,
-            layout,
-            wishlistAddItem,
-            compareAddItem,
-            cartAddItem,
-        } = this.props;
-        const { quantity } = this.state;
-        console.log(product);
-        let prices;
+ selectColor=(index, name) => {
+     this.setState({ selectedColor: { id: this.props?.product.variations[index].id, name } });
+ }
 
-        if (product.compareAtPrice) {
-            prices = (
-                <React.Fragment>
-                    <span className="product__new-price"><Currency value={product.price} /></span>
-                    {' '}
-                    <span className="product__old-price"><Currency value={product.compareAtPrice} /></span>
-                </React.Fragment>
-            );
-        } else {
-            prices = <Currency value={product.price} />;
-        }
+ render() {
+     const {
+         product,
+         layout,
+         wishlistAddItem,
+         compareAddItem,
+         cartAddItem,
+     } = this.props;
+     const { quantity } = this.state;
+     let prices;
 
-        return (
-            <div className={`product product--layout--${layout} mt-3`}>
-                <div className="product__content single-product">
-                    <ProductGallery layout={layout} images={product.images} />
+     if (product.compareAtPrice) {
+         prices = (
+             <React.Fragment>
+                 <span className="product__new-price"><Currency value={product.price} /></span>
+                 {' '}
+                 <span className="product__old-price"><Currency value={product.compareAtPrice} /></span>
+             </React.Fragment>
+         );
+     } else {
+         prices = <Currency value={product.price} />;
+     }
 
-                    <div className="product__info">
-                        <div className="product__wishlist-compare">
-                            <AsyncAction
-                                action={() => wishlistAddItem(product)}
-                                render={({ run, loading }) => (
-                                    <button
-                                        type="button"
-                                        data-toggle="tooltip"
-                                        data-placement="right"
-                                        title="Wishlist"
-                                        onClick={run}
-                                        className={classNames('btn btn-sm btn-light btn-svg-icon', {
-                                            'btn-loading': loading,
-                                        })}
-                                    >
-                                        <Wishlist16Svg />
-                                    </button>
-                                )}
-                            />
-                            <AsyncAction
-                                action={() => compareAddItem(product)}
-                                render={({ run, loading }) => (
-                                    <button
-                                        type="button"
-                                        data-toggle="tooltip"
-                                        data-placement="right"
-                                        title="Compare"
-                                        onClick={run}
-                                        className={classNames('btn btn-sm btn-light btn-svg-icon', {
-                                            'btn-loading': loading,
-                                        })}
-                                    >
-                                        <Compare16Svg />
-                                    </button>
-                                )}
-                            />
-                        </div>
-                        <h1 className="product__name">{product.name}</h1>
-                        <div className="product__rating">
-                            <div className="product__rating-stars">
-                                <Rating value={product.rating} />
-                            </div>
-                            <div className="product__rating-legend">
-                                {`${product.reviews} Reviews`}
-                            </div>
-                        </div>
-                        <ul className="product__meta">
-                            <li className="product__meta-availability">
-                                Availability:
-                                {' '}
+     return (
+         <div className={`product product--layout--${layout} mt-3`}>
+             <div className="product__content single-product">
+                 <ProductGallery layout={layout} images={product.images} />
 
-                                <span className={product.stock > 0 ? 'text-success' : 'text-danger'}>{product.availability}</span>
-                            </li>
-                        </ul>
-                    </div>
+                 <div className="product__info">
+                     <div className="product__wishlist-compare">
+                         <AsyncAction
+                             action={() => wishlistAddItem(product)}
+                             render={({ run, loading }) => (
+                                 <button
+                                     type="button"
+                                     data-toggle="tooltip"
+                                     data-placement="right"
+                                     title="Wishlist"
+                                     onClick={run}
+                                     className={classNames('btn btn-sm btn-light btn-svg-icon', {
+                                         'btn-loading': loading,
+                                     })}
+                                 >
+                                     <Wishlist16Svg />
+                                 </button>
+                             )}
+                         />
+                         <AsyncAction
+                             action={() => compareAddItem(product)}
+                             render={({ run, loading }) => (
+                                 <button
+                                     type="button"
+                                     data-toggle="tooltip"
+                                     data-placement="right"
+                                     title="Compare"
+                                     onClick={run}
+                                     className={classNames('btn btn-sm btn-light btn-svg-icon', {
+                                         'btn-loading': loading,
+                                     })}
+                                 >
+                                     <Compare16Svg />
+                                 </button>
+                             )}
+                         />
+                     </div>
+                     <h1 className="product__name">{product.name}</h1>
+                     <div className="product__rating">
+                         <div className="product__rating-stars">
+                             <Rating value={product.rating} />
+                         </div>
+                         <div className="product__rating-legend">
+                             {`${product.reviews} Reviews`}
+                         </div>
+                     </div>
+                     <ul className="product__meta">
+                         <li className="product__meta-availability">
+                             Availability:
+                             {' '}
 
-                    <div className="product__sidebar">
-                        <div className="product__availability">
-                            Availability:
-                            {' '}
-                            <span className="text-success">{product.availability}</span>
-                        </div>
+                             <span className={product.stock > 0 ? 'text-success' : 'text-danger'}>{product.availability}</span>
+                         </li>
+                     </ul>
+                 </div>
 
-                        <div className="product__prices">
-                            {prices}
-                        </div>
+                 <div className="product__sidebar">
+                     <div className="product__availability">
+                         Availability:
+                         {' '}
+                         <span className="text-success">{product.availability}</span>
+                     </div>
 
-                        <form className="product__options">
-                            <div className="form-group product__option">
-                                {
+                     <div className="product__prices">
+                         {prices}
+                     </div>
+
+                     <form className="product__options">
+                         <div className="form-group product__option">
+                             {
                                 product?.colors?.length
                                     ? <div className="product__option-label">Color</div>
                                     : null
-                                }
-                                <div className="input-radio-color">
-                                    <div className="input-radio-color__list">
-                                        {
+                             }
+                             <div className="input-radio-color">
+                                 <div className="input-radio-color__list">
+                                     {
                                             product?.colors?.length
-                                                ? product.colors.map((color) => (
-                                                    <React.Fragment>
-                                                        <div className="color__item">
+                                                ? product.colors.map((color, index) => (
+                                                    <React.Fragment key={index}>
+                                                        <div
+                                                            className={`color__item ${this.state?.selectedColor?.id === product.variations[index].id ? 'active-cart-item' : 'not-active'}`}
+                                                            role="button"
+                                                            tabIndex={-1}
+                                                            onKeyDown={() => this.selectColor(index, color.name)}
+                                                            onClick={() => this.selectColor(index, color.name)}
+                                                        >
                                                             {color.name}
                                                         </div>
                                                     </React.Fragment>
                                                 )) : null
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="form-group product__option">
-                                <label htmlFor="product-quantity" className="product__option-label">Quantity</label>
-                                <div className="product__actions">
-                                    <div className="product__actions-item">
-                                        <InputNumber
-                                            id="product-quantity"
-                                            aria-label="Quantity"
-                                            className="product__quantity"
-                                            size="lg"
-                                            max={product.stock}
-                                            min={1}
-                                            value={quantity}
-                                            onChange={this.handleChangeQuantity}
-                                        />
-                                    </div>
-                                    <div className="product__actions-item product__actions-item--addtocart">
-                                        <AsyncAction
-                                            action={() => cartAddItem(product, [], quantity)}
-                                            render={({ run, loading }) => (
-                                                <button
-                                                    type="button"
-                                                    onClick={run}
-                                                    disabled={!quantity}
-                                                    className={classNames('btn btn-primary btn-lg', {
-                                                        'btn-loading': loading,
-                                                    })}
-                                                >
-                                                    Add to cart
-                                                </button>
-                                            )}
-                                        />
-                                    </div>
-                                    <div className="product__actions-item product__actions-item--wishlist">
-                                        <AsyncAction
-                                            action={() => wishlistAddItem(product)}
-                                            render={({ run, loading }) => (
-                                                <button
-                                                    type="button"
-                                                    data-toggle="tooltip"
-                                                    title="Wishlist"
-                                                    onClick={run}
-                                                    className={classNames('btn btn-secondary btn-svg-icon btn-lg', {
-                                                        'btn-loading': loading,
-                                                    })}
-                                                >
-                                                    <Wishlist16Svg />
-                                                </button>
-                                            )}
-                                        />
-                                    </div>
-                                    <div className="product__actions-item product__actions-item--compare">
-                                        <AsyncAction
-                                            action={() => compareAddItem(product)}
-                                            render={({ run, loading }) => (
-                                                <button
-                                                    type="button"
-                                                    data-toggle="tooltip"
-                                                    title="Compare"
-                                                    onClick={run}
-                                                    className={classNames('btn btn-secondary btn-svg-icon btn-lg', {
-                                                        'btn-loading': loading,
-                                                    })}
-                                                >
-                                                    <Compare16Svg />
-                                                </button>
-                                            )}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                                     }
+                                 </div>
+                             </div>
+                         </div>
+                         <div className="form-group product__option">
+                             <label htmlFor="product-quantity" className="product__option-label">Quantity</label>
+                             <div className="product__actions">
+                                 <div className="product__actions-item">
+                                     <InputNumber
+                                         id="product-quantity"
+                                         aria-label="Quantity"
+                                         className="product__quantity"
+                                         size="lg"
+                                         max={product.stock}
+                                         min={1}
+                                         value={quantity}
+                                         onChange={this.handleChangeQuantity}
+                                     />
+                                 </div>
+                                 <div className="product__actions-item product__actions-item--addtocart">
+                                     <AsyncAction
+                                         action={() => cartAddItem({
+                                             ...product,
+                                             id: this.state?.selectedColor.id || product.variations[0].id,
+                                             color: this.state?.selectedColor.name || product.colors[0].name,
+                                         }, [], quantity, 'product ')}
+                                         render={({ run, loading }) => (
+                                             <button
+                                                 type="button"
+                                                 onClick={run}
+                                                 disabled={!quantity}
+                                                 className={classNames('btn btn-primary btn-lg', {
+                                                     'btn-loading': loading,
+                                                 })}
+                                             >
+                                                 Add to cart
+                                             </button>
+                                         )}
+                                     />
+                                 </div>
+                                 <div className="product__actions-item product__actions-item--wishlist">
+                                     <AsyncAction
+                                         action={() => wishlistAddItem(product)}
+                                         render={({ run, loading }) => (
+                                             <button
+                                                 type="button"
+                                                 data-toggle="tooltip"
+                                                 title="Wishlist"
+                                                 onClick={run}
+                                                 className={classNames('btn btn-secondary btn-svg-icon btn-lg', {
+                                                     'btn-loading': loading,
+                                                 })}
+                                             >
+                                                 <Wishlist16Svg />
+                                             </button>
+                                         )}
+                                     />
+                                 </div>
+                                 <div className="product__actions-item product__actions-item--compare">
+                                     <AsyncAction
+                                         action={() => compareAddItem(product)}
+                                         render={({ run, loading }) => (
+                                             <button
+                                                 type="button"
+                                                 data-toggle="tooltip"
+                                                 title="Compare"
+                                                 onClick={run}
+                                                 className={classNames('btn btn-secondary btn-svg-icon btn-lg', {
+                                                     'btn-loading': loading,
+                                                 })}
+                                             >
+                                                 <Compare16Svg />
+                                             </button>
+                                         )}
+                                     />
+                                 </div>
+                             </div>
+                         </div>
+                     </form>
+                 </div>
 
-                    <div className="product__footer">
-                        {
+                 <div className="product__footer">
+                     {
                     product?.tags?.length
                         ? (
                             <div className="product__tags tags">
@@ -235,20 +249,20 @@ class Product extends Component {
                             </div>
                         )
                         : null
-                        }
+                     }
 
-                        <div className="product__share-links share-links">
-                            <ul className="share-links__list">
-                                <li className="share-links__item share-links__item--type--like"><Link to="/">Like</Link></li>
-                                <li className="share-links__item share-links__item--type--tweet"><Link to="/">Tweet</Link></li>
-                                <li className="share-links__item share-links__item--type--tel"><Link to="/">Pin It</Link></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
+                     <div className="product__share-links share-links">
+                         <ul className="share-links__list">
+                             <li className="share-links__item share-links__item--type--like"><Link to="/">Like</Link></li>
+                             <li className="share-links__item share-links__item--type--tweet"><Link to="/">Tweet</Link></li>
+                             <li className="share-links__item share-links__item--type--tel"><Link to="/">Pin It</Link></li>
+                         </ul>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     );
+ }
 }
 
 Product.propTypes = {

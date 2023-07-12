@@ -109,5 +109,6 @@
   "leaveUsMessage": "Leave us a Message",
   "aboutUs": "About Us",
   "productHasBeenAddedToWishlistSuccessfully": "Product added to wishlist!",
-  "productHasBeenAddedToCartSuccessfully": "Product added to Cart!"
+  "productHasBeenAddedToCartSuccessfully": "Product added to Cart!",
+  "phoneNumber": "Phone Number"  
 }

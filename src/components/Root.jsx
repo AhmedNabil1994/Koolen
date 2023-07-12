@@ -26,7 +26,6 @@ import { getToken } from '../api/network';
 
 class Root extends Component {
     componentDidMount() {
-        if (this?.props?.auth.token) { getToken(this?.props?.auth?.token); }
         // preloader
         setTimeout(() => {
             const preloader = document.querySelector('.site-preloader');
@@ -55,6 +54,9 @@ class Root extends Component {
     render() {
         const { locale } = this.props;
         const { messages, direction } = languages[locale];
+        if (this?.props?.auth.token) {
+            getToken(this?.props?.auth?.token);
+        }
 
         return (
             <IntlProvider locale={locale} messages={messages}>

@@ -578,3 +578,11 @@ $cm-slider-container: 60px;
 	display: none !important;	
 	}
 }
+
+
+// custom classes
+.active-cart-item
+{
+	color: $accent-color !important;
+	border-color: $accent-color !important;
+}

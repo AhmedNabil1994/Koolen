@@ -68,6 +68,7 @@ class ShopPageCart extends Component {
 
     renderItems() {
         const { cart, cartRemoveItem } = this.props;
+        console.log(cart);
 
         return cart.items.map((item) => {
             let image;
@@ -87,7 +88,9 @@ class ShopPageCart extends Component {
                 options = (
                     <ul className="cart-table__options">
                         {item.options.map((option, index) => (
-                            <li key={index}>{`${option.optionTitle}: ${option.valueTitle}`}</li>
+                            <li key={index}>
+                                {`${option.optionTitle}: ${option.valueTitle}`}
+                            </li>
                         ))}
                     </ul>
                 );
@@ -116,6 +119,7 @@ class ShopPageCart extends Component {
                     <td className="cart-table__column cart-table__column--product">
                         <Link to={url.product(item.product)} className="cart-table__product-name">
                             {item.product.name}
+                            {item.product.color && ` - ${item.product.color}`}
                         </Link>
                         {options}
                     </td>

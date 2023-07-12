@@ -4,17 +4,21 @@ import React, { Component } from 'react';
 // third-party
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
+//  Link,
 
 // application
 import Collapse from '../shared/Collapse';
 import Currency from '../shared/Currency';
 import PageHeader from '../shared/PageHeader';
-import { Check9x7Svg } from '../../svg';
+// import { Check9x7Svg } from '../../svg';
 
 // data stubs
 import payments from '../../data/shopPayments';
 import theme from '../../data/theme';
+import ChooseAddress from '../blocks/ChooseAddress';
+import { getAddresses } from '../../api/addresses';
+import { toastError } from '../toast/toastComponent';
 
 class ShopPageCheckout extends Component {
     payments = payments;
@@ -24,7 +28,24 @@ class ShopPageCheckout extends Component {
 
         this.state = {
             payment: 'bank',
+            selectedAddress: null,
+            isLoading: true,
         };
+    }
+
+    componentDidMount() {
+        getAddresses((success) => {
+            this.setState({
+                selectedAddress: success.data[0],
+                isLoading: false,
+            });
+        }, (fail) => {
+            toastError(fail);
+            this.setState({
+                selectedAddress: null,
+                isLoading: false,
+            });
+        });
     }
 
     handlePaymentChange = (event) => {
@@ -163,155 +184,8 @@ class ShopPageCheckout extends Component {
                 <div className="checkout block">
                     <div className="container">
                         <div className="row">
-                            <div className="col-12 mb-3">
-                                <div className="alert alert-primary alert-lg">
-                                    Returning customer?
-                                    {' '}
-                                    <Link to="/account/login">Click here to login</Link>
-                                </div>
-                            </div>
-
                             <div className="col-12 col-lg-6 col-xl-7">
-                                <div className="card mb-lg-0">
-                                    <div className="card-body">
-                                        <h3 className="card-title">Billing details</h3>
-                                        <div className="form-row">
-                                            <div className="form-group col-md-6">
-                                                <label htmlFor="checkout-first-name">First Name</label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    id="checkout-first-name"
-                                                    placeholder="First Name"
-                                                />
-                                            </div>
-                                            <div className="form-group col-md-6">
-                                                <label htmlFor="checkout-last-name">Last Name</label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    id="checkout-last-name"
-                                                    placeholder="Last Name"
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div className="form-group">
-                                            <label htmlFor="checkout-company-name">
-                                                Company Name
-                                                {' '}
-                                                <span className="text-muted">(Optional)</span>
-                                            </label>
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                id="checkout-company-name"
-                                                placeholder="Company Name"
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="checkout-country">Country</label>
-                                            <select id="checkout-country" className="form-control">
-                                                <option>Select a country...</option>
-                                                <option>United States</option>
-                                                <option>Russia</option>
-                                                <option>Italy</option>
-                                                <option>France</option>
-                                                <option>Ukraine</option>
-                                                <option>Germany</option>
-                                                <option>Australia</option>
-                                            </select>
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="checkout-street-address">Street Address</label>
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                id="checkout-street-address"
-                                                placeholder="Street Address"
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="checkout-address">
-                                                Apartment, suite, unit etc.
-                                                {' '}
-                                                <span className="text-muted">(Optional)</span>
-                                            </label>
-                                            <input type="text" className="form-control" id="checkout-address" />
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="checkout-city">Town / City</label>
-                                            <input type="text" className="form-control" id="checkout-city" />
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="checkout-state">State / County</label>
-                                            <input type="text" className="form-control" id="checkout-state" />
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="checkout-postcode">Postcode / ZIP</label>
-                                            <input type="text" className="form-control" id="checkout-postcode" />
-                                        </div>
-
-                                        <div className="form-row">
-                                            <div className="form-group col-md-6">
-                                                <label htmlFor="checkout-email">Email address</label>
-                                                <input
-                                                    type="email"
-                                                    className="form-control"
-                                                    id="checkout-email"
-                                                    placeholder="Email address"
-                                                />
-                                            </div>
-                                            <div className="form-group col-md-6">
-                                                <label htmlFor="checkout-phone">Phone</label>
-                                                <input type="text" className="form-control" id="checkout-phone" placeholder="Phone" />
-                                            </div>
-                                        </div>
-
-                                        <div className="form-group">
-                                            <div className="form-check">
-                                                <span className="form-check-input input-check">
-                                                    <span className="input-check__body">
-                                                        <input className="input-check__input" type="checkbox" id="checkout-create-account" />
-                                                        <span className="input-check__box" />
-                                                        <Check9x7Svg className="input-check__icon" />
-                                                    </span>
-                                                </span>
-                                                <label className="form-check-label" htmlFor="checkout-create-account">
-                                                    Create an account?
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="card-divider" />
-                                    <div className="card-body">
-                                        <h3 className="card-title">Shipping Details</h3>
-
-                                        <div className="form-group">
-                                            <div className="form-check">
-                                                <span className="form-check-input input-check">
-                                                    <span className="input-check__body">
-                                                        <input className="input-check__input" type="checkbox" id="checkout-different-address" />
-                                                        <span className="input-check__box" />
-                                                        <Check9x7Svg className="input-check__icon" />
-                                                    </span>
-                                                </span>
-                                                <label className="form-check-label" htmlFor="checkout-different-address">
-                                                    Ship to a different address?
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <div className="form-group">
-                                            <label htmlFor="checkout-comment">
-                                                Order notes
-                                                {' '}
-                                                <span className="text-muted">(Optional)</span>
-                                            </label>
-                                            <textarea id="checkout-comment" className="form-control" rows="4" />
-                                        </div>
-                                    </div>
-                                </div>
+                                <ChooseAddress isLoading={this.state?.isLoading} address={this.state?.selectedAddress} />
                             </div>
 
                             <div className="col-12 col-lg-6 col-xl-5 mt-4 mt-lg-0">
@@ -323,7 +197,7 @@ class ShopPageCheckout extends Component {
 
                                         {this.renderPaymentsList()}
 
-                                        <div className="checkout__agree form-group">
+                                        {/* <div className="checkout__agree form-group">
                                             <div className="form-check">
                                                 <span className="form-check-input input-check">
                                                     <span className="input-check__body">
@@ -338,7 +212,7 @@ class ShopPageCheckout extends Component {
                                                     *
                                                 </label>
                                             </div>
-                                        </div>
+                                        </div> */}
 
                                         <button type="submit" className="btn btn-primary btn-xl btn-block">Place Order</button>
                                     </div>

@@ -10,7 +10,13 @@ function Currency(props) {
 
     const { symbol } = currency || currentCurrency;
 
-    return <React.Fragment>{`${symbol} ${value.toFixed(2)}`}</React.Fragment>;
+    return (
+        <React.Fragment>
+            <div>
+                {`${symbol} ${value.toFixed(2)}`}
+            </div>
+        </React.Fragment>
+    );
 }
 
 Currency.propTypes = {
