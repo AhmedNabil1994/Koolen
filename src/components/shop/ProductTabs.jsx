@@ -33,7 +33,7 @@ class ProductTabs extends Component {
         const tabs = [
             { key: 'description', title: 'Description', content: <ProductTabDescription product={product} /> },
             // { key: 'specification', title: 'Specification', content: <ProductTabSpecification /> },
-            { key: 'reviews', title: 'Reviews', content: <ProductTabReviews /> },
+            { key: 'reviews', title: 'Reviews', content: <ProductTabReviews product={product} /> },
         ];
 
         const tabsButtons = tabs.map((tab) => {

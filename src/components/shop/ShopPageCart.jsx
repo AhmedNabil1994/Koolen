@@ -68,17 +68,17 @@ class ShopPageCart extends Component {
 
     renderItems() {
         const { cart, cartRemoveItem } = this.props;
-        console.log(cart);
 
         return cart.items.map((item) => {
             let image;
             let options;
+            const imgSrc = item.product.img || item.product.images[0];
 
             if (item.product.images.length > 0) {
                 image = (
                     <div className="product-image">
                         <Link to={url.product(item.product)} className="product-image__body">
-                            <img className="product-image__img" src={item.product.images[0]} alt="" />
+                            <img className="product-image__img" src={imgSrc} alt={imgSrc} />
                         </Link>
                     </div>
                 );

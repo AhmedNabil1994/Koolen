@@ -55,10 +55,11 @@ function IndicatorCart(props) {
         }
 
         if (item.product.images.length) {
+            const imgSrc = item.product.img || item.product.images[0];
             image = (
                 <div className="product-image dropcart__product-image">
                     <Link to={url.product(item.product)} className="product-image__body">
-                        <img className="product-image__img" src={item.product.images[0]} alt="" />
+                        <img className="product-image__img" src={imgSrc} alt="" />
                     </Link>
                 </div>
             );
@@ -86,7 +87,11 @@ function IndicatorCart(props) {
                 {image}
                 <div className="dropcart__product-info">
                     <div className="dropcart__product-name">
-                        <Link to={url.product(item.product)}>{item.product.name}</Link>
+                        <Link to={url.product(item.product)}>
+                            {item.product.name}
+                            {' '}
+                            {item.product.color && ` - ${item.product.color}`}
+                        </Link>
                     </div>
                     {options}
                     <div className="dropcart__product-meta">

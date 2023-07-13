@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { IntlProvider } from 'react-intl';
 import { ScrollContext } from 'react-router-scroll-4';
+import { getCurrentLanguage, getToken } from '../api/network';
 
 // application
 import languages from '../i18n';
@@ -22,7 +23,6 @@ import { localeChange } from '../store/locale';
 import Layout from './Layout';
 // import HomePageOne from './home/HomePageOne';
 import HomePageTwo from './home/HomePageTwo';
-import { getToken } from '../api/network';
 
 class Root extends Component {
     componentDidMount() {
@@ -57,6 +57,7 @@ class Root extends Component {
         if (this?.props?.auth.token) {
             getToken(this?.props?.auth?.token);
         }
+        getCurrentLanguage(locale);
 
         return (
             <IntlProvider locale={locale} messages={messages}>

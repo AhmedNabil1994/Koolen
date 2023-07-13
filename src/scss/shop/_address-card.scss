@@ -25,15 +25,18 @@
         #{$border-end-end-radius}: 2px;
     }
 }
+
 .address-card__badge--muted {
     background-color: #f0f0f0;
     color: $light-opposite-color;
 }
+
 .address-card__body {
     padding: 1.5rem;
     font-size: 15px;
     line-height: 18px;
 }
+
 .address-card__name {
     font-size: 16px;
     font-weight: $font-weight-bold;

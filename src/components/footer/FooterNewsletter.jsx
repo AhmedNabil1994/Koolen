@@ -92,16 +92,14 @@ export default function FooterNewsletter({ data }) {
                         )
                     }
                     {
-                        // data?.social_link?.snapshat
-                        true
+                        data?.social_link?.snapchat
                         && (
                             <li className="social-links__item">
                                 <a
                                     className="social-links__link social-links_link--type--twitter"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    // href={data.social_link.twitter}
-                                    href="/"
+                                    href={data.social_link.snapchat}
                                 >
                                     <i className="fab fa-snapchat-ghost" />
                                 </a>
@@ -109,16 +107,14 @@ export default function FooterNewsletter({ data }) {
                         )
                     }
                     {
-                        // data?.social_link?.snapshat
-                        true
+                        data?.social_link?.tiktok
                         && (
                             <li className="social-links__item">
                                 <a
                                     className="social-links__link social-links_link--type--twitter"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    // href={data.social_link.twitter}
-                                    href="/"
+                                    href={data.social_link.tiktok}
                                 >
                                     <i className="fab fa-tiktok" />
                                 </a>

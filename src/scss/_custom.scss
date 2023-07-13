@@ -586,3 +586,12 @@ $cm-slider-container: 60px;
 	color: $accent-color !important;
 	border-color: $accent-color !important;
 }
+
+html[lang="ar"]{
+	.cm-slider__imgs{
+		flex-direction: row-reverse;
+	}
+	.cm-slider__imgs figure:last-of-type{
+			margin-inline-end: 1%;
+	}
+}

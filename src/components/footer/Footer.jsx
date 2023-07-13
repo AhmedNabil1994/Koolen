@@ -74,7 +74,7 @@ export default function Footer() {
 
                 <div className="site-footer__bottom">
                     <div className="site-footer__copyright">
-                        {/* {data?.copyright_text} */}
+                        {data?.copyright_text}
                     </div>
                     <div className="site-footer__payments">
                         <LogoSmallSvg />

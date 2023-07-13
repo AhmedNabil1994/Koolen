@@ -25,13 +25,26 @@ function Menu(props) {
                 <AppLink
                     {...item.props}
                     to={item.url}
-                    onClick={() => onClick(item)}
+                    onClick={() => {
+                        onClick(item);
+                        window.location.reload();
+                    }}
                 >
                     {content}
                 </AppLink>
             );
         } else {
-            link = <button type="button" onClick={() => onClick(item)}>{content}</button>;
+            link = (
+                <button
+                    type="button"
+                    onClick={() => {
+                        onClick(item);
+                        window.location.reload();
+                    }}
+                >
+                    {content}
+                </button>
+            );
         }
 
         return link;

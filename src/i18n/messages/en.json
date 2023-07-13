@@ -110,5 +110,15 @@
   "aboutUs": "About Us",
   "productHasBeenAddedToWishlistSuccessfully": "Product added to wishlist!",
   "productHasBeenAddedToCartSuccessfully": "Product added to Cart!",
-  "phoneNumber": "Phone Number"  
+  "phoneNumber": "Phone Number",  
+  "customerReviews": "Customer Reviews",
+  "writeAReview": "Write A Review",
+  "reviewStars": "Review Stars",
+  "1starRating": "1 Star Rating",
+  "2starRating": "2 Stars Rating",
+  "3starRating": "3 Stars Rating",
+  "4starRating": "4 Stars Rating",
+  "5starRating": "5 Stars Rating",
+  "yourReviews": "Your Review",
+  "postYourReview": "Post Your Review"
 }

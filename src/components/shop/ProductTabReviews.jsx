@@ -1,5 +1,8 @@
 // react
 import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
+// import { useFormik } from 'formik';
+// import * as Yup from 'yup';
 
 // application
 import Pagination from '../shared/Pagination';
@@ -9,13 +12,57 @@ import Rating from '../shared/Rating';
 import { getAllRatingAndReviews, addReviews } from '../../api/products';
 import BlockLoader from '../blocks/BlockLoader';
 
-function ProductTabReviews(productId) {
+function ProductTabReviews({ product }) {
     const [reviews, setReviews] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
     const [review, setReview] = useState('');
     const [rating, setRating] = useState(5);
+    const { formatMessage } = useIntl();
+    let productId;
+    if (product) { productId = product.id; }
+    // const formik = useFormik({
+    //     initialValues: {
+    //         email: '',
+    //         password: '',
+    //     },
+    //     validationSchema: Yup.object({
+    //         email: Yup.string().email(formatMessage({ id: 'validation.email.format' })).required(formatMessage({ id: 'validation.email.required' })),
+    //         password: Yup.string().min(6, formatMessage({ id: 'validation.password.format' })).required(formatMessage({ id: 'validation.password.required' })),
+    //     }),
+    //     onSubmit: (values) => {
+
+    //     },
+    // });
+    // const registrationFormik = useFormik({
+    //     initialValues: {
+    //         fullName: '',
+    //         email: '',
+    //         phone: '',
+    //         password: '',
+    //         repeatPassword: '',
+    //     },
+    //     validationSchema: Yup.object({
+    //         fullName: Yup.string().required(formatMessage({ id: 'validation.fullName.required' })),
+    //         email: Yup.string().email().required(formatMessage({ id: 'validation.fullName.required' })),
+    //         phone: Yup.number().typeError(formatMessage({ id: 'validation.phone.format' })).required(formatMessage({ id: 'validation.phone.required' })).positive(formatMessage({ id: 'validation.phone.format' }))
+    //             .integer(formatMessage({ id: 'validation.phone.format' })),
+    //         password: Yup.string().min(6, formatMessage({ id: 'validation.password.format' })).required(formatMessage({ id: 'validation.repeatPassword.required' })),
+    //         repeatPassword: Yup.string().oneOf([Yup.ref('password'), null], formatMessage({ id: 'validation.repeatPassword.format' })),
+    //     }),
+    //     onSubmit(values) {
+    //         const {
+    //             fullName, phone, email, password,
+    //         } = values;
+    //         signUpUser({
+    //             name: fullName, email, password, phone,
+    //         }, (success) => {
+    //             if (success.success) toastSuccess(success);
+    //         },
+    //         (fail) => {
+    //             toastError(fail);
+    //         });
+    //     },
+    // });
 
     function getRatingAndReviews() {
         setLoading(false);
@@ -28,13 +75,15 @@ function ProductTabReviews(productId) {
 
     function submitReview(e) {
         e.preventDefault();
-        const payload = {
-            name, email, review, rating,
-        };
+        if (productId) {
+            const payload = {
+                review, rating,
+            };
 
-        // after success
-        addReviews(payload);
-        getRatingAndReviews();
+            // after success
+            addReviews(payload);
+            getRatingAndReviews();
+        }
     }
 
     const reviewsList = reviews.map((review, index) => (
@@ -58,7 +107,9 @@ function ProductTabReviews(productId) {
     return (
         <div className="reviews-view">
             <div className="reviews-view__list">
-                <h3 className="reviews-view__header">Customer Reviews</h3>
+                <h3 className="reviews-view__header">
+                    {formatMessage({ id: 'writeAReview' })}
+                </h3>
 
                 <div className="reviews-list">
                     <ol className="reviews-list__content">
@@ -71,35 +122,42 @@ function ProductTabReviews(productId) {
             </div>
 
             <form className="reviews-view__form">
-                <h3 className="reviews-view__header">Write A Review</h3>
+                <h3 className="reviews-view__header">
+                    {formatMessage({ id: 'reviewStars' })}
+                    writeAReview
+                </h3>
                 <div className="row">
                     <div className="col-12 col-lg-9 col-xl-8">
                         <div className="form-row">
                             <div className="form-group col-md-4">
-                                <label htmlFor="review-stars">Review Stars</label>
+                                <label htmlFor="review-stars">
+                                    {formatMessage({ id: 'writeAReview' })}
+                                </label>
                                 <select id="review-stars" value={rating} onChange={(e) => setRating(e.target.value)} className="form-control">
-                                    <option value={5}>5 Stars Rating</option>
-                                    <option value={4}>4 Stars Rating</option>
-                                    <option value={3}>3 Stars Rating</option>
-                                    <option value={2}>2 Stars Rating</option>
-                                    <option value={1}>1 Stars Rating</option>
+                                    <option value={5}>
+                                        {formatMessage({ id: '5starRating' })}
+                                    </option>
+                                    <option value={4}>
+                                        {formatMessage({ id: '4starRating' })}
+                                    </option>
+                                    <option value={3}>
+                                        {formatMessage({ id: '3starRating' })}
+                                    </option>
+                                    <option value={2}>
+                                        {formatMessage({ id: '2starRating' })}
+                                    </option>
+                                    <option value={1}>
+                                        {formatMessage({ id: '1starRating' })}
+                                    </option>
                                 </select>
-                            </div>
-                            <div className="form-group col-md-4">
-                                <label htmlFor="review-author">Your Name</label>
-                                <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="form-control" id="review-author" placeholder="Your Name" />
-                            </div>
-                            <div className="form-group col-md-4">
-                                <label htmlFor="review-email">Email Address</label>
-                                <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} className="form-control" id="review-email" placeholder="Email Address" />
                             </div>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="review-text">Your Review</label>
+                            <label htmlFor="review-text">{formatMessage({ id: 'yourReviews' })}</label>
                             <textarea className="form-control" value={review} onChange={(e) => setReview(e.target.value)} id="review-text" rows="6" />
                         </div>
                         <div className="form-group mb-0">
-                            <button type="submit" className="btn btn-primary btn-lg" onClick={submitReview}>Post Your Review</button>
+                            <button type="submit" className="btn btn-primary btn-lg" onClick={submitReview}>{formatMessage({ id: 'postYourReview' })}</button>
                         </div>
                     </div>
                 </div>
