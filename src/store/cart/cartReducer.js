@@ -42,11 +42,11 @@ function calcTotal(subtotal, extraLines) {
 function addItem(state, product, options, quantity) {
     const itemIndex = findItemIndex(state.items, product, options);
     // let inStock;
-    let item;
-    if (itemIndex !== -1) item = state.items[itemIndex];
-    if (item && item.product.stock - (item.quantity + quantity) <= 0) {
-        return state;
-    }
+    // let item;
+    // if (itemIndex !== -1) item = state.items[itemIndex];
+    // if (item && item.product.stock - (item.quantity + quantity) <= 0) {
+    //     return state;
+    // }
 
     let newItems;
     let { lastItemId } = state;
@@ -110,11 +110,7 @@ function updateQuantities(state, quantities) {
     let needUpdate = false;
 
     const newItems = state.items.map((item) => {
-        const quantity = quantities.find((x) => x.itemId === item.id && x?.value !== item.quantity);
-
-        if (item.product.stock - quantity?.value <= 0) {
-            return item;
-        }
+        const quantity = quantities.find((x) => x.itemId === item.id);
 
         if (!quantity) {
             return item;

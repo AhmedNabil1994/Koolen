@@ -19,6 +19,9 @@
     &:first-child {
         padding-top: 0;
     }
+    &:last-of-type {
+        border-bottom-color: transparent;
+    }
 }
 .reviews-list__pagination {
     margin-top: 36px;

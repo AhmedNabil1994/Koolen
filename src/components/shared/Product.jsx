@@ -17,6 +17,7 @@ import { cartAddItem } from '../../store/cart';
 import { compareAddItem } from '../../store/compare';
 import { Wishlist16Svg, Compare16Svg } from '../../svg';
 import { wishlistAddItem } from '../../store/wishlist';
+import Share from '../blocks/Share';
 
 class Product extends Component {
     constructor(props) {
@@ -58,6 +59,8 @@ class Product extends Component {
      } else {
          prices = <Currency value={product.price} />;
      }
+     console.log('hi there howa r eyuou');
+     console.log('product details:', product);
 
      return (
          <div className={`product product--layout--${layout} mt-3`}>
@@ -163,12 +166,13 @@ class Product extends Component {
                              <label htmlFor="product-quantity" className="product__option-label">Quantity</label>
                              <div className="product__actions">
                                  <div className="product__actions-item">
+                                     {product.quantity}
                                      <InputNumber
                                          id="product-quantity"
                                          aria-label="Quantity"
                                          className="product__quantity"
                                          size="lg"
-                                         max={product.stock}
+                                         max={product.quantity}
                                          min={1}
                                          value={quantity}
                                          onChange={this.handleChangeQuantity}
@@ -178,8 +182,8 @@ class Product extends Component {
                                      <AsyncAction
                                          action={() => cartAddItem({
                                              ...product,
-                                             id: this.state?.selectedColor?.id || product.variations[0].id,
-                                             color: this.state?.selectedColor?.name || product.colors[0].name,
+                                             id: this.state?.selectedColor?.id || product?.variations[0]?.id,
+                                             color: this.state?.selectedColor?.name || product?.colors[0]?.name,
                                              img: this.state?.selectedColor?.img || null,
                                          }, [], quantity, 'product ')}
                                          render={({ run, loading }) => (
@@ -253,11 +257,8 @@ class Product extends Component {
                      }
 
                      <div className="product__share-links share-links">
-                         <ul className="share-links__list">
-                             <li className="share-links__item share-links__item--type--like"><Link to="/">Like</Link></li>
-                             <li className="share-links__item share-links__item--type--tweet"><Link to="/">Tweet</Link></li>
-                             <li className="share-links__item share-links__item--type--tel"><Link to="/">Pin It</Link></li>
-                         </ul>
+                         <Share description="hi there how are you !!" />
+
                      </div>
                  </div>
              </div>

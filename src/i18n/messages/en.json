@@ -81,6 +81,8 @@
   "validation.password.required": "Please enter your password",
   "validation.phone.required": "Please enter your phone",
   "validation.repeatPassword.required": "Please repeat your password",
+  "validation.comment": "Please, Provide your comment",
+
 
   "validation.email.format": "Please enter a valid email address",
   "validation.password.format": "Your password must be at least 6 characters long",
@@ -112,6 +114,7 @@
   "productHasBeenAddedToCartSuccessfully": "Product added to Cart!",
   "phoneNumber": "Phone Number",  
   "customerReviews": "Customer Reviews",
+  "ratingAndReviews": "Rating and Reviews",
   "writeAReview": "Write A Review",
   "reviewStars": "Review Stars",
   "1starRating": "1 Star Rating",
@@ -120,5 +123,7 @@
   "4starRating": "4 Stars Rating",
   "5starRating": "5 Stars Rating",
   "yourReviews": "Your Review",
-  "postYourReview": "Post Your Review"
+  "postYourReview": "Post Your Review",
+  "thisProductHasNoReviewsYet": "This product has no reviews yet",
+  "writeYourComment": "Write Your Comment..."
 }

@@ -80,22 +80,6 @@ function AccountPageLogin(props) {
         },
     });
 
-    // eslint-disable-next-line
-                // resetData();
-    // function resetData() {
-    //     registrationFormik.resetForm();
-    // }
-
-    // reset data
-
-    // function resetData() {
-    // setRegEmail('');
-    // setRegName('');
-    // setRegPhone('');
-    // setRegPass('');
-    // setRegMatchingPass('');
-    // }
-
     return (
         <React.Fragment>
             <Helmet>

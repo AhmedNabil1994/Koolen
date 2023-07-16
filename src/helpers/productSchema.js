@@ -21,6 +21,7 @@ export function singleProductSchema(product) {
         description,
         variations,
     } = product;
+    console.log('singleProductSchema', product);
 
     let thumbnails;
     if (Array.isArray(thumbnail_image)) {
@@ -71,8 +72,6 @@ export default function productSchema(products) {
     products.forEach((product) => {
         const {
             id, name, slug, base_discounted_price, base_price, thumbnail_image, stock, rating,
-            quantity,
-
         } = product;
         const payload = {
             id,
@@ -89,8 +88,6 @@ export default function productSchema(products) {
             categories: [],
             attributes: [],
         };
-
-        console.log('products quantity: ', quantity);
 
         if (base_price - base_discounted_price > 0) {
             payload.compareAtPrice = base_price;

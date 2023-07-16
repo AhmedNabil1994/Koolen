@@ -1,7 +1,4 @@
-import { getRequest } from './network';
-
-// dummy schema
-import reviews from '../data/shopProductReviews';
+import { getRequest, postRequest } from './network';
 
 export function getAllProducts(page, category, prices, onSuccess, onFail) {
     let path = `/api/v1/product/search?&page=${page}&brand_ids=&attribute_values=&sort_by=popular`;
@@ -36,14 +33,13 @@ export function getProductDetails(slug, onSuccess, onFail) {
     getRequest(path, onSuccess, onFail);
 }
 
-// productId
-export function getAllRatingAndReviews() {
-    return [...reviews];
-//    const path = `${}`
-//    getRequest(path, onSuccess,onFail)
+export function getAllRatingAndReviews(productId, onSuccess, onFail) {
+    const path = `/api/v1/product/reviews/${productId}`;
+    getRequest(path, onSuccess, onFail);
 }
 
-export function addReviews(data) {
-    // eslint-disable-next-line
-    console.log('addReviews payload: ', data);
+export function addReviews({ product_id, rating, comment }, onSuccess, onFail) {
+    const path = '/api/v1/user/review/submit';
+    const data = { product_id, rating, comment };
+    postRequest(path, data, onSuccess, onFail);
 }

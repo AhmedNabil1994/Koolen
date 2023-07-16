@@ -1,106 +1,84 @@
 // react
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import { useIntl } from 'react-intl';
-// import { useFormik } from 'formik';
-// import * as Yup from 'yup';
+import { useHistory } from 'react-router-dom';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 // application
-import Pagination from '../shared/Pagination';
 import Rating from '../shared/Rating';
 
 // data stubs
 import { getAllRatingAndReviews, addReviews } from '../../api/products';
 import BlockLoader from '../blocks/BlockLoader';
+import { toastError } from '../toast/toastComponent';
 
-function ProductTabReviews({ product }) {
+function ProductTabReviews(props) {
     const [reviews, setReviews] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [review, setReview] = useState('');
-    const [rating, setRating] = useState(5);
     const { formatMessage } = useIntl();
+    const history = useHistory();
     let productId;
-    if (product) { productId = product.id; }
-    // const formik = useFormik({
-    //     initialValues: {
-    //         email: '',
-    //         password: '',
-    //     },
-    //     validationSchema: Yup.object({
-    //         email: Yup.string().email(formatMessage({ id: 'validation.email.format' })).required(formatMessage({ id: 'validation.email.required' })),
-    //         password: Yup.string().min(6, formatMessage({ id: 'validation.password.format' })).required(formatMessage({ id: 'validation.password.required' })),
-    //     }),
-    //     onSubmit: (values) => {
-
-    //     },
-    // });
-    // const registrationFormik = useFormik({
-    //     initialValues: {
-    //         fullName: '',
-    //         email: '',
-    //         phone: '',
-    //         password: '',
-    //         repeatPassword: '',
-    //     },
-    //     validationSchema: Yup.object({
-    //         fullName: Yup.string().required(formatMessage({ id: 'validation.fullName.required' })),
-    //         email: Yup.string().email().required(formatMessage({ id: 'validation.fullName.required' })),
-    //         phone: Yup.number().typeError(formatMessage({ id: 'validation.phone.format' })).required(formatMessage({ id: 'validation.phone.required' })).positive(formatMessage({ id: 'validation.phone.format' }))
-    //             .integer(formatMessage({ id: 'validation.phone.format' })),
-    //         password: Yup.string().min(6, formatMessage({ id: 'validation.password.format' })).required(formatMessage({ id: 'validation.repeatPassword.required' })),
-    //         repeatPassword: Yup.string().oneOf([Yup.ref('password'), null], formatMessage({ id: 'validation.repeatPassword.format' })),
-    //     }),
-    //     onSubmit(values) {
-    //         const {
-    //             fullName, phone, email, password,
-    //         } = values;
-    //         signUpUser({
-    //             name: fullName, email, password, phone,
-    //         }, (success) => {
-    //             if (success.success) toastSuccess(success);
-    //         },
-    //         (fail) => {
-    //             toastError(fail);
-    //         });
-    //     },
-    // });
+    if (props?.product) { productId = props?.product.id; }
 
     function getRatingAndReviews() {
-        setLoading(false);
-        setReviews(getAllRatingAndReviews(productId));
+        getAllRatingAndReviews(productId, (success) => {
+            const { data } = success;
+            setReviews(data);
+            setLoading(false);
+        }, (fail) => {
+            toastError(fail);
+            setLoading(false);
+        });
     }
 
     useEffect(() => {
-        getRatingAndReviews();
-    }, []);
-
-    function submitReview(e) {
-        e.preventDefault();
         if (productId) {
-            const payload = {
-                review, rating,
-            };
-
-            // after success
-            addReviews(payload);
             getRatingAndReviews();
         }
-    }
+    }, [productId]);
 
-    const reviewsList = reviews.map((review, index) => (
-        <li key={index} className="reviews-list__item">
-            <div className="review">
-                <div className="review__avatar"><img src={review.avatar} alt="" /></div>
-                <div className=" review__content">
-                    <div className=" review__author">{review.author}</div>
-                    <div className=" review__rating">
-                        <Rating value={review.rating} />
+    const formik = useFormik({
+        initialValues: {
+            rating: 5,
+            comment: '',
+        },
+        validationSchema: Yup.object({
+            comment: Yup.string().required(formatMessage({ id: 'validation.comment' })),
+        }),
+        onSubmit: (values) => {
+            const { comment, rating } = values;
+            if (!props?.auth?.token) {
+                history.push('/account/login');
+                toastError({ data: { message: 'Please, Login first.' } });
+            }
+
+            addReviews({ comment, rating, product_id: productId }, () => {
+                getRatingAndReviews();
+            }, (fail) => {
+                toastError(fail);
+            });
+        },
+    });
+
+    const reviewsList = reviews.length === 0 && !loading
+        ? <div className="text-center">{formatMessage({ id: 'thisProductHasNoReviewsYet' })}</div>
+        : reviews.map((review, index) => (
+            <li key={index} className="reviews-list__item">
+                <div className="review">
+                    <div className="review__avatar"><img src="/images/avatars/profile-avatar.png" alt="" /></div>
+                    <div className=" review__content">
+                        <div className=" review__author">{review.user.name}</div>
+                        <div className=" review__rating">
+                            <Rating value={review.rating} />
+                        </div>
+                        <div className=" review__text">{review.comment}</div>
+                        <div className=" review__date">{review.time}</div>
                     </div>
-                    <div className=" review__text">{review.text}</div>
-                    <div className=" review__date">{review.date}</div>
                 </div>
-            </div>
-        </li>
-    ));
+            </li>
+        ));
 
     if (loading) return <BlockLoader />;
 
@@ -108,32 +86,34 @@ function ProductTabReviews({ product }) {
         <div className="reviews-view">
             <div className="reviews-view__list">
                 <h3 className="reviews-view__header">
-                    {formatMessage({ id: 'writeAReview' })}
+                    {formatMessage({ id: 'ratingAndReviews' })}
                 </h3>
 
                 <div className="reviews-list">
                     <ol className="reviews-list__content">
                         {reviewsList}
                     </ol>
-                    <div className="reviews-list__pagination">
-                        <Pagination current={1} siblings={2} total={10} />
-                    </div>
                 </div>
             </div>
 
-            <form className="reviews-view__form">
+            <form className="reviews-view__form needs-validation" onSubmit={formik.handleSubmit} noValidat>
                 <h3 className="reviews-view__header">
-                    {formatMessage({ id: 'reviewStars' })}
-                    writeAReview
+                    {formatMessage({ id: 'writeAReview' })}
                 </h3>
                 <div className="row">
                     <div className="col-12 col-lg-9 col-xl-8">
                         <div className="form-row">
                             <div className="form-group col-md-4">
                                 <label htmlFor="review-stars">
-                                    {formatMessage({ id: 'writeAReview' })}
+                                    {formatMessage({ id: 'reviewStars' })}
                                 </label>
-                                <select id="review-stars" value={rating} onChange={(e) => setRating(e.target.value)} className="form-control">
+                                <select
+                                    id="review-stars"
+                                    className="form-control"
+                                    value={formik.values.rating}
+                                    onChange={formik.handleChange}
+                                    {...formik.getFieldProps('rating')}
+                                >
                                     <option value={5}>
                                         {formatMessage({ id: '5starRating' })}
                                     </option>
@@ -154,10 +134,29 @@ function ProductTabReviews({ product }) {
                         </div>
                         <div className="form-group">
                             <label htmlFor="review-text">{formatMessage({ id: 'yourReviews' })}</label>
-                            <textarea className="form-control" value={review} onChange={(e) => setReview(e.target.value)} id="review-text" rows="6" />
+                            <textarea
+                                id="review-text"
+                                type="email"
+                                name="email"
+                                placeholder={formatMessage({ id: 'writeYourComment' })}
+                                className={`form-control ${formik.errors.comment && formik.touched.comment && 'is-invalid'}`}
+                                value={formik.values.comment}
+                                onChange={formik.handleChange}
+                                {...formik.getFieldProps('comment')}
+                                rows="6"
+                            />
+                            {
+                                formik.touched.comment && formik.errors.comment
+                                    ? (
+                                        <div className="invalid-feedback">
+                                            {formik.errors.comment}
+                                        </div>
+                                    )
+                                    : null
+                            }
                         </div>
                         <div className="form-group mb-0">
-                            <button type="submit" className="btn btn-primary btn-lg" onClick={submitReview}>{formatMessage({ id: 'postYourReview' })}</button>
+                            <button type="submit" className="btn btn-primary btn-lg">{formatMessage({ id: 'postYourReview' })}</button>
                         </div>
                     </div>
                 </div>
@@ -166,4 +165,8 @@ function ProductTabReviews({ product }) {
     );
 }
 
-export default ProductTabReviews;
+const MapStateToProps = (state) => ({
+    auth: state.auth,
+});
+
+export default connect(MapStateToProps)(ProductTabReviews);
