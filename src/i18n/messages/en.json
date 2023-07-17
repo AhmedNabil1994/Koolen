@@ -25,6 +25,7 @@
 
   "navigation": "Navigation",
   "editProfile": "Edit Profile",
+  "orderHistory": "Order History",
 
   "account.dashboard": "Dashboard",
   "account.editProfile": "Edit Profile",
@@ -88,7 +89,7 @@
   "validation.password.format": "Your password must be at least 6 characters long",
   "validation.phone.format": "Please enter a valid phone number",
   "validation.repeatPassword.format": "Your passwords do not match",
-  "emptyCart": "Youe shopping cart is empty!",
+  "emptyCart": "Your shopping cart is empty!",
   "latestProducts": "Latest Products",
   "popularCategories":"Popular Categories",
   "bestSellers":"Bestsellers",
@@ -125,5 +126,31 @@
   "yourReviews": "Your Review",
   "postYourReview": "Post Your Review",
   "thisProductHasNoReviewsYet": "This product has no reviews yet",
-  "writeYourComment": "Write Your Comment..."
+  "writeYourCommen": "Write Your Comment...",
+  "applyCoupon":"Apply Coupons",
+  "couponCode": "Coupon Code",
+  "validation.code": "Please, enter your coupon code",
+  "cashOnDelivery": "Cash on delivery",
+  "payWithCash": "Pay with cash upon delivery.",
+  "paypal": "PayPal",
+  "paypalDesc": "Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account."
+  ,"total": "Total",
+  "subtotal": "Subtotal",
+  "shiping": "Shiping",
+  "tax": "Tax",
+  "yourOrder": "Your Order",
+  "placeOrder": "Place Order",
+
+  "viewCart": "View Cart",
+  "checkout": "Checkout",
+  "recentOrder": "Recent Order",
+  "order": "Order",
+  "date": "Date",
+  "status": "Status",
+  "wasPlacedOn": "Was Placed On",
+  "andIsCurrently": "And Is Currently",
+  "ordersHistory": "Orders History",
+  "thereAreNoOrdersYet": "There are no orders yet",
+  "defaultAddress": "Default Address",
+  "menu": "Menu"
 }

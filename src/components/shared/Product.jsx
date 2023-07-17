@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 
 // application
 import AsyncAction from './AsyncAction';
@@ -185,7 +186,7 @@ class Product extends Component {
                                              id: this.state?.selectedColor?.id || product?.variations[0]?.id,
                                              color: this.state?.selectedColor?.name || product?.colors[0]?.name,
                                              img: this.state?.selectedColor?.img || null,
-                                         }, [], quantity, 'product ')}
+                                         }, [], quantity, <FormattedMessage id="productHasBeenAddedToCartSuccessfully" />)}
                                          render={({ run, loading }) => (
                                              <button
                                                  type="button"

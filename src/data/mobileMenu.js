@@ -1,27 +1,27 @@
 export default [
     {
         type: 'link',
-        label: 'Home',
+        label: 'home',
         url: '/',
     },
     {
         type: 'link',
-        label: 'Shop',
+        label: 'topbar.shop',
         url: '/shop/catalog',
     },
     {
         type: 'link',
-        label: 'Categories',
+        label: 'topbar.categories',
         url: '/categories',
     },
     {
         type: 'link',
-        label: 'Contact Us',
+        label: 'footer.contactus',
         url: '/site/contact-us',
     },
     {
         type: 'link',
-        label: 'About Us',
+        label: 'aboutUs',
         url: '/site/about-us',
     },
 ];

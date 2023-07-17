@@ -1,5 +1,6 @@
 // react
 import React from 'react';
+import { useIntl } from 'react-intl';
 
 // third-party
 import { Link } from 'react-router-dom';
@@ -13,6 +14,7 @@ import { LOGOUT } from '../../store/auth/auth.types';
 
 function IndicatorAccount(props) {
     const { dispatch, auth: { user, token } } = props;
+    const { formatMessage } = useIntl();
     function logoutUser() {
         dispatch({ type: LOGOUT });
     }
@@ -40,17 +42,18 @@ function IndicatorAccount(props) {
 
                 <div className="account-menu__divider" />
                 <ul className="account-menu__links">
-                    <li><Link to="/account/profile">Edit Profile</Link></li>
-                    <li><Link to="/account/orders">Order History</Link></li>
-                    <li><Link to="/account/addresses">Addresses</Link></li>
-                    <li><Link to="/account/password">Password</Link></li>
+                    <li><Link to="/account/profile">{formatMessage({ id: 'editProfile' })}</Link></li>
+                    <li><Link to="/account/orders">{formatMessage({ id: 'orderHistory' })}</Link></li>
+                    <li><Link to="/account/addresses">{formatMessage({ id: 'account.addresses' })}</Link></li>
+                    <li><Link to="/account/password">{formatMessage({ id: 'login.password' })}</Link></li>
                 </ul>
                 <div className="account-menu__divider" />
                 <ul className="account-menu__links">
                     <li>
                         <li>
+                            {/* eslint-disable */}
                             <Link to="/account/login" onClick={logoutUser} onKeyDown={logoutUser}>
-                                Logout
+                               {formatMessage({id: "login.logout"})} 
                             </Link>
                         </li>
                     </li>

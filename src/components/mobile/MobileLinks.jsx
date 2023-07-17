@@ -1,5 +1,6 @@
 // react
 import React from 'react';
+import { useIntl } from 'react-intl';
 
 // third-party
 import PropTypes from 'prop-types';
@@ -11,6 +12,7 @@ import { ArrowRoundedDown12x7Svg } from '../../svg';
 
 function MobileLinks(props) {
     const { links, level, onItemClick } = props;
+    const { formatMessage } = useIntl();
 
     const handleItemClick = (item) => {
         if (onItemClick) {
@@ -55,7 +57,7 @@ function MobileLinks(props) {
                                     className="mobile-links__item-link"
                                     onClick={() => handleItemClick(link)}
                                 >
-                                    {link.label}
+                                    {formatMessage({ id: link.label })}
                                 </AppLink>
                             );
                         } else {

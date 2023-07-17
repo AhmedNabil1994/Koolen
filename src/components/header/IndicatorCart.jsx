@@ -32,7 +32,7 @@ function IndicatorCart(props) {
         totals = (
             <React.Fragment>
                 <tr>
-                    <th>Subtotal</th>
+                    <th>{intl.formatMessage({ id: 'subtotal' })}</th>
                     <td><Currency value={cart.subtotal} /></td>
                 </tr>
                 {extraLines}
@@ -117,7 +117,7 @@ function IndicatorCart(props) {
                         <tbody>
                             {totals}
                             <tr>
-                                <th>Total</th>
+                                <th>{intl.formatMessage({ id: 'total' })}</th>
                                 <td><Currency value={cart.total} /></td>
                             </tr>
                         </tbody>
@@ -125,8 +125,8 @@ function IndicatorCart(props) {
                 </div>
 
                 <div className="dropcart__buttons">
-                    <Link className="btn btn-secondary" to="/shop/cart">View Cart</Link>
-                    <Link className="btn btn-primary" to="/shop/checkout">Checkout</Link>
+                    <Link className="btn btn-secondary" to="/shop/cart">{intl.formatMessage({ id: 'viewCart' })}</Link>
+                    <Link className="btn btn-primary" to="/shop/checkout">{intl.formatMessage({ id: 'checkout' })}</Link>
                 </div>
             </div>
         );

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useIntl } from 'react-intl';
 
 // third-party
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 
 // data stubs
-import allOrders from '../../data/accountOrders';
 import theme from '../../data/theme';
 // api
 import { getAddresses } from '../../api/addresses';
@@ -14,11 +14,15 @@ import { getAddresses } from '../../api/addresses';
 // components
 import { toastError } from '../toast/toastComponent';
 import BlockLoader from '../blocks/BlockLoader';
+import { getRecentOrders } from '../../api/orders';
 
 function AccountPageDashboard({ auth }) {
     const { name, email } = auth?.user;
     const [isLoading, setIsLoading] = useState(false);
     const [address, setAddress] = useState([]);
+    const [isrecentOrdersLoading, setRecentOrdersLoading] = useState(true);
+    const [recentOrders, setRecentOrders] = useState([]);
+    const { formatMessage } = useIntl();
 
     function getAddress() {
         setIsLoading(true);
@@ -36,25 +40,33 @@ function AccountPageDashboard({ auth }) {
         });
     }
 
+    function fetchRecentOrders() {
+        getRecentOrders((success) => {
+            setRecentOrdersLoading(false);
+            setRecentOrders(success.data);
+        }, (fail) => { toastError(fail); });
+    }
+
     useEffect(() => {
         getAddress();
+        fetchRecentOrders();
     }, []);
 
-    const orders = allOrders.slice(0, 3).map((order) => (
-        <tr key={order.id}>
+    const orders = recentOrders.map((order) => (
+        <tr key={order?.id}>
             <td>
-                <Link to="/account/orders/5">
+                <Link to={`/account/orders/${order?.code}`}>
                     #
-                    {order.id}
+                    {order?.code}
                 </Link>
             </td>
-            <td>{order.date}</td>
-            <td>{order.status}</td>
-            <td>{order.total}</td>
+            <td>{order?.date}</td>
+            <td>{order?.orders[0]?.delivery_status}</td>
+            <td>{order?.grand_total}</td>
         </tr>
     ));
 
-    if (isLoading) return <BlockLoader />;
+    if (isLoading || isrecentOrdersLoading) return <BlockLoader />;
 
     return (
         <div className="dashboard">
@@ -79,86 +91,72 @@ function AccountPageDashboard({ auth }) {
                     address?.length
                         ? (
                             <div className="dashboard__address card address-card address-card--featured">
-                                <div className="address-card__badge">Default Address</div>
+                                <div className="address-card__badge">{formatMessage({ id: 'defaultAddress' })}</div>
                                 <div className="address-card__body">
                                     <div className="address-card__name">{`${address[0].address}`}</div>
 
                                     <div className="address-card__row">
-                                        <div className="address-card__row-title">Postal Code</div>
+                                        <div className="address-card__row-title">{formatMessage({ id: 'postalCode' })}</div>
                                         <div className="address-card__row-content">{address[0].postal_code}</div>
                                     </div>
                                     <div className="address-card__row">
-                                        <div className="address-card__row-title">Country</div>
+                                        <div className="address-card__row-title">{formatMessage({ id: 'country' })}</div>
                                         <div className="address-card__row-content">{address[0].country}</div>
                                     </div>
 
                                     <div className="address-card__row">
-                                        <div className="address-card__row-title">City</div>
+                                        <div className="address-card__row-title">{formatMessage({ id: 'city' })}</div>
                                         <div className="address-card__row-content">{address[0].city}</div>
                                     </div>
                                     <div className="address-card__row">
-                                        <div className="address-card__row-title">State</div>
+                                        <div className="address-card__row-title">{formatMessage({ id: 'state' })}</div>
                                         <div className="address-card__row-content">{address[0].state}</div>
                                     </div>
                                     <div className="address-card__row">
-                                        <div className="address-card__row-title">Phone Number</div>
+                                        <div className="address-card__row-title">{formatMessage({ id: 'phoneNumber' })}</div>
                                         <div className="address-card__row-content">{address[0].phone}</div>
                                     </div>
                                     <div className="address-card__footer">
-                                        <Link to={`/account/addresses/${address[0].id}`}>Edit</Link>
+                                        <Link to={`/account/addresses/${address[0].id}`}>{formatMessage({ id: 'edit' })}</Link>
                                         &nbsp;&nbsp;
                                     </div>
                                 </div>
-                                {/* <div className="address-card__body">
-                                    <div className="address-card__name">{`${address.address}`}</div>
-                                    <div className="address-card__row">
-                                        {address.country}
-                                        <br />
-                                        {address.postal_code}
-                                        ,
-                                        {address.city}
-                                        <br />
-                                        {address.address}
-                                    </div>
-                                    <div className="address-card__row">
-                                        <div className="address-card__row-title">Phone Number</div>
-                                        <div className="address-card__row-content">{address.phone}</div>
-                                    </div>
-                                    <div className="address-card__row">
-                                        <div className="address-card__row-title">Email Address</div>
-                                        <div className="address-card__row-content">{address.email}</div>
-                                    </div>
-                                    <div className="address-card__footer">
-                                        <Link to="/account/addresses/5">Edit Address</Link>
-                                    </div>
-                                </div> */}
+
                             </div>
                         ) : null
                 }
 
-                <div className="dashboard__orders card">
-                    <div className="card-header">
-                        <h5>Recent Orders</h5>
-                    </div>
-                    <div className="card-divider" />
-                    <div className="card-table">
-                        <div className="table-responsive-sm">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Order</th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                        <th>Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {orders}
-                                </tbody>
-                            </table>
+                {orders.length > 0 ? (
+                    <div className="dashboard__orders card">
+                        <div className="card-header">
+                            <h5>{formatMessage({ id: 'recentOrder' })}</h5>
+                        </div>
+                        <div className="card-divider" />
+                        <div className="card-table">
+                            {
+                                orders.length > 0
+                                    ? (
+                                        <div className="table-responsive-sm">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>{formatMessage({ id: 'order' })}</th>
+                                                        <th>{formatMessage({ id: 'date' })}</th>
+                                                        <th>{formatMessage({ id: 'status' })}</th>
+                                                        <th>{formatMessage({ id: 'total' })}</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>{orders}</tbody>
+                                            </table>
+                                        </div>
+                                    )
+                                    : null
+                            }
+
                         </div>
                     </div>
-                </div>
+                ) : null}
+
             </React.Fragment>
 
         </div>

@@ -1,14 +1,40 @@
 // react
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { useIntl } from 'react-intl';
 
 // third-party
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
 
 // data stubs
 import theme from '../../data/theme';
+import { getOrderDetails } from '../../api/orders';
+import { toastError } from '../toast/toastComponent';
+import BlockLoader from '../blocks/BlockLoader';
 
 export default function AccountPageOrderDetails() {
+    const { orderId } = useParams();
+    const [orderDetails, setOrderDetails] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const { formatMessage } = useIntl();
+    console.log(orderId, orderDetails);
+
+    function fetchOrder() {
+        getOrderDetails(orderId, (success) => {
+            setIsLoading(false);
+            setOrderDetails(success.data);
+        }, (fail) => {
+            setIsLoading(false);
+            toastError(fail);
+        });
+        setOrderDetails();
+    }
+
+    useEffect(() => {
+        fetchOrder();
+    }, [orderId]);
+
+    if (isLoading) return <BlockLoader />;
     return (
         <React.Fragment>
             <Helmet>
@@ -20,15 +46,22 @@ export default function AccountPageOrderDetails() {
                     <div className="order-header__actions">
                         <Link to="/account/orders" className="btn btn-xs btn-secondary">Back to list</Link>
                     </div>
-                    <h5 className="order-header__title">Order #3857</h5>
+                    <h5 className="order-header__title">
+                        {formatMessage({ id: 'order' })}
+                        {' '}
+                        #
+                        {orderDetails?.code}
+                    </h5>
                     <div className="order-header__subtitle">
-                        Was placed on
+                        {formatMessage({ id: 'wasPlacedOn' })}
                         {' '}
-                        <mark className="order-header__date">19 October, 2020</mark>
+                        <mark className="order-header__date">{orderDetails?.date}</mark>
                         {' '}
-                        and is currently
+                        {formatMessage({ id: 'andIsCurrently' })}
                         {' '}
-                        <mark className="order-header__status">On hold</mark>
+                        <mark className="order-header__status">
+                            {orderDetails?.orders[0]?.delivery_status}
+                        </mark>
                         .
                     </div>
                 </div>
@@ -38,33 +71,28 @@ export default function AccountPageOrderDetails() {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Product</th>
-                                    <th>Total</th>
+                                    <th>{formatMessage({ id: 'product' })}</th>
+                                    <th>{formatMessage({ id: 'total' })}</th>
                                 </tr>
                             </thead>
                             <tbody className="card-table__body card-table__body--merge-rows">
-                                <tr>
-                                    <td>Electric Planer Brandix KL370090G 300 Watts × 2</td>
-                                    <td>$1,398.00</td>
-                                </tr>
-                                <tr>
-                                    <td>Undefined Tool IRadix DPS3000SY 2700 watts × 1</td>
-                                    <td>$849.00</td>
-                                </tr>
-                                <tr>
-                                    <td>Brandix Router Power Tool 2017ERXPK × 3</td>
-                                    <td>$3,630.00</td>
-                                </tr>
+                                <React.Fragment>
+                                    {
+                              orderDetails?.orders[0]?.products?.data.map((product) => (
+                                  <tr key={product.id}>
+                                      <td>{product.name}</td>
+                                      <td>
+                                          SAR
+                                          {' '}
+                                          {product.price}
+                                      </td>
+                                  </tr>
+                              ))
+                                    }
+                                </React.Fragment>
+
                             </tbody>
                             <tbody className="card-table__body card-table__body--merge-rows">
-                                <tr>
-                                    <th>Subtotal</th>
-                                    <td>$5,877.00</td>
-                                </tr>
-                                <tr>
-                                    <th>Store Credit</th>
-                                    <td>$-20.00</td>
-                                </tr>
                                 <tr>
                                     <th>Shipping</th>
                                     <td>$25.00</td>
@@ -72,8 +100,12 @@ export default function AccountPageOrderDetails() {
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>Total</th>
-                                    <td>$5,882.00</td>
+                                    <th>{formatMessage({ id: 'total' })}</th>
+                                    <td>
+                                        SAR
+                                        {' '}
+                                        {orderDetails?.grand_total}
+                                    </td>
                                 </tr>
                             </tfoot>
                         </table>

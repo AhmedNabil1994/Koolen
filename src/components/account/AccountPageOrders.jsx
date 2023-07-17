@@ -1,75 +1,75 @@
 // react
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useIntl } from 'react-intl';
 
 // third-party
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-
-// application
-import Pagination from '../shared/Pagination';
+import { getRecentOrders } from '../../api/orders';
 
 // data stubs
-import dataOrders from '../../data/accountOrders';
 import theme from '../../data/theme';
+import BlockLoader from '../blocks/BlockLoader';
+import { toastError } from '../toast/toastComponent';
 
-export default class AccountPageOrders extends Component {
-    constructor(props) {
-        super(props);
+function AccountPageOrders() {
+    const [isLoading, setIsLoading] = useState(true);
+    const [orders, setOrders] = useState([]);
+    const { formatMessage } = useIntl();
 
-        this.state = {
-            orders: dataOrders,
-            page: 1,
-        };
+    function fetchAllOrders() {
+        getRecentOrders((success) => {
+            setOrders(success.data);
+            setIsLoading(false);
+        }, (fail) => {
+            toastError(fail);
+            setIsLoading(false);
+        });
     }
 
-    handlePageChange = (page) => {
-        this.setState(() => ({ page }));
-    };
+    useEffect(() => {
+        fetchAllOrders();
+    }, []);
 
-    render() {
-        const { page, orders } = this.state;
+    const ordersList = orders.map((order) => (
+        <tr key={order?.id}>
+            <td><Link to={`/account/orders/${order.code}`}>{`#${order.code}`}</Link></td>
+            <td>{order?.date}</td>
+            <td>{order?.orders[0]?.delivery_status }</td>
+            <td>{order?.grand_total}</td>
+        </tr>
+    ));
+    if (isLoading) return <BlockLoader />;
 
-        const ordersList = orders.map((order) => (
-            <tr key={order.id}>
-                <td><Link to="/account/orders/5">{`#${order.id}`}</Link></td>
-                <td>{order.date}</td>
-                <td>{order.status}</td>
-                <td>{order.total}</td>
-            </tr>
-        ));
+    return (
+        <div className="card">
+            <Helmet>
+                <title>{`Order History — ${theme.name}`}</title>
+            </Helmet>
 
-        return (
-            <div className="card">
-                <Helmet>
-                    <title>{`Order History — ${theme.name}`}</title>
-                </Helmet>
-
-                <div className="card-header">
-                    <h5>Order History</h5>
-                </div>
-                <div className="card-divider" />
-                <div className="card-table">
-                    <div className="table-responsive-sm">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Order</th>
-                                    <th>Date</th>
-                                    <th>Status</th>
-                                    <th>Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {ordersList}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div className="card-divider" />
-                <div className="card-footer">
-                    <Pagination current={page} total={3} onPageChange={this.handlePageChange} />
+            <div className="card-header">
+                <h5>{formatMessage({ id: 'ordersHistory' })}</h5>
+            </div>
+            <div className="card-divider" />
+            <div className="card-table">
+                <div className="table-responsive-sm">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>{formatMessage({ id: 'order' })}</th>
+                                <th>{formatMessage({ id: 'date' })}</th>
+                                <th>{formatMessage({ id: 'status' })}</th>
+                                <th>{formatMessage({ id: 'total' })}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {ordersList}
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
 }
+
+export default AccountPageOrders;

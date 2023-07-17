@@ -43,3 +43,11 @@ export function addReviews({ product_id, rating, comment }, onSuccess, onFail) {
     const data = { product_id, rating, comment };
     postRequest(path, data, onSuccess, onFail);
 }
+
+export function applyCoupon(code, onSuccess, onFail) {
+    const path = '/api/v1/checkout/coupon/apply';
+    const data = {
+        coupon_code: code,
+    };
+    postRequest(path, data, onSuccess, onFail);
+}

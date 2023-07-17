@@ -8,6 +8,7 @@ import { Redirect } from 'react-router-dom';
 //  Link,
 
 // application
+import { FormattedMessage } from 'react-intl';
 import Collapse from '../shared/Collapse';
 import Currency from '../shared/Currency';
 import PageHeader from '../shared/PageHeader';
@@ -19,6 +20,7 @@ import theme from '../../data/theme';
 import ChooseAddress from '../blocks/ChooseAddress';
 import { getAddresses } from '../../api/addresses';
 import { toastError } from '../toast/toastComponent';
+import CouponCode from './CouponCode';
 
 class ShopPageCheckout extends Component {
     payments = payments;
@@ -71,8 +73,11 @@ class ShopPageCheckout extends Component {
         return (
             <React.Fragment>
                 <tbody className="checkout__totals-subtotals">
+                    {/* eslint-disable */}
                     <tr>
-                        <th>Subtotal</th>
+                        <th>
+                            <FormattedMessage id="subtotal" />
+                        </th>
                         <td><Currency value={cart.subtotal} /></td>
                     </tr>
                     {extraLines}
@@ -93,10 +98,11 @@ class ShopPageCheckout extends Component {
 
         return (
             <table className="checkout__totals">
+                {/* eslint-disable */}
                 <thead className="checkout__totals-header">
                     <tr>
-                        <th>Product</th>
-                        <th>Total</th>
+                        <th><FormattedMessage id="total" /></th>
+                        <th><FormattedMessage id="product" /></th>
                     </tr>
                 </thead>
                 <tbody className="checkout__totals-products">
@@ -105,7 +111,7 @@ class ShopPageCheckout extends Component {
                 {this.renderTotals()}
                 <tfoot className="checkout__totals-footer">
                     <tr>
-                        <th>Total</th>
+                        <th><FormattedMessage id="total" /></th>
                         <td><Currency value={cart.total} /></td>
                     </tr>
                 </tfoot>
@@ -119,6 +125,7 @@ class ShopPageCheckout extends Component {
         const payments = this.payments.map((payment) => {
             const renderPayment = ({ setItemRef, setContentRef }) => (
                 <li className="payment-methods__item" ref={setItemRef}>
+                    {/* eslint-disable-next-line */}
                     <label className="payment-methods__item-header">
                         <span className="payment-methods__item-radio input-radio">
                             <span className="input-radio__body">
@@ -133,10 +140,14 @@ class ShopPageCheckout extends Component {
                                 <span className="input-radio__circle" />
                             </span>
                         </span>
-                        <span className="payment-methods__item-title">{payment.title}</span>
+                        <span className="payment-methods__item-title">
+                            <React.Fragment>
+                                <FormattedMessage id={payment.title} />
+                            </React.Fragment>
+                        </span>
                     </label>
                     <div className="payment-methods__item-container" ref={setContentRef}>
-                        <div className="payment-methods__item-description text-muted">{payment.description}</div>
+                        <div className="payment-methods__item-description text-muted"><FormattedMessage id={payment.description} /></div>
                     </div>
                 </li>
             );
@@ -179,7 +190,7 @@ class ShopPageCheckout extends Component {
                     <title>{`Checkout — ${theme.name}`}</title>
                 </Helmet>
 
-                <PageHeader header="Checkout" breadcrumb={breadcrumb} />
+                <PageHeader header={<FormattedMessage id={"checkout"} /> } breadcrumb={breadcrumb} />
 
                 <div className="checkout block">
                     <div className="container">
@@ -194,6 +205,7 @@ class ShopPageCheckout extends Component {
                                         <h3 className="card-title">Your Order</h3>
 
                                         {this.renderCart()}
+                                        <CouponCode />
 
                                         {this.renderPaymentsList()}
 
@@ -214,7 +226,9 @@ class ShopPageCheckout extends Component {
                                             </div>
                                         </div> */}
 
-                                        <button type="submit" className="btn btn-primary btn-xl btn-block">Place Order</button>
+                                        <button type="submit" className="btn btn-primary btn-xl btn-block">
+                                            <FormattedMessage id="placeOrder" />
+                                        </button>
                                     </div>
                                 </div>
                             </div>

@@ -24,16 +24,8 @@ import AccountPageOrders from './AccountPageOrders';
 import AccountPagePassword from './AccountPagePassword';
 import AccountPageProfile from './AccountPageProfile';
 
-// component
-import { toastError } from '../toast/toastComponent';
-
-// store
-import { LOGOUT } from '../../store/auth/auth.types';
-// api
-import { logout } from '../../api/auth';
-
 function AccountLayout(props) {
-    const { match, location, dispatch } = props;
+    const { match, location } = props;
     const intl = useIntl();
 
     const links = [
@@ -41,7 +33,6 @@ function AccountLayout(props) {
         { title: intl.formatMessage({ id: 'account.editProfile' }), url: 'profile' },
         { title: intl.formatMessage({ id: 'account.addresses' }), url: 'addresses' },
         { title: intl.formatMessage({ id: 'account.addAddress' }), url: 'addresses/add' },
-        { title: intl.formatMessage({ id: 'account.orderDetails' }), url: 'orders/5' },
         { title: intl.formatMessage({ id: 'changePassword' }), url: 'password' },
         { title: intl.formatMessage({ id: 'login.logout' }), url: 'login', isLogout: true },
     ].map((link) => {
@@ -51,36 +42,11 @@ function AccountLayout(props) {
             'account-nav__item--active': isActive,
         });
 
-        function logoutUser(e) {
-            e.preventDefault();
-            logout((success) => {
-                if (success.success) {
-                    dispatch({ type: LOGOUT });
-                } else {
-                    toastError(success);
-                }
-            }, (fail) => {
-                toastError(fail);
-                dispatch({ type: LOGOUT });
-            });
-        }
-
         return (
 
             <React.Fragment>
                 {link.isLogout ? (
-                    <li key={link.url} className={classes}>
-                        <a
-                            href="/"
-                            onClick={logoutUser}
-                        >
-                            {link.title}
-                            {' '}
-
-                        </a>
-                        {' '}
-
-                    </li>
+                    null
                 ) : (
                     <li key={link.url} className={classes}>
                         <Link to={url}>{link.title}</Link>
