@@ -1,5 +1,6 @@
 // react
 import React from 'react';
+import { useIntl } from 'react-intl';
 
 // third-party
 import PropTypes from 'prop-types';
@@ -14,6 +15,7 @@ import {
 
 export default function BlockFeatures(props) {
     const { layout } = props;
+    const { formatMessage } = useIntl();
 
     return (
         <div className={`block block-features block-features--layout--${layout}`}>
@@ -24,8 +26,8 @@ export default function BlockFeatures(props) {
                             <FiFreeDelivery48Svg />
                         </div>
                         <div className="block-features__content">
-                            <div className="block-features__title">Free Shipping</div>
-                            <div className="block-features__subtitle">For orders from $50</div>
+                            <div className="block-features__title">{formatMessage({ id: 'freeShipping' })}</div>
+                            <div className="block-features__subtitle">{formatMessage({ id: 'forOrdersFrom' })}</div>
                         </div>
                     </div>
                     <div className="block-features__divider" />
@@ -34,8 +36,8 @@ export default function BlockFeatures(props) {
                             <Fi24Hours48Svg />
                         </div>
                         <div className="block-features__content">
-                            <div className="block-features__title">Support 24/7</div>
-                            <div className="block-features__subtitle">Call us anytime</div>
+                            <div className="block-features__title">{formatMessage({ id: 'support24/7' })}</div>
+                            <div className="block-features__subtitle">{formatMessage({ id: 'callUsAnyTime' })}</div>
                         </div>
                     </div>
                     <div className="block-features__divider" />
@@ -44,8 +46,10 @@ export default function BlockFeatures(props) {
                             <FiPaymentSecurity48Svg />
                         </div>
                         <div className="block-features__content">
-                            <div className="block-features__title">100% Safety</div>
-                            <div className="block-features__subtitle">Only secure payments</div>
+                            <div className="block-features__title">
+                                {formatMessage({ id: 'safety' })}
+                            </div>
+                            <div className="block-features__subtitle">{formatMessage({ id: 'securePayment' })}</div>
                         </div>
                     </div>
                     <div className="block-features__divider" />
@@ -54,8 +58,8 @@ export default function BlockFeatures(props) {
                             <FiTag48Svg />
                         </div>
                         <div className="block-features__content">
-                            <div className="block-features__title">Hot Offers</div>
-                            <div className="block-features__subtitle">Discounts up to 90%</div>
+                            <div className="block-features__title">{formatMessage({ id: 'hotOffers' })}</div>
+                            <div className="block-features__subtitle">{formatMessage({ id: 'discountsUpTo' })}</div>
                         </div>
                     </div>
                 </div>

@@ -431,21 +431,24 @@ $cm-slider-container: 60px;
 	background-color: black;
 	color: white;
 	padding-inline:$cm-slider-container;
+	// height
+	height: 65vh;
+	min-height: 450px;
 	
 
-	height: 68vh;
+	// height: 68vh;
 	padding-block: 32px;
 	margin-bottom: 2rem;
 	position: relative;
 	@media (max-width: 768px) {
 		padding-inline:1rem;
-		min-height: 625px;
-		height: 90vh;
+		// min-height: 625px;
+		// height: 90vh;
 	}
 	@media (max-width: 420px) {
 		padding-inline:1rem;
-		min-height: 380px;
-		height: 40vh;
+		// min-height: 380px;
+		// height: 40vh;
 	}
 
 	&-desktop{
@@ -472,7 +475,7 @@ $cm-slider-container: 60px;
 
 	&__wrapper {
 		display: flex;
-		min-height: 300px;
+		// min-height: 300px;
 		overflow: hidden;
 	}
 
@@ -522,10 +525,10 @@ $cm-slider-container: 60px;
 		justify-content: end;
 		margin-top: 1rem;
 		padding-inline:$cm-slider-container;
-		position: absolute;
-		bottom: 1.25rem;
-		left: 0;
-		right: 0;
+		// position: absolute;
+		// bottom: 1.25rem;
+		// left: 0;
+		// right: 0;
 
 		.controller {
 			border: 1px solid white;

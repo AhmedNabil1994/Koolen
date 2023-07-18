@@ -95,7 +95,7 @@ export default function AccountPageOrderDetails() {
                             <tbody className="card-table__body card-table__body--merge-rows">
                                 <tr>
                                     <th>Shipping</th>
-                                    <td>$25.00</td>
+                                    <td>SAR 25.00</td>
                                 </tr>
                             </tbody>
                             <tfoot>

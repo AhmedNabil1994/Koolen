@@ -152,5 +152,14 @@
   "ordersHistory": "Orders History",
   "thereAreNoOrdersYet": "There are no orders yet",
   "defaultAddress": "Default Address",
-  "menu": "Menu"
+  "menu": "Menu",
+  "freeShipping": "Free Shipping",
+  "forOrdersFrom": "For Orders from SAR 50",
+  "support24/7": "Support 24/7",
+  "callUsAnyTime": "Call us any time",
+  "safety": "100% Safety",
+  "securePayment": "Only secure payments",
+  "hotOffers": "Hot Offers",
+  "discountsUpTo": "Discounts up to 90%"
+
 }
