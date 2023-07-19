@@ -10,7 +10,8 @@
   "topbar.myAccount": "My Account",
   "topbar.currency": "Currency",
   "topbar.language": "Language",
-  "topbat.information": "Information",
+  "topbar.information": "Information",
+  "topbar.FAQs": "FAQs",
 
   "header.phoneLabel": "Customer Service",
   "header.phone": "(800) 060-0730",
@@ -160,6 +161,7 @@
   "safety": "100% Safety",
   "securePayment": "Only secure payments",
   "hotOffers": "Hot Offers",
-  "discountsUpTo": "Discounts up to 90%"
-
+  "discountsUpTo": "Discounts up to 90%",
+  "english": "English",
+  "arabic": "العربية"
 }

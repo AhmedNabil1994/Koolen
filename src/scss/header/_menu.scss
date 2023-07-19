@@ -64,6 +64,10 @@
 .menu__icon {
     position: absolute;
     top: 3px;
+    img{
+        width:24px; 
+        height:24px; 
+    }
 
     @include direction {
         #{$inset-inline-start}: 15px;

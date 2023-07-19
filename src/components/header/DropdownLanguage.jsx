@@ -15,18 +15,18 @@ function DropdownLanguage(props) {
 
     const languages = [
         {
-            title: 'English',
-            locale: 'en',
-            code: 'EN',
-            icon: 'images/languages/language-1.png',
-            icon_srcset: 'images/languages/language-1.png 1x, images/languages/language-1@2x.png 2x',
+            title: <FormattedMessage id="arabic" />,
+            locale: 'ar',
+            code: 'Arabic',
+            icon: 'images/languages/ar.png',
+            icon_srcset: 'images/languages/ar.png',
         },
         {
-            title: 'RTL',
-            locale: 'ar',
-            code: 'RTL',
-            icon: 'images/languages/language-3.png',
-            icon_srcset: 'images/languages/language-3.png 1x, images/languages/language-3@2x.png 2x',
+            title: <FormattedMessage id="english" />,
+            locale: 'en',
+            code: 'EN',
+            icon: 'images/languages/en.png',
+            icon_srcset: 'images/languages/en.png',
         },
     ];
 

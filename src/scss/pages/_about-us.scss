@@ -9,15 +9,23 @@
 .about-us {}
 .about-us__image {
     background-size: cover;
+    background: #000 !important; 
     background-position: bottom center;
     height: 500px;
 }
+.about-us__container {
+    padding: 1rem;
+    background: #efefef;
+    padding: 75px 92px 45px;
+}
+
 .about-us__body {
-    background: $body-bg;
+    background: white !important;
     min-height: 380px;
     margin-top: -380px;
     border-radius: 4px 4px 0 0;
-    padding: 75px 92px 45px;
+    box-shadow: 0 0 4px 0 rgba(0,0,0,0.2);
+    padding: 1rem !important;
 }
 .about-us__title {
     text-align: center;
@@ -25,6 +33,8 @@
 }
 .about-us__text {
     text-align: center;
+    font-size: 1.15rem;
+    line-height: 1.5;
 }
 .about-us__team {
     margin-top: 75px;

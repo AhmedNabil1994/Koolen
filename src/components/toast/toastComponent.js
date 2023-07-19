@@ -1,12 +1,12 @@
 import { toast } from 'react-toastify';
 
-const autoClose = 5000;
+const autoClose = 2000;
 const theme = 'light';
 
 const toastData = {
     position: 'bottom-center',
     autoClose,
-    hideProgressBar: false,
+    hideProgressBar: true,
     closeOnClick: true,
     pauseOnHover: true,
     draggable: true,

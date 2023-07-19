@@ -61,7 +61,7 @@ export default function Footer() {
                             <FooterContacts data={data} />
                         </div>
                         <div className="col-6 col-md-3 col-lg-2">
-                            <FooterLinks title="topbat.information" data={data} items={informationLinks} />
+                            <FooterLinks title="topbar.information" data={data} items={informationLinks} />
                         </div>
                         <div className="col-6 col-md-3 col-lg-2">
                             <FooterLinks title="topbar.myAccount" data={data} items={accountLinks} />

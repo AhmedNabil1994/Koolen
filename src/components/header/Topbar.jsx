@@ -13,16 +13,14 @@ function Topbar() {
     const links = [
         { title: <FormattedMessage id="topbar.aboutUs" defaultMessage="About Us" />, url: '/site/about-us' },
         { title: <FormattedMessage id="topbar.contacts" defaultMessage="Contacts" />, url: '/site/contact-us' },
-        { title: <FormattedMessage id="topbar.trackOrder" defaultMessage="Track Order" />, url: '/shop/track-order' },
     ];
 
     const accountLinks = [
-        { title: 'Dashboard', url: '/account/dashboard' },
-        { title: 'Edit Profile', url: '/account/profile' },
-        { title: 'Order History', url: '/account/orders' },
-        { title: 'Addresses', url: '/account/addresses' },
-        { title: 'Password', url: '/account/password' },
-        { title: 'Logout', url: '/account/login' },
+        { title: <FormattedMessage id="account.dashboard" defaultMessage="Dashboard" />, url: '/account/dashboard' },
+        { title: <FormattedMessage id="account.editProfile" />, url: '/account/profile' },
+        { title: <FormattedMessage id="account.orderHistory" />, url: '/account/orders' },
+        { title: <FormattedMessage id="account.addresses" />, url: '/account/addresses' },
+        { title: <FormattedMessage id="login.password" />, url: '/account/password' },
     ];
 
     const linksList = links.map((item, index) => (
@@ -39,12 +37,18 @@ function Topbar() {
                 <div className="topbar__row">
                     {linksList}
                     <div className="topbar__spring" />
-                    <div className="topbar__item">
-                        <Dropdown
-                            title={<FormattedMessage id="topbar.myAccount" defaultMessage="My Account" />}
-                            items={accountLinks}
-                        />
-                    </div>
+                    {
+                        false
+                        && (
+                            <div className="topbar__item">
+                                <Dropdown
+                                    title={<FormattedMessage id="topbar.myAccount" defaultMessage="My Account" />}
+                                    items={accountLinks}
+                                />
+                            </div>
+                        )
+                    }
+
                     <div className="topbar__item">
                         <DropdownLanguage />
                     </div>

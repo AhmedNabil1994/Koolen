@@ -16,16 +16,22 @@ export default function FooterContacts({ data }) {
                 </li>
                 <li>
                     <i className="footer-contacts__icon far fa-envelope" />
-                    {data?.contact_info.contact_email}
+                    <a href={`mailto:${data?.contact_info.contact_email}`}>
+                        {data?.contact_info.contact_email}
+                    </a>
                 </li>
                 <li>
                     <i className="footer-contacts__icon fas fa-mobile-alt" />
 
-                    {data?.contact_numbers.contact_phone}
+                    <a href={`tel:${data?.contact_numbers.contact_phone}`}>
+                        {data?.contact_numbers.contact_phone}
+                    </a>
                     <span className="mx-1">
                         {' / '}
                     </span>
-                    {data?.contact_numbers.customers_service_number}
+                    <a href={`tel:${data?.contact_numbers.customers_service_number}`}>
+                        {data?.contact_numbers.customers_service_number}
+                    </a>
                 </li>
             </ul>
         </div>
