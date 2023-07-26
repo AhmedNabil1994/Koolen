@@ -12,7 +12,7 @@ import theme from '../../data/theme';
 import { toastError } from '../toast/toastComponent';
 import BlockLoader from '../blocks/BlockLoader';
 
-function SitePageFaq() {
+function SitePageFaqs() {
     const { formatMessage } = useIntl();
     const [content, setContent] = useState('');
     const [isLoading, setIsLoading] = useState(true);
@@ -20,7 +20,10 @@ function SitePageFaq() {
     useEffect(() => {
         getInfoData((success) => {
             setIsLoading(false);
-            setContent(success.data.about_us);
+
+            const { content: htmlContent } = success.data.filter((item) => item.slug === 'faqs')[1];
+
+            setContent(htmlContent);
         }, (fail) => {
             setIsLoading(false);
             toastError(fail);
@@ -32,20 +35,20 @@ function SitePageFaq() {
 
         <div className="block about-us">
             <Helmet>
-                <title>{`FAQs — ${theme.name}`}</title>
+                <title>{`About Us — ${theme.name}`}</title>
             </Helmet>
 
-            <div className="about-us__image" style={{ backgroundImage: 'url("images/aboutus.jpg")' }} />
+            {/* background: url("images/about-us1.jpg") no-repeat; */}
+            <div className="about-us__image" style={{ backgroundImage: 'url("images/about-us2.jpg")' }} />
             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-12 col-xl-10">
                         <div className="about-us__body">
                             <div className="about-us__container">
-                                <h1 className="about-us__title">{formatMessage({ id: 'topbar.FAQs' }) }</h1>
+                                <h1 className="about-us__title">{formatMessage({ id: 'footer.faqs' }) }</h1>
                                 <div className="about-us__text" dangerouslySetInnerHTML={{ __html: content }} />
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -53,4 +56,4 @@ function SitePageFaq() {
     );
 }
 
-export default SitePageFaq;
+export default SitePageFaqs;

@@ -29,7 +29,6 @@ import ShopPageOrderSuccess from './shop/ShopPageOrderSuccess';
 import ShopPageProduct from './shop/ShopPageProduct';
 import ShopPageTrackOrder from './shop/ShopPageTrackOrder';
 import SitePageAboutUs from './site/SitePageAboutUs';
-import SitePageComponents from './site/SitePageComponents';
 import SitePageContactUs from './site/SitePageContactUs';
 import SitePageContactUsAlt from './site/SitePageContactUsAlt';
 import SitePageFaq from './site/SitePageFaq';
@@ -37,6 +36,7 @@ import SitePageNotFound from './site/SitePageNotFound';
 import SitePageTerms from './site/SitePageTerms';
 import SitePageTypography from './site/SitePageTypography';
 import CategoriesPage from './categories/Categories';
+import AirConditions from './site/SitePageAirConditions';
 
 // data stubs
 import theme from '../data/theme';
@@ -45,6 +45,9 @@ import theme from '../data/theme';
 import { getToken } from '../api/network';
 import ForgetPassword from './account/ForgetPassword';
 import ChangePassword from './account/ChangePassword';
+import SitePageShipmentPolicy from './site/SitePageShipmentPolicy';
+import SitePageRefundPolicy from './site/SitePageRefundPolicy';
+import SitePagePrivacyPolicy from './site/SitePagePrivacyPolicy';
 
 const categoryLayouts = [
     ['/shop/category-grid-3-columns-sidebar', { columns: 3, viewMode: 'grid', sidebarPosition: 'start' }],
@@ -157,7 +160,14 @@ function Layout(props) {
                         {productLayouts}
 
                         <Route exact path="/shop/cart" component={PageCart} />
-                        <Route exact path="/shop/checkout" component={PageCheckout} />
+                        <Route
+                            exact
+                            path="/shop/checkout"
+                            render={() => {
+                                if (auth?.token) return <PageCheckout />;
+                                return <Redirect to="/account/login" />;
+                            }}
+                        />
                         <Route exact path="/shop/checkout/success" component={ShopPageOrderSuccess} />
                         <Route exact path="/shop/wishlist" component={PageWishlist} />
                         <Route exact path="/shop/compare" component={PageCompare} />
@@ -214,8 +224,25 @@ function Layout(props) {
                         // Account
 
                         */}
-                        <Route path="/account/forget-password" component={ForgetPassword} />
-                        <Route path="/account/change-password" component={ChangePassword} />
+                        <Route
+                            path="/account/forget-password"
+                            render={
+                                () => {
+                                    if (auth.token) return <ForgetPassword />;
+                                    return <Redirect to="/account/login" />;
+                                }
+
+                            }
+                        />
+                        <Route
+                            path="/account/change-password"
+                            render={
+                                () => {
+                                    if (auth.token) return <ChangePassword />;
+                                    return <Redirect to="/account/login" />;
+                                }
+                            }
+                        />
                         <Route
                             exact
                             path="/account/login"
@@ -231,7 +258,9 @@ function Layout(props) {
                         */}
                         <Redirect exact from="/site" to="/site/about-us" />
                         <Route exact path="/site/about-us" component={SitePageAboutUs} />
-                        <Route exact path="/site/components" component={SitePageComponents} />
+                        <Route exact path="/site/shipment-policy" component={SitePageShipmentPolicy} />
+                        <Route exact path="/site/refund-policy" component={SitePageRefundPolicy} />
+                        <Route exact path="/site/privacy-policy" component={SitePagePrivacyPolicy} />
                         <Route exact path="/site/contact-us" component={SitePageContactUs} />
                         <Route exact path="/site/contact-us-alt" component={SitePageContactUsAlt} />
                         <Route exact path="/site/not-found" component={SitePageNotFound} />
@@ -239,6 +268,7 @@ function Layout(props) {
                         <Route exact path="/site/terms" component={SitePageTerms} />
                         <Route exact path="/site/typography" component={SitePageTypography} />
                         <Route exact path="/categories" component={CategoriesPage} />
+                        <Route exact path="/slipt-air-conditions" component={AirConditions} />
 
                         {/*
                         // Page Not Found

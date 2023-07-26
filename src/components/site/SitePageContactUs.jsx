@@ -1,5 +1,5 @@
 // react
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 
 // third-party
@@ -13,10 +13,38 @@ import BlockMap from '../blocks/BlockMap';
 
 // data stubs
 import theme from '../../data/theme';
+import getFooterData from '../../api/footer';
+import { toastError } from '../toast/toastComponent';
+import BlockLoader from '../blocks/BlockLoader';
 
 function SitePageContactUs() {
+    const [isLoading, setIsLoading] = useState(true);
+    const [data, setData] = useState(null);
+    // const [iframe, setIframe] = useState(null);
     const { formatMessage } = useIntl();
 
+    function fetchFooterData() {
+        getFooterData((success) => {
+            const { contact_info: { contact_address, contact_email }, contact_numbers: { contact_phone, customers_service_number }, social_link } = success;
+            setData({
+                address: contact_address,
+                email: contact_email,
+                phone: [contact_phone, customers_service_number],
+                social_link,
+            });
+
+            setIsLoading(false);
+        }, (fail) => {
+            setIsLoading(false);
+            toastError(fail);
+        });
+    }
+    useEffect(() => {
+        fetchFooterData();
+    }, []);
+    console.log(data?.social_link);
+
+    if (isLoading) return <BlockLoader />;
     return (
         <React.Fragment>
             <Helmet>
@@ -38,66 +66,106 @@ function SitePageContactUs() {
 
                                         <div className="contact-us__address">
                                             <p>
-                                                715 Fake Ave, Apt. 34, New York, NY 10021 USA
+                                                {data.email}
                                                 <br />
-                                                Email: stroyka@example.com
+                                                {formatMessage({ id: 'login.email' })}
+                                                :
+                                                {' '}
+                                                {data.email}
                                                 <br />
-                                                Phone Number: +1 754 000-00-00
+                                                {formatMessage({ id: 'login.phone' })}
+                                                :
+                                                {' '}
+                                                {data.phone[0]}
+                                                {' / '}
+                                                {' '}
+                                                {data.phone[1]}
                                             </p>
 
-                                            <p>
-                                                <strong>Opening Hours</strong>
-                                                <br />
-                                                Monday to Friday: 8am-8pm
-                                                <br />
-                                                Saturday: 8am-6pm
-                                                <br />
-                                                Sunday: 10am-4pm
-                                            </p>
-
-                                            <p>
-
-                                                <strong>Comment</strong>
-                                                <br />
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                elit. Curabitur suscipit suscipit mi, non tempor
-                                                nulla finibus eget. Lorem ipsum dolor sit amet,
-                                                consectetur adipiscing elit.
-                                            </p>
                                         </div>
                                     </div>
-
-                                    {/* <div className="col-12 col-lg-6">
-                                        <h4 className="contact-us__header card-title">{formatMessage({ id: 'leaveUsMessage' })}</h4>
-
-                                        <form>
-                                            <div className="form-row">
-                                                <div className="form-group col-md-6">
-                                                    <label htmlFor="form-name">{formatMessage({ id: 'login.fullName' })}</label>
-                                                    <input type="text" id="form-name" className="form-control" placeholder="Your Name" />
-                                                </div>
-                                                <div className="form-group col-md-6">
-                                                    <label htmlFor="form-email">Email</label>
-                                                    <input
-                                                        type="email"
-                                                        id="form-email"
-                                                        className="form-control"
-                                                        placeholder="Email Address"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="form-subject">Subject</label>
-                                                <input type="text" id="form-subject" className="form-control" placeholder="Subject" />
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="form-message">Message</label>
-                                                <textarea id="form-message" className="form-control" rows="4" />
-                                            </div>
-                                            <button type="submit" className="btn btn-primary">Send Message</button>
-                                        </form>
-
-                                    </div> */}
+                                </div>
+                                <h4 className="contact-us__header card-title mt-3">
+                                    {formatMessage({ id: 'footer.followUs' })}
+                                </h4>
+                                <div className="social-links  social-links--shape--circle">
+                                    <ul className="social-links__list">
+                                        {
+                                        data?.social_link['facebook-f']
+                                        && (
+                                            <li className="social-links__item">
+                                                <a
+                                                    className="social-links__link social-links_link--type--facebook"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    href={data.social_link['facebook-f']}
+                                                >
+                                                    <i className="fab fa-facebook" />
+                                                </a>
+                                            </li>
+                                        )
+                                        }
+                                        {
+                                        data?.social_link?.instagram
+                                        && (
+                                            <li className="social-links__item">
+                                                <a
+                                                    className="social-links__link social-links_link--type--facebook"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    href={data.social_link.instagram}
+                                                >
+                                                    <i className="fab fa-instagram" />
+                                                </a>
+                                            </li>
+                                        )
+                                        }
+                                        {
+                                        data?.social_link?.twitter
+                                        && (
+                                            <li className="social-links__item">
+                                                <a
+                                                    className="social-links__link social-links_link--type--twitter"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    href={data.social_link.twitter}
+                                                >
+                                                    <i className="fab fa-twitter" />
+                                                </a>
+                                            </li>
+                                        )
+                                        }
+                                        {
+                                        data?.social_link?.snapchat
+                                        && (
+                                            <li className="social-links__item">
+                                                <a
+                                                    className="social-links__link social-links_link--type--twitter"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    href={data.social_link.snapchat}
+                                                >
+                                                    <i className="fab fa-snapchat-ghost" />
+                                                </a>
+                                            </li>
+                                        )
+                                        }
+                                        {
+                                        data?.social_link?.tiktok
+                                        && (
+                                            <li className="social-links__item">
+                                                <a
+                                                    className="social-links__link social-links_link--type--twitter"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    href={data.social_link.tiktok}
+                                                >
+                                                    <i className="fab fa-tiktok" />
+                                                </a>
+                                            </li>
+                                        )
+                                        }
+                                    </ul>
                                 </div>
                             </div>
                         </div>

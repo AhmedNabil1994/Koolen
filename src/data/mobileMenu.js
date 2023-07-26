@@ -24,4 +24,9 @@ export default [
         label: 'aboutUs',
         url: '/site/about-us',
     },
+    {
+        type: 'link',
+        label: 'sleepItAirConditions',
+        url: '/slipt-air-conditions',
+    },
 ];

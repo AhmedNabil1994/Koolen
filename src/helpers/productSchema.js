@@ -15,13 +15,13 @@ export function singleProductSchema(product) {
         photos,
         stock,
         rating,
+        review_summary: { average },
         brand,
         tags,
         variation_options,
         description,
         variations,
     } = product;
-    console.log('singleProductSchema', product);
 
     let thumbnails;
     if (Array.isArray(thumbnail_image)) {
@@ -39,7 +39,7 @@ export function singleProductSchema(product) {
         rating: rating || 0,
         stock,
         availability: stock ? 'in-stock' : 'out of stock',
-        reviews: 0,
+        reviews: average,
         brand,
         badges: [],
         categories: [],
@@ -72,6 +72,7 @@ export default function productSchema(products) {
     products.forEach((product) => {
         const {
             id, name, slug, base_discounted_price, base_price, thumbnail_image, stock, rating,
+            review_summary: { average },
         } = product;
         const payload = {
             id,
@@ -82,7 +83,7 @@ export default function productSchema(products) {
             rating,
             stock,
             availability: stock > 0 ? 'in-stock' : 'out-of-stock',
-            reviews: 0,
+            reviews: average,
             brand: null,
             badges: [],
             categories: [],

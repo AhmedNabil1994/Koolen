@@ -29,7 +29,12 @@ function NavLinks(props) {
         }, {
             title: 'topbar.categories',
             url: '/categories',
-        }];
+        },
+        {
+            title: 'sleepItAirConditions',
+            url: '/slipt-air-conditions',
+        },
+    ];
 
     const handleMouseEnter = (event) => {
         const { locale } = props;

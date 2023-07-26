@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 // third-party
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 //  Link,
 
 // application
@@ -21,6 +21,7 @@ import ChooseAddress from '../blocks/ChooseAddress';
 import { getAddresses } from '../../api/addresses';
 import { toastError } from '../toast/toastComponent';
 import CouponCode from './CouponCode';
+import { getShippingCost } from '../../api/shippingAndPayment';
 
 class ShopPageCheckout extends Component {
     payments = payments;
@@ -32,6 +33,8 @@ class ShopPageCheckout extends Component {
             payment: 'bank',
             selectedAddress: null,
             isLoading: true,
+            shippingCost: 0,
+            isShippingCostDone: false,
         };
     }
 
@@ -50,6 +53,19 @@ class ShopPageCheckout extends Component {
         });
     }
 
+    componentDidUpdate() {
+        if (this.state?.selectedAddress && !this.state?.isShippingCostDone) {
+            getShippingCost(this.state?.selectedAddress?.id,
+                (success) => {
+                    if (success?.success) {
+                        this.setState({ shippingCost: success.standard_delivery_cost, isShippingCostDone: true });
+                    }
+                }, (fail) => {
+                    toastError(fail);
+                });
+        }
+    }
+
     handlePaymentChange = (event) => {
         if (event.target.checked) {
             this.setState({ payment: event.target.value });
@@ -63,13 +79,6 @@ class ShopPageCheckout extends Component {
             return null;
         }
 
-        const extraLines = cart.extraLines.map((extraLine, index) => (
-            <tr key={index}>
-                <th>{extraLine.title}</th>
-                <td><Currency value={extraLine.price} /></td>
-            </tr>
-        ));
-
         return (
             <React.Fragment>
                 <tbody className="checkout__totals-subtotals">
@@ -80,7 +89,14 @@ class ShopPageCheckout extends Component {
                         </th>
                         <td><Currency value={cart.subtotal} /></td>
                     </tr>
-                    {extraLines}
+            <tr >
+                <th>Shipping</th>
+
+                {this.state.isShippingCostDone? 
+                <td><Currency value={this.state.shippingCost} /></td>
+                :<td></td> 
+                }
+            </tr>
                 </tbody>
             </React.Fragment>
         );
@@ -112,7 +128,11 @@ class ShopPageCheckout extends Component {
                 <tfoot className="checkout__totals-footer">
                     <tr>
                         <th><FormattedMessage id="total" /></th>
-                        <td><Currency value={cart.total} /></td>
+                        {
+                            this.state.isShippingCostDone ? 
+                            <td><Currency value={0 ? (cart.total + this.state.shippingCost) :0+ cart.total} /></td>
+                            : <td></td>
+                        }
                     </tr>
                 </tfoot>
             </table>
@@ -174,6 +194,8 @@ class ShopPageCheckout extends Component {
     render() {
         const { cart } = this.props;
 
+        console.log("selected address", this.state.selectedAddress)
+
         if (cart.items.length < 1) {
             return <Redirect to="cart" />;
         }
@@ -196,35 +218,32 @@ class ShopPageCheckout extends Component {
                     <div className="container">
                         <div className="row">
                             <div className="col-12 col-lg-6 col-xl-7">
+                                {
+                                    !this.state?.isLoading && !this.state?.selectedAddress ?  
+                                    <div className="alert alert-danger" style={{lineHeight: 1.75}}>
+                                        {/* You Don't have address information available        */}
+                                        <FormattedMessage id="youDon'tHaveAddress" />
+                                        <br />
+                                        <FormattedMessage id="pleaseMakeYourAddressAvailable" />
+                                        
+                                        <Link style={{marginInlineStart: "0.5rem"}} to="/account/addresses/add">
+                                            <FormattedMessage id="AddYourAddress"/>
+                                        </Link>
+                                    </div>: 
                                 <ChooseAddress isLoading={this.state?.isLoading} address={this.state?.selectedAddress} />
+                                }
                             </div>
 
                             <div className="col-12 col-lg-6 col-xl-5 mt-4 mt-lg-0">
                                 <div className="card mb-0">
                                     <div className="card-body">
-                                        <h3 className="card-title">Your Order</h3>
+                                        <h3 className="card-title"><FormattedMessage id="yourOrder"/></h3>
 
                                         {this.renderCart()}
+
                                         <CouponCode />
 
                                         {this.renderPaymentsList()}
-
-                                        {/* <div className="checkout__agree form-group">
-                                            <div className="form-check">
-                                                <span className="form-check-input input-check">
-                                                    <span className="input-check__body">
-                                                        <input className="input-check__input" type="checkbox" id="checkout-terms" />
-                                                        <span className="input-check__box" />
-                                                        <Check9x7Svg className="input-check__icon" />
-                                                    </span>
-                                                </span>
-                                                <label className="form-check-label" htmlFor="checkout-terms">
-                                                    I have read and agree to the website
-                                                    <Link to="site/terms">terms and conditions</Link>
-                                                    *
-                                                </label>
-                                            </div>
-                                        </div> */}
 
                                         <button type="submit" className="btn btn-primary btn-xl btn-block">
                                             <FormattedMessage id="placeOrder" />

@@ -12,7 +12,7 @@ import DropdownLanguage from './DropdownLanguage';
 function Topbar() {
     const links = [
         { title: <FormattedMessage id="topbar.aboutUs" defaultMessage="About Us" />, url: '/site/about-us' },
-        { title: <FormattedMessage id="topbar.contacts" defaultMessage="Contacts" />, url: '/site/contact-us' },
+        { title: <FormattedMessage id="footer.contactus" defaultMessage="Contacts" />, url: '/site/contact-us' },
     ];
 
     const accountLinks = [

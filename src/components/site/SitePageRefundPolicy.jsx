@@ -22,7 +22,7 @@ function SitePageAboutUs() {
             setIsLoading(false);
 
             if (success.data) {
-                const htmlContent = success.data.filter((item) => item.slug === 'about-us')[0].content;
+                const htmlContent = success.data.filter((item) => item.slug === 'return-policy')[0].content;
                 setContent(htmlContent);
             }
         }, (fail) => {
@@ -46,7 +46,7 @@ function SitePageAboutUs() {
                     <div className="col-12 col-xl-10">
                         <div className="about-us__body">
                             <div className="about-us__container">
-                                <h1 className="about-us__title">{formatMessage({ id: 'topbar.aboutUs' }) }</h1>
+                                <h1 className="about-us__title">{formatMessage({ id: 'footer.refundPolicy' }) }</h1>
                                 <div className="about-us__text" dangerouslySetInnerHTML={{ __html: content }} />
                             </div>
                         </div>

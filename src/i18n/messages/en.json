@@ -73,7 +73,7 @@
   "footer.aboutus": "About Us",
   "footer.contactus": "Contact Us",
   "footer.terms-conditions": "Terms And Conditions",
-  "footer.shipment-policy": "Shipment Policy,",
+  "footer.shipment-policy": "Shipment Policy",
   "footer.refundPolicy": "Refund Policy",
   "footer.privacyPolicy": "Privacy Policy",
   "footer.faqs": "FAQs",
@@ -163,5 +163,9 @@
   "hotOffers": "Hot Offers",
   "discountsUpTo": "Discounts up to 90%",
   "english": "English",
-  "arabic": "العربية"
+  "arabic": "العربية",
+  "youDon'tHaveAddress": "You Don't have address information available",
+  "pleaseMakeYourAddressAvailable": "Please, Make your Address Available", 
+  "AddYourAddress": "Add your address",
+  "sleepItAirConditions": "Sleepit Air Conditions"
 }

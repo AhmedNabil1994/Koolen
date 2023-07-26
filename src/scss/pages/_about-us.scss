@@ -9,7 +9,6 @@
 .about-us {}
 .about-us__image {
     background-size: cover;
-    background: #000 !important; 
     background-position: bottom center;
     height: 500px;
 }
@@ -17,6 +16,7 @@
     padding: 1rem;
     background: #efefef;
     padding: 75px 92px 45px;
+    min-height: 450px;
 }
 
 .about-us__body {

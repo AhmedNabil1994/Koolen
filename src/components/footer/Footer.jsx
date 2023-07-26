@@ -1,22 +1,19 @@
 // react
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 
 // application
-import FooterContacts from './FooterContacts';
-import FooterLinks from './FooterLinks';
-import FooterNewsletter from './FooterNewsletter';
-import ToTop from './ToTop';
-
-// data stubs
+import FooterContacts from './FooterContacts'; import FooterLinks from './FooterLinks'; import FooterNewsletter from './FooterNewsletter'; import ToTop from './ToTop'; // data stubs
 // import theme from '../../data/theme';
 import getFooterData from '../../api/footer';
 import { toastError } from '../toast/toastComponent';
 import BlockLoader from '../blocks/BlockLoader';
 import { LogoSmallSvg } from '../../svg';
 
-export default function Footer() {
+function Footer(props) {
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState(null);
+    console.log();
 
     useEffect(() => {
         getFooterData((success) => {
@@ -38,9 +35,9 @@ export default function Footer() {
         { title: 'footer.aboutus', url: '/site/about-us' },
         { title: 'footer.contactus', url: '/site/contact-us' },
         { title: 'footer.terms-conditions', url: '/site/terms' },
-        { title: 'footer.shipment-policy', url: '/site/terms' },
-        { title: 'footer.refundPolicy', url: '/site/terms' },
-        { title: 'footer.privacyPolicy', url: '/site/terms' },
+        { title: 'footer.shipment-policy', url: '/site/shipment-policy' },
+        { title: 'footer.refundPolicy', url: '/site/refund-policy' },
+        { title: 'footer.privacyPolicy', url: '/site/privacy-policy' },
         { title: 'footer.faqs', url: '/site/faq' },
     ];
 
@@ -64,7 +61,11 @@ export default function Footer() {
                             <FooterLinks title="topbar.information" data={data} items={informationLinks} />
                         </div>
                         <div className="col-6 col-md-3 col-lg-2">
-                            <FooterLinks title="topbar.myAccount" data={data} items={accountLinks} />
+                            {
+                            props?.auth.token
+                                ? <FooterLinks title="topbar.myAccount" data={data} items={accountLinks} />
+                                : null
+                            }
                         </div>
                         <div className="col-12 col-md-12 col-lg-4">
                             <FooterNewsletter data={data} />
@@ -86,3 +87,8 @@ export default function Footer() {
         </div>
     );
 }
+const mapStateToProps = (state) => ({
+    auth: state.auth,
+});
+
+export default connect(mapStateToProps)(Footer);
