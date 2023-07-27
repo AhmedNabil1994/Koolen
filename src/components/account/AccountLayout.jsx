@@ -35,7 +35,7 @@ function AccountLayout(props) {
         { title: intl.formatMessage({ id: 'account.addAddress' }), url: 'addresses/add' },
         { title: intl.formatMessage({ id: 'changePassword' }), url: 'password' },
         { title: intl.formatMessage({ id: 'login.logout' }), url: 'login', isLogout: true },
-    ].map((link) => {
+    ].map((link, index) => {
         const url = `${match.url}/${link.url}`;
         const isActive = matchPath(location.pathname, { path: url, exact: true });
         const classes = classNames('account-nav__item', {
@@ -44,11 +44,11 @@ function AccountLayout(props) {
 
         return (
 
-            <React.Fragment>
+            <React.Fragment key={index}>
                 {link.isLogout ? (
                     null
                 ) : (
-                    <li key={link.url} className={classes}>
+                    <li className={classes}>
                         <Link to={url}>{link.title}</Link>
                     </li>
                 ) }

@@ -149,45 +149,25 @@ class ShopPageCart extends Component {
             return null;
         }
 
-        const extraLines = cart.extraLines.map((extraLine, index) => {
-            let calcShippingLink;
-
-            // if (extraLine.type === 'shipping') {
-            //     calcShippingLink = (
-            //         <div className="cart__calc-shipping">
-            //             <Link to="/">Calculate Shipping</Link>
-            //         </div>
-            //     );
-            // }
-
-            return (
-                <tr key={index}>
-                    <th>{extraLine.title}</th>
-                    <td>
-                        <Currency value={extraLine.price} />
-                        {calcShippingLink}
-                    </td>
-                </tr>
-            );
-        });
-
         return (
             <React.Fragment>
                 <thead className="cart__totals-header">
                     <tr>
-                        <th>Subtotal</th>
+                        <th>
+                            <FormattedMessage id="subtotal" />
+                        </th>
                         <td>
                             <Currency value={cart.subtotal} />
                         </td>
                     </tr>
                 </thead>
-                <tbody className="cart__totals-body">{extraLines}</tbody>
+                {/* <tbody className="cart__totals-body">{extraLines}</tbody> */}
             </React.Fragment>
         );
     }
 
     renderCart() {
-        const { cart, cartUpdateQuantities } = this.props;
+        const { cartUpdateQuantities } = this.props;
         const { quantities } = this.state;
 
         const updateCartButton = (
@@ -200,7 +180,7 @@ class ShopPageCart extends Component {
 
                     return (
                         <button type="button" onClick={run} className={classes} disabled={!this.cartNeedUpdate()}>
-                            Update Cart
+                            <FormattedMessage id="updateCart" />
                         </button>
                     );
                 }}
@@ -213,34 +193,41 @@ class ShopPageCart extends Component {
                     <table className="cart__table cart-table">
                         <thead className="cart-table__head">
                             <tr className="cart-table__row">
-                                <th className="cart-table__column cart-table__column--image">Image</th>
-                                <th className="cart-table__column cart-table__column--product">Product</th>
-                                <th className="cart-table__column cart-table__column--price">Price</th>
-                                <th className="cart-table__column cart-table__column--quantity">Quantity</th>
-                                <th className="cart-table__column cart-table__column--total">Total</th>
+                                <th className="cart-table__column cart-table__column--image">
+                                    <React.Fragment>
+                                        <FormattedMessage id="image" />
+                                    </React.Fragment>
+                                </th>
+                                <th className="cart-table__column cart-table__column--product">
+                                    <React.Fragment>
+                                        <FormattedMessage id="product" />
+                                    </React.Fragment>
+                                </th>
+                                <th className="cart-table__column cart-table__column--price">
+                                    <React.Fragment>
+                                        <FormattedMessage id="price" />
+                                    </React.Fragment>
+                                </th>
+                                <th className="cart-table__column cart-table__column--quantity">
+                                    <React.Fragment>
+                                        <FormattedMessage id="quantity" />
+                                    </React.Fragment>
+                                </th>
+                                <th className="cart-table__column cart-table__column--total">
+                                    <React.Fragment>
+                                        <FormattedMessage id="total" />
+                                    </React.Fragment>
+                                </th>
                                 <th className="cart-table__column cart-table__column--remove" aria-label="Remove" />
                             </tr>
                         </thead>
                         <tbody className="cart-table__body">{this.renderItems()}</tbody>
                     </table>
                     <div className="cart__actions">
-                        <form className="cart__coupon-form">
-                            <label htmlFor="input-coupon-code" className="sr-only">
-                                Password
-                            </label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="input-coupon-code"
-                                placeholder="Coupon Code"
-                            />
-                            <button type="submit" className="btn btn-primary">
-                                Apply Coupon
-                            </button>
-                        </form>
+                        <div />
                         <div className="cart__buttons">
                             <Link to="/" className="btn btn-light">
-                                Continue Shopping
+                                <FormattedMessage id="continueShopping" />
                             </Link>
                             {updateCartButton}
                         </div>
@@ -250,23 +237,15 @@ class ShopPageCart extends Component {
                         <div className="col-12 col-md-7 col-lg-6 col-xl-5">
                             <div className="card">
                                 <div className="card-body">
-                                    <h3 className="card-title">Cart Totals</h3>
+                                    <h3 className="card-title"><FormattedMessage id="cartTotals" /></h3>
                                     <table className="cart__totals">
                                         {this.renderTotals()}
-                                        <tfoot className="cart__totals-footer">
-                                            <tr>
-                                                <th>Total</th>
-                                                <td>
-                                                    <Currency value={cart.total} />
-                                                </td>
-                                            </tr>
-                                        </tfoot>
                                     </table>
                                     <Link
                                         to="/shop/checkout"
                                         className="btn btn-primary btn-xl btn-block cart__checkout-button"
                                     >
-                                        Proceed to checkout
+                                        <FormattedMessage id="proceedToCheckout" />
                                     </Link>
                                 </div>
                             </div>

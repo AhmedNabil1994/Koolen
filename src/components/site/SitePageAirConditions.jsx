@@ -49,7 +49,6 @@ const SitePageAirConditions = () => {
             toastError(fail);
         });
     }, []);
-    console.log(airConditionsData, columns, MaterialReactTable);
 
     if (isLoading) return <BlockLoader />;
     return (

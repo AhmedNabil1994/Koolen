@@ -334,8 +334,6 @@ function ShopPageCategory(props) {
         />
     );
 
-    // console.log('filters list: ', state.productsList.filters);
-
     const sidebarComponent = (
         <CategorySidebar offcanvas={offcanvas}>
             <CategorySidebarItem>

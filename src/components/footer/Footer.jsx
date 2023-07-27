@@ -7,29 +7,22 @@ import FooterContacts from './FooterContacts'; import FooterLinks from './Footer
 // import theme from '../../data/theme';
 import getFooterData from '../../api/footer';
 import { toastError } from '../toast/toastComponent';
-import BlockLoader from '../blocks/BlockLoader';
 import { LogoSmallSvg } from '../../svg';
 
 function Footer(props) {
-    const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState(null);
-    console.log();
 
     useEffect(() => {
         getFooterData((success) => {
             if (success) {
-                setIsLoading(false);
                 setData(success);
             } else {
                 toastError(success);
             }
         }, (fail) => {
-            setIsLoading(false);
             toastError(fail);
         });
     }, []);
-
-    // console.log('footerData: ', data);
 
     const informationLinks = [
         { title: 'footer.aboutus', url: '/site/about-us' },
@@ -48,7 +41,6 @@ function Footer(props) {
         { title: 'account.addresses', url: '/account/addresses' },
     ];
 
-    if (isLoading) return <BlockLoader />;
     return (
         <div className="site-footer">
             <div className="container">

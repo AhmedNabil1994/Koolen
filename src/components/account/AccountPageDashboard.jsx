@@ -83,7 +83,7 @@ function AccountPageDashboard({ auth }) {
                         <div className="profile-card__name">{name}</div>
                         <div className="profile-card__email">{email}</div>
                         <div className="profile-card__edit">
-                            <Link to="/account/profile" className="btn btn-secondary btn-sm">Edit Profile</Link>
+                            <Link to="/account/profile" className="btn btn-secondary btn-sm">{formatMessage({ id: 'editProfile' })}</Link>
                         </div>
                     </div>
                 </div>

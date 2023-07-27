@@ -60,8 +60,6 @@ class Product extends Component {
      } else {
          prices = <Currency value={product.price} />;
      }
-     console.log('hi there howa r eyuou');
-     console.log('product details:', product);
 
      return (
          <div className={`product product--layout--${layout} mt-3`}>

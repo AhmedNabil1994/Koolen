@@ -32,7 +32,9 @@
   "account.editProfile": "Edit Profile",
   "account.orderHistory": "Order History",
   "account.addAddress": "Add Address",
+  "account.editAddress": "Edit Address",
   "account.addresses": "Addresses",
+  "account.address": "Address",
   "account.orderDetails": "Order Details",
   "footer.subscribe": "Subscribe",
   "footer.followUs": "Follow us on social networks",
@@ -62,6 +64,7 @@
   "phone": "Phone ",
   "state": "State",
   "default": "DEFAULT ADDRESS",
+  "streetAddress": "Street Address",
 
   "filter.price": "Price",
   "filter.categories": "Categories",
@@ -167,5 +170,15 @@
   "youDon'tHaveAddress": "You Don't have address information available",
   "pleaseMakeYourAddressAvailable": "Please, Make your Address Available", 
   "AddYourAddress": "Add your address",
-  "sleepItAirConditions": "Sleepit Air Conditions"
+  "sleepItAirConditions": "Sleepit Air Conditions",
+  "bestCoffeBestDay": "Best Coffee, Best Day.",
+  "enjoyYourFreeFatMeal": "Enjoy Your Fat Free Meals.",
+  "pureWaterForPureLife": "Pure Water For A Pure Life.",
+  "quantity": "Quantity",
+  "continueShopping": "Continue Shopping",
+  "writeYourComment": "Write your comment",
+  "updateCart":"Update Cart",
+  "cartTotals":"Cart Totals",
+  "proceedToCheckout":"Procced to checkout", 
+  "backTolist": "Back to list"
 }

@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
 // data stubs
+import { FormattedMessage, useIntl } from 'react-intl';
 import theme from '../../data/theme';
 
 // apis
@@ -30,6 +31,7 @@ export default function AccountPageEditAddress(props) {
     const [postalCode, setPostalCode] = useState('');
     const [phone, setPhone] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const { formatMessage } = useIntl();
     const history = useHistory();
 
     // routes
@@ -145,8 +147,16 @@ export default function AccountPageEditAddress(props) {
             <div className="card-header">
                 {
                     addressId === 'add'
-                        ? <h5>Add Address</h5>
-                        : <h5>Edit Address</h5>
+                        ? (
+                            <h5>
+                                <FormattedMessage id="account.addAddress" />
+                            </h5>
+                        )
+                        : (
+                            <h5>
+                                <FormattedMessage id="account.editAddress" />
+                            </h5>
+                        )
                 }
             </div>
             <div className="card-divider" />
@@ -154,12 +164,14 @@ export default function AccountPageEditAddress(props) {
                 <div className="row no-gutters">
                     <div className="col-12 col-lg-10 col-xl-8">
                         <div className="form-group">
-                            <label htmlFor="checkout-street-address">Address</label>
+                            <label htmlFor="checkout-street-address">
+                                <FormattedMessage id="account.address" />
+                            </label>
                             <input
                                 type="text"
                                 className="form-control"
                                 id="checkout-street-address"
-                                placeholder="Street Address"
+                                placeholder={formatMessage({ id: 'streetAddress' })}
                                 name="address"
                                 value={address}
                                 onChange={(e) => setAddress(e.target.value)}
@@ -167,7 +179,9 @@ export default function AccountPageEditAddress(props) {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="checkout-country">Country</label>
+                            <label htmlFor="checkout-country">
+                                <FormattedMessage id="country" />
+                            </label>
                             <select
                                 autoComplete="off"
                                 id="checkout-country"
@@ -185,7 +199,9 @@ export default function AccountPageEditAddress(props) {
                             </select>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="checkout-state">State</label>
+                            <label htmlFor="checkout-state">
+                                <FormattedMessage id="state" />
+                            </label>
                             <select
                                 autoComplete="off"
                                 id="checkout-country"
@@ -203,7 +219,9 @@ export default function AccountPageEditAddress(props) {
                             </select>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="checkout-city">Town / City</label>
+                            <label htmlFor="checkout-city">
+                                <FormattedMessage id="townCity" />
+                            </label>
                             <select
                                 autoComplete="off"
                                 id="checkout-country"
@@ -221,13 +239,15 @@ export default function AccountPageEditAddress(props) {
                             </select>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="checkout-postcode">Postcode / ZIP</label>
+                            <label htmlFor="checkout-postcode">
+                                <FormattedMessage id="postCodeZip" />
+                            </label>
                             <input
                                 type="text"
                                 className="form-control"
                                 id="checkout-postcode"
                                 name="postalCode"
-                                placeholder="Postcode / ZIP"
+                                placeholder={formatMessage({ id: 'postCodeZip' })}
                                 value={postalCode}
                                 onChange={(e) => setPostalCode(e.target.value)}
                                 autoComplete="off"
@@ -235,12 +255,14 @@ export default function AccountPageEditAddress(props) {
                         </div>
 
                         <div className="form-group ">
-                            <label htmlFor="checkout-phone">Phone</label>
+                            <label htmlFor="checkout-phone">
+                                <FormattedMessage id="phone" />
+                            </label>
                             <input
                                 type="text"
                                 className="form-control"
                                 id="checkout-phone"
-                                placeholder="Phone"
+                                placeholder={formatMessage({ id: 'phone' })}
                                 name="phone"
                                 value={phone}
                                 onChange={(e) => setPhone(e.target.value)}
@@ -249,7 +271,9 @@ export default function AccountPageEditAddress(props) {
                         </div>
 
                         <div className="form-group mt-3 mb-0">
-                            <button onClick={submitNewAddress} className="btn btn-primary" type="button">Save</button>
+                            <button onClick={submitNewAddress} className="btn btn-primary" type="button">
+                                <FormattedMessage id="save" />
+                            </button>
                         </div>
                     </div>
                 </div>

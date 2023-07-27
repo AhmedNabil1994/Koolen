@@ -35,12 +35,11 @@ class IndicatorSearch extends Component {
         );
 
         const searchDropdown = (
-            <Search context="indicator" inputRef={this.input} onClose={this.handleClose} />
+            <Search context="indicator" onClose={this.handleClose} />
         );
 
         return (
             <Indicator
-                ref={this.indicator}
                 dropdown={searchDropdown}
                 icon={searchIcon}
                 onOpen={this.handleOpen}

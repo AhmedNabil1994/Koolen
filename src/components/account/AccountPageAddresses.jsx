@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 
 // data stubs
 // import dataAddresses from '../../data/accountAddresses';
+import { FormattedMessage } from 'react-intl';
 import theme from '../../data/theme';
 import { getAddresses, deleteAddress } from '../../api/addresses';
 import { toastError, toastSuccess } from '../toast/toastComponent';
@@ -53,39 +54,53 @@ export default function AccountPageAddresses({ showOnly }) {
     const addressesShow = addresses.map((address, i) => (
         <React.Fragment key={address.id}>
             <div className="addresses-list__item card address-card">
-                {i === 0 && <div className="address-card__badge">Default</div>}
+                {i === 0 && (
+                    <div className="address-card__badge">
+                        <FormattedMessage id="default" />
+                    </div>
+                )}
 
                 <div className="address-card__body">
                     <div className="address-card__name">{`${address.address}`}</div>
 
                     <div className="address-card__row">
-                        <div className="address-card__row-title">Postal Code</div>
+                        <div className="address-card__row-title">
+                            <FormattedMessage id="postalCode" />
+                        </div>
                         <div className="address-card__row-content">{address.postal_code}</div>
                     </div>
                     <div className="address-card__row">
-                        <div className="address-card__row-title">Country</div>
+                        <div className="address-card__row-title">
+                            <FormattedMessage id="country" />
+                        </div>
                         <div className="address-card__row-content">{address.country}</div>
                     </div>
 
                     <div className="address-card__row">
-                        <div className="address-card__row-title">City</div>
+                        <div className="address-card__row-title">
+                            <FormattedMessage id="city" />
+                        </div>
                         <div className="address-card__row-content">{address.city}</div>
                     </div>
                     <div className="address-card__row">
-                        <div className="address-card__row-title">State</div>
+                        <div className="address-card__row-title">
+                            <FormattedMessage id="state" />
+                        </div>
                         <div className="address-card__row-content">{address.state}</div>
                     </div>
                     <div className="address-card__row">
-                        <div className="address-card__row-title">Phone Number</div>
+                        <div className="address-card__row-title">
+                            <FormattedMessage id="phoneNumber" />
+                        </div>
                         <div className="address-card__row-content">{address.phone}</div>
                     </div>
                     {
                         !showOnly
                         && (
                             <div className="address-card__footer">
-                                <Link to={`/account/addresses/${address.id}`}>Edit</Link>
+                                <Link to={`/account/addresses/${address.id}`}><FormattedMessage id="edit" /></Link>
                                         &nbsp;&nbsp;
-                                <Link to="/" onClick={(e) => removeAddress(e, address.id)}>Remove</Link>
+                                <Link to="/" onClick={(e) => removeAddress(e, address.id)}><FormattedMessage id="remove" /></Link>
                             </div>
                         )
                     }
@@ -111,7 +126,7 @@ export default function AccountPageAddresses({ showOnly }) {
                         <Link to="/account/addresses/add" className="addresses-list__item addresses-list__item--new">
                             <div className="addresses-list__plus" />
                             <div className="btn btn-secondary btn-sm">
-                                Add New
+                                <FormattedMessage id="addNew" />
                             </div>
                         </Link>
                         <div className="addresses-list__divider" />

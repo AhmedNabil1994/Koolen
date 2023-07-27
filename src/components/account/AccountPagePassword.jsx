@@ -2,8 +2,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import { useIntl, FormattedMessage } from 'react-intl';
+import * as Yup from 'yup';
 
 // third-party
 import { Helmet } from 'react-helmet-async';
@@ -17,6 +17,7 @@ import { toastSuccess, toastError } from '../toast/toastComponent';
 
 function AccountPagePassword({ auth }) {
     const { name, email, phone } = auth.user;
+
     const intl = useIntl();
     const formik = useFormik({
         initialValues: {
@@ -25,8 +26,12 @@ function AccountPagePassword({ auth }) {
         },
         enableReinitialize: true,
         validationSchema: Yup.object({
-            password: Yup.string().min(6, intl.formatMessage({ id: 'validation.password.format' })).required(intl.formatMessage({ id: 'validation.repeatPassword.required' })),
-            repeatPassword: Yup.string().oneOf([Yup.ref('password'), null], intl.formatMessage({ id: 'validation.repeatPassword.format' })),
+            password: Yup.string().required(
+                intl.formatMessage({ id: 'validation.password.required' }),
+            ).min(6, intl.formatMessage({ id: 'validation.password.format' })).required(intl.formatMessage({ id: 'validation.repeatPassword.required' })),
+            repeatPassword: Yup.string().required(
+                intl.formatMessage({ id: 'validation.repeatPassword.format' }),
+            ).oneOf([Yup.ref('password'), null], intl.formatMessage({ id: 'validation.repeatPassword.format' })),
         }),
         onSubmit: (values) => {
             const { password, repeatPassword } = values;
@@ -59,13 +64,13 @@ function AccountPagePassword({ auth }) {
                         <div className="form-group">
                             <label htmlFor="password-new">{intl.formatMessage({ id: 'newPassword' })}</label>
                             <input
+                                id="password-new"
                                 type="password"
                                 name="password"
                                 className="form-control"
-                                id="password-new"
                                 placeholder={intl.formatMessage({ id: 'newPassword' })}
-                                value={formik.values.password}
                                 onChange={formik.handleChange}
+                                value={formik.values.password}
                                 {...formik.getFieldProps('password')}
                             />
                             {formik.touched.password && formik.errors.password
@@ -79,15 +84,16 @@ function AccountPagePassword({ auth }) {
                         <div className="form-group">
                             <label htmlFor="password-confirm">{intl.formatMessage({ id: 'reenterPassword' })}</label>
                             <input
+                                id="password-confirm"
                                 type="password"
                                 name="repeatPassword"
                                 className="form-control"
-                                id="password-confirm"
                                 placeholder={intl.formatMessage({ id: 'reenterPassword' })}
-                                value={formik.values.repeatPassword}
                                 onChange={formik.handleChange}
+                                value={formik.values.repeatPassword}
                                 {...formik.getFieldProps('repeatPassword')}
                             />
+
                             {formik.touched.repeatPassword && formik.errors.repeatPassword
                                 ? (
                                     <div className="invalid-feedback">
@@ -96,11 +102,11 @@ function AccountPagePassword({ auth }) {
                                 )
                                 : null }
                         </div>
-                        <div className="form-group mt-5 mb-0">
-                            <button type="submit" className="btn btn-primary">
-                                {intl.formatMessage({ id: 'change' })}
-                            </button>
-                        </div>
+                        {/* <div className="form-group mt-5 mb-0"> */}
+                        <button type="submit" className="btn btn-primary">
+                            {intl.formatMessage({ id: 'change' })}
+                        </button>
+                        {/* </div> */}
                     </form>
                 </div>
             </div>

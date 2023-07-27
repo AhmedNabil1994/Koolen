@@ -42,7 +42,6 @@ function SitePageContactUs() {
     useEffect(() => {
         fetchFooterData();
     }, []);
-    console.log(data?.social_link);
 
     if (isLoading) return <BlockLoader />;
     return (

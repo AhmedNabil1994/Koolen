@@ -23,7 +23,6 @@ function Search(props) {
     const {
         context,
         className,
-        inputRef,
         onClose,
         location,
     } = props;
@@ -144,7 +143,6 @@ function Search(props) {
             <div className="search__body">
                 <form className="search__form" action="">
                     <input
-                        ref={inputRef}
                         onChange={handleChangeQuery}
                         onFocus={handleFocus}
                         onKeyDown={handleKeyDown}

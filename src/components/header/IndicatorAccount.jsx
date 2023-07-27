@@ -50,12 +50,10 @@ function IndicatorAccount(props) {
                 <div className="account-menu__divider" />
                 <ul className="account-menu__links">
                     <li>
-                        <li>
-                            {/* eslint-disable */}
+                        {/* eslint-disable */}
                             <Link to="/account/login" onClick={logoutUser} onKeyDown={logoutUser}>
                                {formatMessage({id: "login.logout"})} 
                             </Link>
-                        </li>
                     </li>
                 </ul>
             </div>

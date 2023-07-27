@@ -29,8 +29,6 @@ function WidgetFilters(props) {
     const history = useHistory();
     const intl = useIntl();
 
-    // console.log('Selected Prices: ', selectedPrices);
-
     const handleResetFilters = () => {
         changeSelectedCategory(null);
         setSelectedPrices([0, 10000]);

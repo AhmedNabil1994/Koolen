@@ -59,11 +59,11 @@ function AccountPageLogin(props) {
         },
         validationSchema: Yup.object({
             fullName: Yup.string().required(intl.formatMessage({ id: 'validation.fullName.required' })),
-            email: Yup.string().email().required(intl.formatMessage({ id: 'validation.fullName.required' })),
+            email: Yup.string().email(intl.formatMessage({ id: 'validation.email.format' })).required(intl.formatMessage({ id: 'validation.email.required' })),
             phone: Yup.number().typeError(intl.formatMessage({ id: 'validation.phone.format' })).required(intl.formatMessage({ id: 'validation.phone.required' })).positive(intl.formatMessage({ id: 'validation.phone.format' }))
                 .integer(intl.formatMessage({ id: 'validation.phone.format' })),
             password: Yup.string().min(6, intl.formatMessage({ id: 'validation.password.format' })).required(intl.formatMessage({ id: 'validation.repeatPassword.required' })),
-            repeatPassword: Yup.string().oneOf([Yup.ref('password'), null], intl.formatMessage({ id: 'validation.repeatPassword.format' })),
+            repeatPassword: Yup.string().required(intl.formatMessage({ id: 'validation.repeatPassword.format' })).oneOf([Yup.ref('password'), null], intl.formatMessage({ id: 'validation.repeatPassword.format' })),
         }),
         onSubmit(values) {
             const {
@@ -72,7 +72,13 @@ function AccountPageLogin(props) {
             signUpUser({
                 name: fullName, email, password, phone,
             }, (success) => {
-                if (success.success) toastSuccess(success);
+                if (success.success) {
+                    toastSuccess(success);
+                    registrationFormik.resetForm();
+                } else {
+                    toastError(success);
+                    registrationFormik.resetForm();
+                }
             },
             (fail) => {
                 toastError(fail);
@@ -104,6 +110,7 @@ function AccountPageLogin(props) {
                                                 id="login-email"
                                                 type="email"
                                                 name="email"
+                                                dir="ltr"
                                                 placeholder={intl.formatMessage({ id: 'login.email' })}
                                                 className={`form-control ${formik.errors.email && formik.touched.email && 'is-invalid'}`}
                                                 onChange={formik.handleChange}
@@ -185,6 +192,7 @@ function AccountPageLogin(props) {
                                                 id="phone"
                                                 type="text"
                                                 name="phone"
+                                                dir="ltr"
                                                 className={`form-control ${registrationFormik.touched.phone && registrationFormik.errors.phone && 'is-invalid'}`}
                                                 placeholder={intl.formatMessage({ id: 'login.phone' })}
                                                 value={registrationFormik.values.phone}
@@ -205,6 +213,7 @@ function AccountPageLogin(props) {
                                                 id="register-email"
                                                 type="email"
                                                 name="email"
+                                                dir="ltr"
                                                 className={`form-control ${registrationFormik.touched.email && registrationFormik.errors.email && 'is-invalid'}`}
                                                 placeholder={intl.formatMessage({ id: 'login.email' })}
                                                 value={registrationFormik.values.email}

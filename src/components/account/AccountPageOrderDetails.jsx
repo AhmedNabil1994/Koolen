@@ -17,7 +17,6 @@ export default function AccountPageOrderDetails() {
     const [orderDetails, setOrderDetails] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const { formatMessage } = useIntl();
-    console.log(orderId, orderDetails);
 
     function fetchOrder() {
         getOrderDetails(orderId, (success) => {
@@ -44,7 +43,9 @@ export default function AccountPageOrderDetails() {
             <div className="card">
                 <div className="order-header">
                     <div className="order-header__actions">
-                        <Link to="/account/orders" className="btn btn-xs btn-secondary">Back to list</Link>
+                        <Link to="/account/orders" className="btn btn-xs btn-secondary">
+                            {formatMessage({ id: 'backTolist' })}
+                        </Link>
                     </div>
                     <h5 className="order-header__title">
                         {formatMessage({ id: 'order' })}
@@ -94,8 +95,13 @@ export default function AccountPageOrderDetails() {
                             </tbody>
                             <tbody className="card-table__body card-table__body--merge-rows">
                                 <tr>
-                                    <th>Shipping</th>
-                                    <td>SAR 25.00</td>
+                                    <th>
+                                        {formatMessage({ id: 'shipping' })}
+                                    </th>
+                                    <td>
+                                        SAR
+                                        {orderDetails?.shipping_address?.cost}
+                                    </td>
                                 </tr>
                             </tbody>
                             <tfoot>

@@ -90,7 +90,7 @@ class ShopPageCheckout extends Component {
                         <td><Currency value={cart.subtotal} /></td>
                     </tr>
             <tr >
-                <th>Shipping</th>
+                <th>{<FormattedMessage id="shipping" />}</th>
 
                 {this.state.isShippingCostDone? 
                 <td><Currency value={this.state.shippingCost} /></td>
@@ -194,7 +194,6 @@ class ShopPageCheckout extends Component {
     render() {
         const { cart } = this.props;
 
-        console.log("selected address", this.state.selectedAddress)
 
         if (cart.items.length < 1) {
             return <Redirect to="cart" />;
