@@ -164,7 +164,7 @@
 "securePayment": "الدفع الآمن فقط",
 "hotOffers": "عروض ساخنة",
 "discountsUpTo": "خصومات تصل إلى 90٪",
-"english": "الإنجليزية",
+"english": "English",
 "arabic": "العربية",
 "youDon'tHaveAddress": "ليس لديك معلومات عنوان",
 "pleaseMakeYourAddressAvailable": "يرجى توفير معلومات عنوانك",
@@ -179,5 +179,13 @@
 "updateCart": "تحديث السلة",
 "cartTotals":"إجمالي السلة",
 "proceedToCheckout":"الانتقال إلى الدفع",
-"backTolist": "العودة للقائمة السابقة"
+"backTolist": "العودة للقائمة السابقة",
+"avilability": "الإتاحة",
+"color": "اللون",
+"description": "الوصف",
+"404": "عفوا خطأ 404",
+"pageNotFound": "الصفحة غير موجودة",
+  "goToHome": "إلي الصفحة الرئيسية",
+  "in-stock": "في المخزن",
+  "out-of-stock": "إنتهى من المخزون"
 }

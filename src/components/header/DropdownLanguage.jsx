@@ -36,7 +36,7 @@ function DropdownLanguage(props) {
         <React.Fragment>
             <FormattedMessage id="topbar.language" defaultMessage="Language" />
             {': '}
-            <span className="topbar__item-value">{language.code}</span>
+            <span className="topbar__item-value">{language.title}</span>
         </React.Fragment>
     );
 

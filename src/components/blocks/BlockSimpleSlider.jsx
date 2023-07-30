@@ -73,7 +73,7 @@ const BlockSimpleSlider = () => {
                         </motion.figure>
                     ))}
                 </div>
-                <div className="cm-slider__imgs cm-slider-mobile">
+                <div className="cm-slider__imgs cm-slider-mobile" dir="ltr">
                     <motion.figure
                         initial={{ opacity: 0.5, y: 50 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -85,7 +85,7 @@ const BlockSimpleSlider = () => {
                 </div>
             </div>
             <div className="cm-slider__controllers-container">
-                <div className="d-flex">
+                <div className="d-flex cm-slider__btns">
                     <button type="button" className="controller" onClick={() => prevFun()}>
                         <i className="fas fa-chevron-left" />
                     </button>

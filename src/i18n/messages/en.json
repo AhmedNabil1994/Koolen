@@ -180,5 +180,13 @@
   "updateCart":"Update Cart",
   "cartTotals":"Cart Totals",
   "proceedToCheckout":"Procced to checkout", 
-  "backTolist": "Back to list"
+  "backTolist": "Back to list",
+  "avilability": "Availability",
+  "color": "Color",
+  "description": "Description",
+  "404": "Oops! Error 404"
+  ,"pageNotFound": "Page not found",
+  "goToHome": "Go To Home Page",
+  "in-stock": "In Stock",
+  "out-of-stock": "Out of Stock"
 }

@@ -1,8 +1,5 @@
+// for the product details
 export function singleProductSchema(product) {
-    // parameter=>  status
-
-    // change thumbnail_image to be an array
-    // add rating
     const schema = [];
 
     const {
@@ -14,8 +11,7 @@ export function singleProductSchema(product) {
         thumbnail_image,
         photos,
         stock,
-        rating,
-        review_summary: { average },
+        review_summary: { average, total_count },
         brand,
         tags,
         variation_options,
@@ -36,10 +32,10 @@ export function singleProductSchema(product) {
         slug,
         price: base_discounted_price,
         images: thumbnails,
-        rating: rating || 0,
+        rating: average || 0,
         stock,
-        availability: stock ? 'in-stock' : 'out of stock',
-        reviews: average,
+        availability: stock ? 'in-stock' : 'out-of-stock',
+        reviews: total_count,
         brand,
         badges: [],
         categories: [],
@@ -53,27 +49,22 @@ export function singleProductSchema(product) {
     if (base_price - base_discounted_price > 0) {
         payload.compareAtPrice = base_price;
     }
-    // if (status) {
-    //     payload.badges = [status];
-    // }
-
     schema.push(payload);
 
     return schema;
 }
 
+// for all products
 export default function productSchema(products) {
-    // parameter => status
-
-    // change thumbnail_image to be an array
-    // add rating
     const schema = [];
 
     products.forEach((product) => {
         const {
             id, name, slug, base_discounted_price, base_price, thumbnail_image, stock, rating,
-            review_summary: { average },
+            review_summary: { total_count },
+
         } = product;
+
         const payload = {
             id,
             name,
@@ -83,7 +74,7 @@ export default function productSchema(products) {
             rating,
             stock,
             availability: stock > 0 ? 'in-stock' : 'out-of-stock',
-            reviews: average,
+            reviews: total_count,
             brand: null,
             badges: [],
             categories: [],

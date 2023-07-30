@@ -1,33 +1,52 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {
+    FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon,
+    PinterestShareButton, PinterestIcon, LinkedinShareButton, LinkedinIcon,
+    // EmailShareButton, EmailIcon,
+} from 'react-share';
 
-const Share = () => (
+const Share = ({
+    url, title, hash = [], description, media,
+
+}) => (
     <ul className="share-links__list">
-        <li className="share-links__icon-wrapper">
-            <Link to="/">
-                <i className="fab fa-facebook" />
-            </Link>
+        <li>
+            <FacebookShareButton
+                url={url}
+                title={title}
+                hash={hash[0]}
+            >
+                <FacebookIcon iconFillColor="white" round size={42} />
+            </FacebookShareButton>
         </li>
-        <li className="share-links__icon-wrapper">
-            <Link to="/">
-                <i className="fab fa-instagram" />
-            </Link>
+        <li>
+            <TwitterShareButton
+                url={url}
+                title={title}
+                hashtags={hash}
+            >
+                <TwitterIcon iconFillColor="white" round size={42} />
+            </TwitterShareButton>
         </li>
-        <li className="share-links__icon-wrapper">
-            <Link to="/">
-                <i className="fab fa-twitter" />
-            </Link>
+        <li>
+            <PinterestShareButton
+                url={url}
+                description={title}
+                media={media}
+            >
+                <PinterestIcon iconFillColor="white" round size={42} />
+            </PinterestShareButton>
         </li>
-        <li className="share-links__icon-wrapper">
-            <Link to="/">
-                <i className="fab fa-snapchat-ghost" />
-            </Link>
+        <li>
+            <LinkedinShareButton url={url} title={title} summary={description}>
+                <LinkedinIcon iconFillColor="white" round size={42} />
+            </LinkedinShareButton>
         </li>
-        <li className="share-links__icon-wrapper">
-            <Link to="/">
-                <i className="fab fa-tiktok" />
-            </Link>
-        </li>
+        {/* <li>
+            <EmailShareButton separator="" url={url} subject={title} body={description}>
+                <EmailIcon fill="white" round size={42} />
+            </EmailShareButton>
+        </li> */}
     </ul>
 );
 

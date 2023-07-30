@@ -1,5 +1,6 @@
 // react
 import React, { Component } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 // third-party
 import classNames from 'classnames';
@@ -31,9 +32,9 @@ class ProductTabs extends Component {
         });
 
         const tabs = [
-            { key: 'description', title: 'Description', content: <ProductTabDescription product={product} /> },
+            { key: 'description', title: 'description', content: <ProductTabDescription product={product} /> },
             // { key: 'specification', title: 'Specification', content: <ProductTabSpecification /> },
-            { key: 'reviews', title: 'Reviews', content: <ProductTabReviews product={product} /> },
+            { key: 'reviews', title: 'reviews', content: <ProductTabReviews product={product} /> },
         ];
 
         const tabsButtons = tabs.map((tab) => {
@@ -41,7 +42,13 @@ class ProductTabs extends Component {
                 'product-tabs__item--active': currentTab === tab.key,
             });
 
-            return <button key={tab.key} type="button" onClick={() => this.setTab(tab.key)} className={classes}>{tab.title}</button>;
+            return (
+                <button key={tab.key} type="button" onClick={() => this.setTab(tab.key)} className={classes}>
+                    <React.Fragment>
+                        <FormattedMessage id={tab.title} />
+                    </React.Fragment>
+                </button>
+            );
         });
 
         const tabsContent = tabs.map((tab) => {

@@ -432,7 +432,6 @@ $cm-slider-container: 60px;
 	color: white;
 	padding-inline:$cm-slider-container;
 	// height
-	height: 65vh;
 	min-height: 450px;
 	
 
@@ -623,3 +622,25 @@ html[lang="ar"]{
 		}
 
 }
+
+html[lang="ar"] 
+{
+	body {
+		font-family: 'Cairo', sans-serif;
+	}
+	.cm-slider__btns {
+		flex-direction: row-reverse;
+		button{
+			margin-inline-end: 0;
+			&:last-of-type{
+			margin-inline-end: 0.5rem;
+			}
+		}
+	}
+ .cm-slider-desktop
+ {
+	flex-direction: row-reverse;
+ }
+
+}
+
