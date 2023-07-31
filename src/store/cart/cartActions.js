@@ -1,5 +1,7 @@
 // import { toast } from 'react-toastify';
-import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_UPDATE_QUANTITIES } from './cartActionTypes';
+import {
+    CART_ADD_ITEM, CART_REMOVE_ITEM, CART_UPDATE_QUANTITIES, CART_EMPTY,
+} from './cartActionTypes';
 import { toastSuccess } from '../../components/toast/toastComponent';
 
 export function cartAddItemSuccess(product, options = [], quantity = 1) {
@@ -9,6 +11,12 @@ export function cartAddItemSuccess(product, options = [], quantity = 1) {
         product,
         options,
         quantity,
+    };
+}
+
+export function emptyCartSuccess() {
+    return {
+        type: CART_EMPTY,
     };
 }
 
@@ -45,6 +53,17 @@ export function cartRemoveItem(itemId) {
         new Promise((resolve) => {
             setTimeout(() => {
                 dispatch(cartRemoveItemSuccess(itemId));
+                resolve();
+            }, 100);
+        })
+    );
+}
+
+export function emptyCartFromItems() {
+    return (dispatch) => (
+        new Promise((resolve) => {
+            setTimeout(() => {
+                dispatch(emptyCartSuccess());
                 resolve();
             }, 100);
         })

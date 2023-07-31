@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { applyCoupon } from '../../api/products';
 import { toastError } from '../toast/toastComponent';
 
-const CouponCode = () => {
+const CouponCode = ({ setCodeCoupon }) => {
     const { formatMessage } = useIntl();
     const [code, setCode] = useState('');
     const [accepptedMsg, setAccepptedMsg] = useState('');
@@ -14,7 +14,8 @@ const CouponCode = () => {
         if (code.length) {
             applyCoupon(code, (success) => {
                 setAccepptedMsg(success.message);
-                if (success) setRefuse(false);
+                setCodeCoupon(code);
+                if (success.success) setRefuse(false);
                 else setRefuse(true);
             }, (fail) => {
                 toastError(fail);
@@ -41,7 +42,7 @@ const CouponCode = () => {
             </form>
             {
                 accepptedMsg.length ? (
-                    <div className={`${refuse ? 'text-success' : 'text-danger'}`}>
+                    <div className={`${refuse ? 'text-danger' : 'text-success'}`}>
                         {accepptedMsg}
                     </div>
                 ) : null

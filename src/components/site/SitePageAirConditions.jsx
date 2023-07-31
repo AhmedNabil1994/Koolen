@@ -1,45 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import { MaterialReactTable } from 'material-react-table';
+import { useIntl } from 'react-intl';
 import getAirConditions from '../../api/airConditions';
 import { toastError } from '../toast/toastComponent';
 import BlockLoader from '../blocks/BlockLoader';
 
-const columns = [
-    {
-        accessorKey: 'branch', // simple recommended way to define a column
-        header: 'Branch',
-    },
-    {
-        accessorKey: 'store', // simple recommended way to define a column
-        header: 'Store',
-        enableGrouping: false,
-    },
-    {
-        accessorKey: 'map_link', // simple recommended way to define a column
-        header: 'Map Link',
-        Cell: ({ cell }) => (
-            <a className="primary" href={cell.getValue()}>Map</a>
-        ),
-        enableGrouping: false,
-    },
-    {
-        accessorKey: 'manager', // simple recommended way to define a column
-        header: 'Manager',
-        enableGrouping: false,
-    },
-    {
-        accessorKey: 'phone', // simple recommended way to define a column
-        header: 'Phone Number',
-        Cell: ({ cell }) => (
-            <a className="primary" href={`tel:${cell.getValue()}`}>{cell.getValue()}</a>
-        ),
-        enableGrouping: false,
-    },
-];
-
 const SitePageAirConditions = () => {
     const [airConditionsData, setAirConditionsData] = useState([]);
+    const { formatMessage } = useIntl();
     const [isLoading, setIsLoading] = useState(true);
+    const columns = [
+        {
+            accessorKey: 'branch', // simple recommended way to define a column
+            header: formatMessage({ id: 'branch' }),
+        },
+        {
+            accessorKey: 'store', // simple recommended way to define a column
+            header: formatMessage({ id: 'store' }),
+            enableGrouping: false,
+        },
+        {
+            accessorKey: 'map_link', // simple recommended way to define a column
+            header: formatMessage({ id: 'mapLink' }),
+            Cell: ({ cell }) => (
+                <a className="primary" href={cell.getValue()}>{formatMessage({ id: 'map' })}</a>
+            ),
+            enableGrouping: false,
+        },
+        {
+            accessorKey: 'manager', // simple recommended way to define a column
+            header: formatMessage({ id: 'manager' }),
+            enableGrouping: false,
+        },
+        {
+            accessorKey: 'phone', // simple recommended way to define a column
+            header: formatMessage({ id: 'phoneNumber' }),
+            Cell: ({ cell }) => (
+                <a className="primary" href={`tel:${cell.getValue()}`}>{cell.getValue()}</a>
+            ),
+            enableGrouping: false,
+        },
+    ];
+
     useEffect(() => {
         getAirConditions((success) => {
             setIsLoading(false);

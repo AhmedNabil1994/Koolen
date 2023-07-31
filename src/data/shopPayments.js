@@ -1,11 +1,11 @@
 export default [
     {
-        key: 'cash',
+        key: 'standard',
         title: 'cashOnDelivery',
         description: 'payWithCash',
     },
     {
-        key: 'paypal',
+        key: 'online',
         title: 'paypal',
         description: 'paypalDesc',
     },

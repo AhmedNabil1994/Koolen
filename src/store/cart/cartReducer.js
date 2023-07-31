@@ -1,4 +1,6 @@
-import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_UPDATE_QUANTITIES } from './cartActionTypes';
+import {
+    CART_ADD_ITEM, CART_REMOVE_ITEM, CART_UPDATE_QUANTITIES, CART_EMPTY,
+} from './cartActionTypes';
 
 /**
  * @param {array} items
@@ -36,7 +38,10 @@ function calcQuantity(items) {
 }
 
 function calcTotal(subtotal, extraLines) {
-    return subtotal + extraLines.reduce((total, extraLine) => total + extraLine.price, 0);
+    if (extraLines?.length) {
+        return subtotal + extraLines.reduce((total, extraLine) => total + extraLine.price, 0);
+    }
+    return subtotal;
 }
 
 function addItem(state, product, options, quantity) {
@@ -141,6 +146,17 @@ function updateQuantities(state, quantities) {
     return state;
 }
 
+function emptyCart(state) {
+    return {
+        ...state,
+        lastItemId: 0,
+        quantity: 0,
+        items: [],
+        subtotal: 0,
+        total: 0,
+    };
+}
+
 const initialState = {
     lastItemId: 0,
     quantity: 0,
@@ -159,6 +175,8 @@ export default function cartReducer(state = initialState, action) {
 
     case CART_UPDATE_QUANTITIES:
         return updateQuantities(state, action.quantities);
+    case CART_EMPTY:
+        return emptyCart();
 
     default:
         return state;

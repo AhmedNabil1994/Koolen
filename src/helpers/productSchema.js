@@ -60,7 +60,7 @@ export default function productSchema(products) {
 
     products.forEach((product) => {
         const {
-            id, name, slug, base_discounted_price, base_price, thumbnail_image, stock, rating,
+            id, name, slug, base_discounted_price, base_price, thumbnail_image, stock, rating, variations,
             review_summary: { total_count },
 
         } = product;
@@ -79,6 +79,7 @@ export default function productSchema(products) {
             badges: [],
             categories: [],
             attributes: [],
+            variations,
         };
 
         if (base_price - base_discounted_price > 0) {

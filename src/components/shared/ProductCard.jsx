@@ -50,6 +50,7 @@ function ProductCard(props) {
             </div>,
         );
     }
+    console.log(product);
 
     badges = badges.length ? <div className="product-card__badges-list">{badges}</div> : null;
 
@@ -108,7 +109,10 @@ function ProductCard(props) {
                 </div>
                 <div className="button-container">
                     <AsyncAction
-                        action={() => cartAddItem(product, [], 1, formatMessage({ id: 'productHasBeenAddedToCartSuccessfully' }))}
+                        action={() => cartAddItem({
+                            ...product,
+                            id: product?.variations[0]?.id,
+                        }, [], 1, formatMessage({ id: 'productHasBeenAddedToCartSuccessfully' }))}
                         render={({ run, loading }) => (
                             <React.Fragment>
                                 <button

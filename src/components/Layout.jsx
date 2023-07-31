@@ -96,7 +96,7 @@ function Layout(props) {
             </Helmet>
             <Quickview />
             <MobileMenu />
-            <ToastContainer />
+            <ToastContainer limit={1} />
 
             <div className="site">
                 <header className="site__header d-lg-none">

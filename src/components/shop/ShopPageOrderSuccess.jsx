@@ -1,62 +1,19 @@
 // react
 import React from 'react';
+import { useIntl } from 'react-intl';
 
 // third-party
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 
 // application
-import Currency from '../shared/Currency';
 import { Check100Svg } from '../../svg';
 
 // data stubs
-import order from '../../data/accountOrderDetails';
 import theme from '../../data/theme';
-import { url } from '../../services/utils';
 
 export default function ShopPageOrderSuccess() {
-    const items = order.items.map((item) => {
-        const options = (item.options || []).map((option) => (
-            <li className="order-list__options-item">
-                <span className="order-list__options-label">
-                    {option.label}
-                    {': '}
-                </span>
-                <span className="order-list__options-value">{option.value}</span>
-            </li>
-        ));
-
-        return (
-            <tr>
-                <td className="order-list__column-image">
-                    <div className="product-image">
-                        <Link to={url.product(item)} className="product-image__body">
-                            <img className="product-image__img" src={item.image} alt="" />
-                        </Link>
-                    </div>
-                </td>
-                <td className="order-list__column-product">
-                    <Link to={url.product(item)}>{item.name}</Link>
-                    {options.length > 0 && (
-                        <div className="order-list__options">
-                            <ul className="order-list__options-list">
-                                {options}
-                            </ul>
-                        </div>
-                    )}
-                </td>
-                <td className="order-list__column-quantity" data-title="Qty:">{item.quantity}</td>
-                <td className="order-list__column-total"><Currency value={item.total} /></td>
-            </tr>
-        );
-    });
-
-    const additionalLines = order.additionalLines.map((line) => (
-        <tr>
-            <th className="order-list__column-label" colSpan="3">{line.label}</th>
-            <td className="order-list__column-total"><Currency value={line.total} /></td>
-        </tr>
-    ));
+    const { formatMessage } = useIntl();
 
     return (
         <div className="block order-success">
@@ -68,14 +25,14 @@ export default function ShopPageOrderSuccess() {
                 <div className="order-success__body">
                     <div className="order-success__header">
                         <Check100Svg className="order-success__icon" />
-                        <h1 className="order-success__title">Thank you</h1>
-                        <div className="order-success__subtitle">Your order has been received</div>
+                        <h1 className="order-success__title">{formatMessage({ id: 'thankYou' })}</h1>
+                        <div className="order-success__subtitle">{formatMessage({ id: 'yourOrderHasBeenReceived' })}</div>
                         <div className="order-success__actions">
-                            <Link to="/" className="btn btn-xs btn-secondary">Go To Homepage</Link>
+                            <Link to="/" className="btn btn-xs btn-secondary">{formatMessage({ id: 'goToHome' })}</Link>
                         </div>
                     </div>
 
-                    <div className="order-success__meta">
+                    {/* <div className="order-success__meta">
                         <ul className="order-success__meta-list">
                             <li className="order-success__meta-item">
                                 <span className="order-success__meta-title">Order number:</span>
@@ -94,9 +51,9 @@ export default function ShopPageOrderSuccess() {
                                 <span className="order-success__meta-value">{order.paymentMethod}</span>
                             </li>
                         </ul>
-                    </div>
+                    </div> */}
 
-                    <div className="card">
+                    {/* <div className="card">
                         <div className="order-list">
                             <table>
                                 <thead className="order-list__header">
@@ -126,9 +83,9 @@ export default function ShopPageOrderSuccess() {
                                 </tfoot>
                             </table>
                         </div>
-                    </div>
+                    </div> */}
 
-                    <div className="row mt-3 no-gutters mx-n2">
+                    {/* <div className="row mt-3 no-gutters mx-n2">
                         <div className="col-sm-6 col-12 px-2">
                             <div className="card address-card">
                                 <div className="address-card__body">
@@ -183,7 +140,7 @@ export default function ShopPageOrderSuccess() {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

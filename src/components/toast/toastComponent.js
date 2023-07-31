@@ -11,6 +11,7 @@ const toastData = {
     pauseOnHover: true,
     draggable: true,
     theme,
+    limit: 3,
 };
 
 export function toastSuccess(success) {
@@ -19,6 +20,7 @@ export function toastSuccess(success) {
 }
 
 export function toastError(fail) {
+    toastData.toastId = 'only one';
     if (fail?.data)toast.error(fail?.data?.message, toastData);
     else if (fail?.message)toast.error(fail.message, toastData);
     else toast.error('An Error Occured', toastData);

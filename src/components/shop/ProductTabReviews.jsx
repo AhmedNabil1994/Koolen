@@ -96,7 +96,7 @@ function ProductTabReviews(props) {
                 </div>
             </div>
 
-            <form className="reviews-view__form needs-validation" onSubmit={formik.handleSubmit} noValidat>
+            <form className="reviews-view__form needs-validation" onSubmit={formik.handleSubmit} noValidate>
                 <h3 className="reviews-view__header">
                     {formatMessage({ id: 'writeAReview' })}
                 </h3>

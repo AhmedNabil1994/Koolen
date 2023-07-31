@@ -93,17 +93,6 @@ export default function AccountPageOrderDetails() {
                                 </React.Fragment>
 
                             </tbody>
-                            <tbody className="card-table__body card-table__body--merge-rows">
-                                <tr>
-                                    <th>
-                                        {formatMessage({ id: 'shipping' })}
-                                    </th>
-                                    <td>
-                                        SAR
-                                        {orderDetails?.shipping_address?.cost}
-                                    </td>
-                                </tr>
-                            </tbody>
                             <tfoot>
                                 <tr>
                                     <th>{formatMessage({ id: 'total' })}</th>

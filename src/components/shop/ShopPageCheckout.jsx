@@ -4,8 +4,7 @@ import React, { Component } from 'react';
 // third-party
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
-import { Redirect, Link } from 'react-router-dom';
-//  Link,
+import { Redirect, Link } from 'react-router-dom'; //  Link,
 
 // application
 import { FormattedMessage } from 'react-intl';
@@ -19,9 +18,11 @@ import payments from '../../data/shopPayments';
 import theme from '../../data/theme';
 import ChooseAddress from '../blocks/ChooseAddress';
 import { getAddresses } from '../../api/addresses';
-import { toastError } from '../toast/toastComponent';
+import { toastError, toastSuccess } from '../toast/toastComponent';
 import CouponCode from './CouponCode';
 import { getShippingCost } from '../../api/shippingAndPayment';
+import { createOrder } from '../../api/orders';
+import { emptyCartFromItems } from '../../store/cart';
 
 class ShopPageCheckout extends Component {
     payments = payments;
@@ -30,11 +31,14 @@ class ShopPageCheckout extends Component {
         super(props);
 
         this.state = {
-            payment: 'bank',
+            payment: 'standard',
             selectedAddress: null,
             isLoading: true,
             shippingCost: 0,
             isShippingCostDone: false,
+            couponCode: null,
+            isOrderSuccess: false,
+            isDisabled: false,
         };
     }
 
@@ -66,6 +70,28 @@ class ShopPageCheckout extends Component {
         }
     }
 
+    makeANewOrder = (cart) => {
+        const {
+            selectedAddress, couponCode, payment,
+        } = this.state;
+        this.setState({ isDisabled: true });
+        createOrder({
+            cart, shipping_address_id: selectedAddress.id, coupon_codes: couponCode, delivery_type: payment,
+        }, (success) => {
+            this.setState({ isDisabled: false });
+            if (success.success) {
+                toastSuccess(success);
+                // this.props?.emptyCartFromItems();
+                this.setState({ isOrderSuccess: true });
+            } else {
+                toastError(success);
+            }
+        }, (fail) => {
+            this.setState({ isDisabled: false });
+            toastError(fail);
+        });
+    }
+
     handlePaymentChange = (event) => {
         if (event.target.checked) {
             this.setState({ payment: event.target.value });
@@ -75,7 +101,7 @@ class ShopPageCheckout extends Component {
     renderTotals() {
         const { cart } = this.props;
 
-        if (cart.extraLines.length <= 0) {
+        if (cart.extraLines?.length <= 0) {
             return null;
         }
 
@@ -104,6 +130,7 @@ class ShopPageCheckout extends Component {
 
     renderCart() {
         const { cart } = this.props;
+        console.log(this.state.payment)
 
         const items = cart.items.map((item) => (
             <tr key={item.id}>
@@ -193,25 +220,30 @@ class ShopPageCheckout extends Component {
 
     render() {
         const { cart } = this.props;
+        const cartItems = cart.items.map(item=>{
+                return {
+                    id: item.product.id,
+                    qty: item.quantity
+                } 
+            })
 
 
         if (cart.items.length < 1) {
             return <Redirect to="cart" />;
         }
 
-        const breadcrumb = [
-            { title: 'Home', url: '' },
-            { title: 'Shopping Cart', url: '/shop/cart' },
-            { title: 'Checkout', url: '' },
-        ];
+        if (this.state.isOrderSuccess){
+            return <Redirect to="/shop/checkout/success"/>
+        }
 
+        
         return (
             <React.Fragment>
                 <Helmet>
                     <title>{`Checkout — ${theme.name}`}</title>
                 </Helmet>
 
-                <PageHeader header={<FormattedMessage id={"checkout"} /> } breadcrumb={breadcrumb} />
+                <PageHeader header={<FormattedMessage id={"checkout"} /> }  />
 
                 <div className="checkout block">
                     <div className="container">
@@ -240,11 +272,12 @@ class ShopPageCheckout extends Component {
 
                                         {this.renderCart()}
 
-                                        <CouponCode />
+                                        <CouponCode setCodeCoupon={(couponNumber)=>{this.setState({couponCode: couponNumber})}} />
 
                                         {this.renderPaymentsList()}
 
-                                        <button type="submit" className="btn btn-primary btn-xl btn-block">
+                                        {/* ${this.state.isDisabled && "btn-loading"} */}
+                                        <button  disabled={this.state.isDisabled} type="submit" onClick={()=>this.makeANewOrder(cartItems)} className={`btn btn-primary btn-xl btn-block `}>
                                             <FormattedMessage id="placeOrder" />
                                         </button>
                                     </div>
@@ -262,6 +295,8 @@ const mapStateToProps = (state) => ({
     cart: state.cart,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+    emptyCartFromItems
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShopPageCheckout);
