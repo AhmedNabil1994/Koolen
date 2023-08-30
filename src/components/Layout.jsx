@@ -37,6 +37,7 @@ import SitePageTerms from './site/SitePageTerms';
 import SitePageTypography from './site/SitePageTypography';
 import CategoriesPage from './categories/Categories';
 import AirConditions from './site/SitePageAirConditions';
+import ShopPageOrderFailure from './shop/ShopPageOrderFailure';
 
 // data stubs
 import theme from '../data/theme';
@@ -169,6 +170,7 @@ function Layout(props) {
                             }}
                         />
                         <Route exact path="/shop/checkout/success" component={ShopPageOrderSuccess} />
+                        <Route exact path="/shop/checkout/failure" component={ShopPageOrderFailure} />
                         <Route exact path="/shop/wishlist" component={PageWishlist} />
                         <Route exact path="/shop/compare" component={PageCompare} />
                         <Route exact path="/shop/track-order" component={ShopPageTrackOrder} />

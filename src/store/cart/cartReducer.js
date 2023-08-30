@@ -8,6 +8,7 @@ import {
  * @param {array} options
  * @return {number}
  */
+
 function findItemIndex(items, product, options) {
     return items.findIndex((item) => {
         if (item.product.id !== product.id || item.options.length !== options.length) {
@@ -24,7 +25,6 @@ function findItemIndex(items, product, options) {
                 return false;
             }
         }
-
         return true;
     });
 }
@@ -46,12 +46,6 @@ function calcTotal(subtotal, extraLines) {
 
 function addItem(state, product, options, quantity) {
     const itemIndex = findItemIndex(state.items, product, options);
-    // let inStock;
-    // let item;
-    // if (itemIndex !== -1) item = state.items[itemIndex];
-    // if (item && item.product.stock - (item.quantity + quantity) <= 0) {
-    //     return state;
-    // }
 
     let newItems;
     let { lastItemId } = state;
@@ -82,8 +76,6 @@ function addItem(state, product, options, quantity) {
 
     const subtotal = calcSubtotal(newItems);
     const total = calcTotal(subtotal, state.extraLines);
-
-    // toaster update
 
     return {
         ...state,
@@ -146,17 +138,6 @@ function updateQuantities(state, quantities) {
     return state;
 }
 
-function emptyCart(state) {
-    return {
-        ...state,
-        lastItemId: 0,
-        quantity: 0,
-        items: [],
-        subtotal: 0,
-        total: 0,
-    };
-}
-
 const initialState = {
     lastItemId: 0,
     quantity: 0,
@@ -164,6 +145,12 @@ const initialState = {
     subtotal: 0,
     total: 0,
 };
+
+function emptyCart() {
+    return {
+        ...initialState,
+    };
+}
 
 export default function cartReducer(state = initialState, action) {
     switch (action.type) {

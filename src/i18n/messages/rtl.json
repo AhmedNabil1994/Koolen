@@ -194,5 +194,7 @@
   "store": "المتجر",
   "branch": "الفرع",
   "map": "الخريطة",
-  "mapLink": "رابط الخريطة"
+  "mapLink": "رابط الخريطة",
+  "sorry": "عذرا",
+  "something_went_wrong": "هناك خطأ ما!"
 }

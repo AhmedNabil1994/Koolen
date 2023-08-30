@@ -1,6 +1,7 @@
 // react
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useIntl } from 'react-intl';
+import { connect } from 'react-redux';
 
 // third-party
 import { Helmet } from 'react-helmet-async';
@@ -8,12 +9,17 @@ import { Link } from 'react-router-dom';
 
 // application
 import { Check100Svg } from '../../svg';
+import { emptyCartFromItems } from '../../store/cart/cartActions';
 
 // data stubs
 import theme from '../../data/theme';
 
-export default function ShopPageOrderSuccess() {
+function ShopPageOrderSuccess(props) {
     const { formatMessage } = useIntl();
+
+    useEffect(() => {
+        props.emptyCartFromItems();
+    }, []);
 
     return (
         <div className="block order-success">
@@ -146,3 +152,9 @@ export default function ShopPageOrderSuccess() {
         </div>
     );
 }
+
+const mapDispatchToProps = {
+    emptyCartFromItems,
+};
+
+export default connect(null, mapDispatchToProps)(ShopPageOrderSuccess);

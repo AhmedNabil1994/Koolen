@@ -145,7 +145,7 @@ class ShopPageCart extends Component {
     renderTotals() {
         const { cart } = this.props;
 
-        if (cart.extraLines.length <= 0) {
+        if (cart?.extraLines?.length <= 0) {
             return null;
         }
 

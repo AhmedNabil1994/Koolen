@@ -3,6 +3,7 @@ import {
     CART_ADD_ITEM, CART_REMOVE_ITEM, CART_UPDATE_QUANTITIES, CART_EMPTY,
 } from './cartActionTypes';
 import { toastSuccess } from '../../components/toast/toastComponent';
+// postRequest
 
 export function cartAddItemSuccess(product, options = [], quantity = 1) {
     // toast.success(`Product "${product.name}" added to cart!`, { theme: 'colored' });

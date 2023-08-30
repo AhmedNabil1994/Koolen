@@ -194,5 +194,7 @@
   "manager": "Manager",
   "store": "Store",
   "map": "Map",
-  "mapLink": "Map Link"
+  "mapLink": "Map Link",
+  "sorry": "Sorry",
+  "something_went_wrong": "Something went wrong"
 }

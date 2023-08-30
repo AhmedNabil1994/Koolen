@@ -130,7 +130,6 @@ class ShopPageCheckout extends Component {
 
     renderCart() {
         const { cart } = this.props;
-        console.log(this.state.payment)
 
         const items = cart.items.map((item) => (
             <tr key={item.id}>

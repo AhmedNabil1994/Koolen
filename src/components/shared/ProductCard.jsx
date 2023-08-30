@@ -50,7 +50,6 @@ function ProductCard(props) {
             </div>,
         );
     }
-    console.log(product);
 
     badges = badges.length ? <div className="product-card__badges-list">{badges}</div> : null;
 
