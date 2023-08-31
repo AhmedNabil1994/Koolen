@@ -139,7 +139,6 @@ function ShopPageWishlist(props) {
             </Helmet>
 
             <PageHeader header={formatMessage({ id: 'wishlist' })} />
-
             {content}
         </React.Fragment>
     );

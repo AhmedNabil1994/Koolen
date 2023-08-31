@@ -42,11 +42,6 @@ const Share = ({
                 <LinkedinIcon iconFillColor="white" round size={42} />
             </LinkedinShareButton>
         </li>
-        {/* <li>
-            <EmailShareButton separator="" url={url} subject={title} body={description}>
-                <EmailIcon fill="white" round size={42} />
-            </EmailShareButton>
-        </li> */}
     </ul>
 );
 

@@ -81,7 +81,6 @@ class ShopPageCheckout extends Component {
             this.setState({ isDisabled: false });
             if (success.success) {
                 toastSuccess(success);
-                // this.props?.emptyCartFromItems();
                 this.setState({ isOrderSuccess: true });
             } else {
                 toastError(success);

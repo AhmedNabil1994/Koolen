@@ -52,13 +52,13 @@ function HomePageOne() {
 
     useEffect(() => {
         setBestsellingProductsLoading(true);
-        getBestSellingProducts((success) => {
+        getBestSellingProducts((response) => {
             setBestsellingProductsLoading(false);
-            if (success.success) {
-                const products = productSchema(success.products.data, 'hot');
+            if (response.success) {
+                const products = productSchema(response.products.data, 'hot');
                 setBestsellingProducts(products);
             } else {
-                toastError(success);
+                toastError(response);
             }
         }, (fail) => {
             setBestsellingProductsLoading(false);
