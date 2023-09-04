@@ -31,7 +31,7 @@ class ShopPageCheckout extends Component {
         super(props);
 
         this.state = {
-            payment: 'standard',
+            payment: 'cash_on_delivery',
             selectedAddress: null,
             isLoading: true,
             shippingCost: 0,
@@ -177,7 +177,7 @@ class ShopPageCheckout extends Component {
                                 <input
                                     type="radio"
                                     className="input-radio__input"
-                                    name="checkout_payment_method"
+                                    name="payment_type"
                                     value={payment.key}
                                     checked={currentPayment === payment.key}
                                     onChange={this.handlePaymentChange}
@@ -192,7 +192,9 @@ class ShopPageCheckout extends Component {
                         </span>
                     </label>
                     <div className="payment-methods__item-container" ref={setContentRef}>
-                        <div className="payment-methods__item-description text-muted"><FormattedMessage id={payment.description} /></div>
+                        <div className="payment-methods__item-description text-muted">
+                            <FormattedMessage id={payment.description} />
+                        </div>
                     </div>
                 </li>
             );
