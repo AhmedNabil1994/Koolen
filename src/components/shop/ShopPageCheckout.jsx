@@ -76,7 +76,7 @@ class ShopPageCheckout extends Component {
         } = this.state;
         this.setState({ isDisabled: true });
         createOrder({
-            cart, shipping_address_id: selectedAddress.id, coupon_codes: couponCode, delivery_type: payment,
+            cart, shipping_address_id: selectedAddress.id, coupon_codes: couponCode, payment_type: payment,
         }, (success) => {
             this.setState({ isDisabled: false });
             if (success.success) {

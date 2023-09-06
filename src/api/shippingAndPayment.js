@@ -13,12 +13,12 @@ export function getShippingCost(addressId, onSuccess, onFail) {
 export function orderNow({
     shippingshipping_address_id,
     billing_address_id,
-    delivery_type, // delivery_type : "standard" || "payment"
+    payment_type, // payment_type : "standard" || "payment"
     coupon_codes,
     cart,
 }, onSuccess, onFail) {
     const data = {
-        shippingshipping_address_id, billing_address_id, delivery_type, coupon_codes, cart,
+        shippingshipping_address_id, billing_address_id, payment_type, coupon_codes, cart,
     };
     const path = '/api/v1/checkout/order/store';
     postRequest(path, data, onSuccess, onFail);
