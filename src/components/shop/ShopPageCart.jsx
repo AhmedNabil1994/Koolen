@@ -9,16 +9,17 @@ import { Link } from 'react-router-dom';
 
 // application
 import { FormattedMessage } from 'react-intl';
+import { FaTrash } from 'react-icons/fa';
 import AsyncAction from '../shared/AsyncAction';
 import Currency from '../shared/Currency';
 import InputNumber from '../shared/InputNumber';
 import PageHeader from '../shared/PageHeader';
 import { cartRemoveItem, cartUpdateQuantities } from '../../store/cart';
-import { Cross12Svg } from '../../svg';
 import { url } from '../../services/utils';
-
+import './ShopPageCart.css';
 // data stubs
 import theme from '../../data/theme';
+import CouponCode from './CouponCode';
 
 class ShopPageCart extends Component {
     constructor(props) {
@@ -33,7 +34,6 @@ class ShopPageCart extends Component {
     getItemQuantity(item) {
         const { quantities } = this.state;
         const quantity = quantities.find((x) => x.itemId === item.id);
-
         return quantity ? quantity.value : item.quantity;
     }
 
@@ -106,7 +106,7 @@ class ShopPageCart extends Component {
 
                         return (
                             <button type="button" onClick={run} className={classes}>
-                                <Cross12Svg />
+                                <FaTrash />
                             </button>
                         );
                     }}
@@ -114,30 +114,34 @@ class ShopPageCart extends Component {
             );
 
             return (
-                <tr key={item.id} className="cart-table__row">
-                    <td className="cart-table__column cart-table__column--image">{image}</td>
-                    <td className="cart-table__column cart-table__column--product">
+                <div key={item.id} className="row cart">
+                    <div className=" cart-table__column--image col-1">{image}</div>
+                    <div className=" cart-table__column--total col-6 info ">
                         <Link to={url.product(item.product)} className="cart-table__product-name">
                             {item.product.name}
-                            {item.product.color && ` - ${item.product.color}`}
                         </Link>
+                        <div className="--price d-flex" data-title="Price">
+                            <span>Unit Price: </span>
+                            <Currency value={item.price} />
+                        </div>
+                        <div className="total" data-title="Total">
+                            <Currency value={item.total} />
+                        </div>
+                    </div>
+                    <div className="cart-table__column--product col-1">
+                        <div className="quantity" data-title="Quantity">
+                            <InputNumber
+                                onChange={(quantity) => this.handleChangeQuantity(item, quantity)}
+                                value={this.getItemQuantity(item)}
+                                min={1}
+                            />
+                        </div>
                         {options}
-                    </td>
-                    <td className="cart-table__column cart-table__column--price" data-title="Price">
-                        <Currency value={item.price} />
-                    </td>
-                    <td className="cart-table__column cart-table__column--quantity" data-title="Quantity">
-                        <InputNumber
-                            onChange={(quantity) => this.handleChangeQuantity(item, quantity)}
-                            value={this.getItemQuantity(item)}
-                            min={1}
-                        />
-                    </td>
-                    <td className="cart-table__column cart-table__column--total" data-title="Total">
-                        <Currency value={item.total} />
-                    </td>
-                    <td className="cart-table__column cart-table__column--remove">{removeButton}</td>
-                </tr>
+                    </div>
+                    <div className=" cart-table__column--remove col-2 remove-container">
+                        {removeButton}
+                    </div>
+                </div>
             );
         });
     }
@@ -151,17 +155,9 @@ class ShopPageCart extends Component {
 
         return (
             <React.Fragment>
-                <thead className="cart__totals-header">
-                    <tr>
-                        <th>
-                            <FormattedMessage id="subtotal" />
-                        </th>
-                        <td>
-                            <Currency value={cart.subtotal} />
-                        </td>
-                    </tr>
-                </thead>
-                {/* <tbody className="cart__totals-body">{extraLines}</tbody> */}
+                <span>
+                    <Currency value={cart.subtotal} />
+                </span>
             </React.Fragment>
         );
     }
@@ -174,7 +170,7 @@ class ShopPageCart extends Component {
             <AsyncAction
                 action={() => cartUpdateQuantities(quantities)}
                 render={({ run, loading }) => {
-                    const classes = classNames('btn btn-primary cart__update-button', {
+                    const classes = classNames('btn btn-primary cart__update-button col-lg-5 col-sm-6', {
                         'btn-loading': loading,
                     });
 
@@ -190,63 +186,44 @@ class ShopPageCart extends Component {
         return (
             <div className="cart block">
                 <div className="container">
-                    <table className="cart__table cart-table">
-                        <thead className="cart-table__head">
-                            <tr className="cart-table__row">
-                                <th className="cart-table__column cart-table__column--image">
-                                    <React.Fragment>
-                                        <FormattedMessage id="image" />
-                                    </React.Fragment>
-                                </th>
-                                <th className="cart-table__column cart-table__column--product">
-                                    <React.Fragment>
-                                        <FormattedMessage id="product" />
-                                    </React.Fragment>
-                                </th>
-                                <th className="cart-table__column cart-table__column--price">
-                                    <React.Fragment>
-                                        <FormattedMessage id="price" />
-                                    </React.Fragment>
-                                </th>
-                                <th className="cart-table__column cart-table__column--quantity">
-                                    <React.Fragment>
-                                        <FormattedMessage id="quantity" />
-                                    </React.Fragment>
-                                </th>
-                                <th className="cart-table__column cart-table__column--total">
-                                    <React.Fragment>
-                                        <FormattedMessage id="total" />
-                                    </React.Fragment>
-                                </th>
-                                <th className="cart-table__column cart-table__column--remove" aria-label="Remove" />
-                            </tr>
-                        </thead>
-                        <tbody className="cart-table__body">{this.renderItems()}</tbody>
-                    </table>
-                    <div className="cart__actions">
-                        <div />
-                        <div className="cart__buttons">
-                            <Link to="/" className="btn btn-light">
-                                <FormattedMessage id="continueShopping" />
+                    <div className="cart-products">
+                        {this.renderItems()}
+                        <div className="row mt-4 all-buttons">
+                            <div className="col-lg-6 col-sm-12 one">
+                                <Link to="/" className="btn btn-secondary col-lg-5 col-sm-6">
+                                    <FormattedMessage id="continueShopping" />
+                                </Link>
+                                {updateCartButton}
+                            </div>
+                            <Link
+                                to="/shop/checkout"
+                                className="col-lg-6 col-sm-12 btn btn-primary btn-xl btn-block cart__checkout-button mt-lg-0 mt-md-3"
+                            >
+                                <FormattedMessage id="proceedToCheckout" />
+                                {this.renderTotals()}
                             </Link>
-                            {updateCartButton}
                         </div>
                     </div>
-
-                    <div className="row justify-content-end pt-md-5 pt-4">
-                        <div className="col-12 col-md-7 col-lg-6 col-xl-5">
-                            <div className="card">
-                                <div className="card-body">
-                                    <h3 className="card-title"><FormattedMessage id="cartTotals" /></h3>
-                                    <table className="cart__totals">
-                                        {this.renderTotals()}
-                                    </table>
-                                    <Link
-                                        to="/shop/checkout"
-                                        className="btn btn-primary btn-xl btn-block cart__checkout-button"
-                                    >
-                                        <FormattedMessage id="proceedToCheckout" />
-                                    </Link>
+                </div>
+                <div className="order-summary">
+                    <div className="card" style={{ width: '500px' }}>
+                        <h3>Order Summary</h3>
+                        <div>
+                            <CouponCode />
+                        </div>
+                        <div className="list-group">
+                            <div className=" row">
+                                <div className="col-9">Subtotal</div>
+                                <div className="col-3">000</div>
+                            </div>
+                            <div className=" row">
+                                <div className="col-9">Discount</div>
+                                <div className="col-3">000</div>
+                            </div>
+                            <div className=" row">
+                                <div className="col-9">Total</div>
+                                <div className="col-3">
+                                    <Currency value={cart.total} />
                                 </div>
                             </div>
                         </div>
@@ -289,7 +266,6 @@ class ShopPageCart extends Component {
                 </Helmet>
 
                 <PageHeader header={<FormattedMessage id="shoppingCart" />} />
-
                 {content}
             </React.Fragment>
         );

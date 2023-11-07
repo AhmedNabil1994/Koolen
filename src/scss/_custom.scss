@@ -143,7 +143,6 @@
 			color: #3d464d !important;
 		}
 	}
-
 	.button-container{
 		width: 100%;
 		position: absolute;
@@ -169,14 +168,18 @@
 	}
 
 	&__title {
-		margin-bottom: 0.5rem;
+    // margin-bottom: 0.5rem;
+    width: 194px;
+    text-align: center;
+    margin: 10px auto;
 		a {
-			font-size: 1.025rem;
+			font-size: 15px;
 			font-weight: 500;
 
 			color: black !important;
 			opacity: 1;
 		}
+		
 	}
 
 	&__rating {
@@ -194,6 +197,15 @@
 	&__price {
 		font-size: 1rem;
 		font-weight: 500;
+	}
+}
+
+@media(max-width:768px){
+	.k-product__title {
+		margin: 10px auto;
+	}
+	.k-product__title a {
+		font-size: 17px;
 	}
 }
 

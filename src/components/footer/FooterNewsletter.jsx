@@ -30,7 +30,7 @@ export default function FooterNewsletter({ data }) {
                     {intl.formatMessage({ id: 'login.email' })}
                 </label>
                 <input
-                    type="text"
+                    type="email"
                     className="footer-newsletter__form-input form-control"
                     id="footer-newsletter-address"
                     placeholder={intl.formatMessage({ id: 'login.email' })}

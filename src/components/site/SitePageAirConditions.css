@@ -1,0 +1,133 @@
+/* Centered elements vertically */
+table tbody tr th,
+table tbody tr td:last-child,
+table tbody tr td.map {
+  vertical-align: middle !important;
+}
+.image-container .split-ac {
+    background: url('./../../images/air-con-slider.jpg') center center / cover no-repeat !important;
+    width: 100%;
+    height: 496px;
+}
+
+.table-container {
+  display: flex !important;
+  justify-content: center !important;
+  overflow: hidden;
+}
+
+.table-container table {
+  text-align: center;
+  width: 1000px !important;
+  border: 3px solid #b3b3b3;
+  background-color: #f2f2f2;  
+}
+
+table th,
+table td {
+  border: 1px solid black !important;
+}
+
+table thead th {
+  width: 200px;
+}
+
+table tbody tr td:last-child {
+  color: #fc671a !important;
+}
+
+table tbody tr td.map a {
+    background-color: #fc671a;
+    color: white;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+/* Big screens */
+/* @media(min-width: 1282px){
+  .image-container .split-ac {
+    height: 334px !important;
+    margin-top: -34px !important;
+    width: 100% !important;
+  }
+} */
+/* Big screens */
+@media(max-width: 1281px){
+  .image-container .split-ac {
+    height: 300px !important;
+    margin-top: -34px !important;
+    width: 100% !important;
+  }
+  .table-container table {
+    width: calc(100% - 30px) !important;
+  }
+}
+
+@media(min-width: 1024px) and (max-width: 1025px){
+  .image-container .split-ac {
+    height: 250px !important;
+    margin-top: -10px !important;
+  }
+
+}
+
+/* Surface duo */
+@media(min-width: 540px) and (max-width: 541px){
+  .image-container .split-ac {
+    height: 144px !important;
+    margin-top: -10px !important;
+  }
+  .table-container table {
+    width: calc(100% - 30px) !important;
+}
+}
+
+/* @media(min-width: 542px) and (max-width: 766px){
+  .image-container .split-ac {
+    height: 208px !important;
+    margin-bottom: -10px !important;
+  }
+} */
+
+/* Meduim screens */
+@media(min-width: 767px) and (max-width: 913px){
+  .image-container .split-ac {
+    height: 208px !important;
+    margin-top: 0px !important;
+    margin-bottom: 15px !important;
+  }
+  .table-container table {
+    width: calc(100% - 40px) !important;
+  }
+}
+
+/* Mobile screens */
+@media(max-width: 430px){
+  .image-container .split-ac {
+    height: 96px !important;
+    margin-bottom: 10px !important;
+    margin-top: 0px !important;
+  }
+  .table-container table {
+    width: calc(100% - 11px) !important;
+    font-size: 12px;
+  }
+}
+
+/* Fold screen */
+@media(min-width:280px) and (max-width:300px){
+  .site {
+      width: 315px !important;
+    }
+  .image-container .split-ac {
+    height: 84px !important;
+    margin-bottom: 10px !important;
+    margin-top: 0px !important;
+    }
+  .table-container table {
+    font-size: 9.6px;
+    } 
+}
+
+
+

@@ -30,10 +30,10 @@ function NavLinks(props) {
             title: 'topbar.categories',
             url: '/categories',
         },
-        {
-            title: 'sleepItAirConditions',
-            url: '/slipt-air-conditions',
-        },
+        // {
+        //     title: 'sleepItAirConditions',
+        //     url: '/split-air-conditions',
+        // },
     ];
 
     const handleMouseEnter = (event) => {

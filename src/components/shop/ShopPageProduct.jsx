@@ -24,7 +24,7 @@ import WidgetProducts from '../widgets/WidgetProducts';
 
 // data stubs
 import categories from '../../data/shopWidgetCategories';
-import theme from '../../data/theme';
+// import theme from '../../data/theme';
 // api
 import { getProductDetails, getRelatedProducts } from '../../api/products';
 import prodcutsSchema, { singleProductSchema } from '../../helpers/productSchema';
@@ -36,6 +36,10 @@ function ShopPageProduct(props) {
     const [product, setProduct] = useState(null);
     const [relatedProducts, setRelatedProducts] = useState([]);
     const [latestProducts, setLatestProducts] = useState([]);
+    const [productTitle, setProductTitle] = useState('');
+    const [productDesc, setProductDesc] = useState('');
+    const [productImage, setProductImage] = useState('');
+    const [productSlug2, setProductSlug] = useState('');
     const intl = useIntl();
 
     useEffect(() => {
@@ -44,6 +48,10 @@ function ShopPageProduct(props) {
             setIsLoading(false);
             if (success.success) {
                 const product = singleProductSchema(success.data);
+                setProductTitle(success.data.metaTitle);
+                setProductDesc(success.data.metaDescription);
+                setProductImage(success.data.photos[0]);
+                setProductSlug(success.data.slug);
                 setProduct(product[0]);
             } else toastError(success);
         }, (fail) => {
@@ -156,9 +164,26 @@ function ShopPageProduct(props) {
     return (
         <React.Fragment>
             <Helmet>
-                <title>
-                    {`${theme.name}`}
-                </title>
+                <title>{`${productTitle}`}</title>
+                <meta name="description" content={`${productDesc}`} />
+                {/* Other */}
+                <meta name="keywords" content="home, home 2" />
+
+                <meta name="twitter:card" content="product" />
+                <meta name="twitter:site" content="@publisher_handle" />
+                <meta name="twitter:title" content={`${productTitle}`} />
+
+                <meta name="twitter:description" content={`${productDesc}`} />
+                <meta name="twitter:creator" content="@author_handle" />
+                <meta name="twitter:image" content={`${productImage}`} />
+                <meta property="og:title" content={`${productTitle}`} />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content={`http://koolen.shaha.com.sa/shop/products/${productSlug2}`} />
+                <meta property="og:image" content={`${productImage}`} />
+                <meta property="og:description" content={`${productDesc}`} />
+                <meta property="og:site_name" content="" />
+                <meta property="fb:app_id" content="" />
+                {/* Other */}
             </Helmet>
             {content}
         </React.Fragment>

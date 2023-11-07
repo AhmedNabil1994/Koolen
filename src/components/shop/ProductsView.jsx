@@ -51,25 +51,22 @@ function ProductsView(props) {
 
     let content;
 
-    if (productsListItems?.length > 0) {
+    if (productsListItems?.length < 20) {
         content = (
             <div className="products-view__content">
-                <div
-                    className="products-view__list products-list"
-                    data-layout={grid}
-                    data-with-features="false"
-                >
-                    <div className="products-list__body">
-                        {productsListItems}
-                    </div>
+                <div className="products-view__list products-list" data-layout={grid} data-with-features="false">
+                    <div className="products-list__body">{productsListItems}</div>
                 </div>
-
+            </div>
+        );
+    } else if (productsListItems?.length > 20) {
+        content = (
+            <div className="products-view__content">
+                <div className="products-view__list products-list" data-layout={grid} data-with-features="false">
+                    <div className="products-list__body">{productsListItems}</div>
+                </div>
                 <div className="products-view__pagination">
-                    <Pagination
-                        current={selectedPage}
-                        total={pages}
-                        onPageChange={handlePageChange}
-                    />
+                    <Pagination current={selectedPage} total={pages} onPageChange={handlePageChange} />
                 </div>
             </div>
         );
@@ -79,14 +76,8 @@ function ProductsView(props) {
         content = (
             <div className="products-view__empty">
                 <div className="products-view__empty-title">{intl.formatMessage({ id: 'filter.noMatchingItems' })}</div>
-                <div className="products-view__empty-subtitle">
-                    {intl.formatMessage({ id: 'filter.tryRestting' })}
-                </div>
-                <button
-                    type="button"
-                    className="btn btn-primary btn-sm"
-                    onClick={handleResetFilters}
-                >
+                <div className="products-view__empty-subtitle">{intl.formatMessage({ id: 'filter.tryRestting' })}</div>
+                <button type="button" className="btn btn-primary btn-sm" onClick={handleResetFilters}>
                     {intl.formatMessage({ id: 'filter.reset' })}
                 </button>
             </div>

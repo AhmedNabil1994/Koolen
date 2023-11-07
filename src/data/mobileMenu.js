@@ -26,7 +26,7 @@ export default [
     },
     {
         type: 'link',
-        label: 'sleepItAirConditions',
-        url: '/slipt-air-conditions',
+        label: 'splitAirConditions',
+        url: '/split-air-conditions',
     },
 ];

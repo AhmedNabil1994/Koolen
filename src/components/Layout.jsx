@@ -270,7 +270,7 @@ function Layout(props) {
                         <Route exact path="/site/terms" component={SitePageTerms} />
                         <Route exact path="/site/typography" component={SitePageTypography} />
                         <Route exact path="/categories" component={CategoriesPage} />
-                        <Route exact path="/slipt-air-conditions" component={AirConditions} />
+                        <Route exact path="/split-air-conditions" component={AirConditions} />
 
                         {/*
                         // Page Not Found

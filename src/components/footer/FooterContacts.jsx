@@ -26,12 +26,12 @@ export default function FooterContacts({ data }) {
                     <a href={`tel:${data?.contact_numbers.contact_phone}`}>
                         {data?.contact_numbers.contact_phone}
                     </a>
-                    <span className="mx-1">
+                    {/* <span className="mx-1">
                         {' / '}
                     </span>
                     <a href={`tel:${data?.contact_numbers.customers_service_number}`}>
                         {data?.contact_numbers.customers_service_number}
-                    </a>
+                    </a> */}
                 </li>
             </ul>
         </div>

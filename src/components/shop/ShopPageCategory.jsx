@@ -5,7 +5,7 @@ import React, { useEffect, useReducer, useState } from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
-import { Helmet } from 'react-helmet-async';
+// import { Helmet } from 'react-helmet-async';
 
 // application
 import { useIntl } from 'react-intl';
@@ -20,12 +20,13 @@ import WidgetProducts from '../widgets/WidgetProducts';
 import { sidebarClose } from '../../store/sidebar';
 
 // data stubs
-import theme from '../../data/theme';
+// import theme from '../../data/theme';
 import { url, getCategoryParents } from '../../services/utils';
 
 // apis
 // import { getNewArrivalProducts } from '../../api/products';
 import { getNewArrivalProducts, getAllProducts as getAllProductsApi } from '../../api/products';
+// import { getNewArrivalProducts, getAllProducts as getAllProductsApi, getSearchedProduct } from '../../api/products';
 import { toastError } from '../toast/toastComponent';
 import productsSchema from '../../helpers/productSchema';
 
@@ -183,6 +184,7 @@ function ShopPageCategory(props) {
     const [selectedPage, setSelectedPage] = useState(1);
     const [selectedCategory, setSelectedCategory] = useState(props?.match?.params?.categorySlug || null);
     const [selectedPrices, setSelectedPrices] = useState([]);
+    // const [meteTitle, setMetaTitle] = useState('');
     const latestProductsLimit = 5;
     const intl = useIntl();
 
@@ -296,6 +298,21 @@ function ShopPageCategory(props) {
         };
     }, [dispatch, categorySlug, state.options, state.filters]);
 
+    // useEffect(() => {
+    //     getSearchedProduct(
+    //         (success) => {
+    //             setIsLoading(false);
+    //             if (success) {
+    //                 setMetaTitle(success.data.metaTitle);
+    //                 // console.log('test sth', success.data);
+    //             }
+    //         }, (fail) => {
+    //             setIsLoading(false);
+    //             toastError(fail);
+    //         },
+    //     );
+    // }, []);
+
     if (state.categoryIsLoading || (state.productsListIsLoading && !state.productsList)) {
         return <BlockLoader />;
     }
@@ -385,9 +402,9 @@ function ShopPageCategory(props) {
 
     return (
         <React.Fragment>
-            <Helmet>
-                <title>{`Shop Category Page — ${theme.name}`}</title>
-            </Helmet>
+            {/* <Helmet>
+                <title>{`${meteTitle}`}</title>
+            </Helmet> */}
 
             <PageHeader header={pageTitle} breadcrumb={breadcrumb} />
 

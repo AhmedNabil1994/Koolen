@@ -114,7 +114,7 @@
         }
     }
     .cart-table__column--price {
-        width: 170px;
+        // width: 170px;
 
         @include direction {
             text-align: $inline-end;
@@ -208,7 +208,8 @@
     .cart-table__column--product {
         text-align: center;
         border-bottom: 1px solid $cart-table-card-border-color;
-        padding: 0 20px 18px;
+        // padding: 0 20px 18px;
+        font-size: 13px;
     }
     .cart-table__column--price,
     .cart-table__column--quantity,
@@ -222,7 +223,7 @@
             font-weight: $font-weight-medium;
             width: 55%;
             flex-shrink: 0;
-            content: attr(data-title) ": ";
+            // content: attr(data-title) ": ";
 
             @include direction {
                 text-align: $inline-end;
@@ -237,10 +238,11 @@
     }
     .cart-table__column--total {
         padding-bottom: 18px;
+        margin-top: -20px;
     }
     .cart-table__column--remove {
         position: absolute;
-        top: 5px;
+        top: -5px;
 
         @include direction {
             #{$inset-inline-end}: 5px;
