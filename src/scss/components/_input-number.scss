@@ -7,7 +7,7 @@
 
 .input-number {
     display: block;
-    width: 100%;
+    width: 100px;
     position: relative;
 }
 .input-number__input {
@@ -29,7 +29,7 @@
     height: calc(100% - 2px);
     width: 24px;
     top: 1px;
-    right: -17px !important;
+    right: 0 !important;
     cursor: pointer;
     user-select: none;
     opacity: .5;

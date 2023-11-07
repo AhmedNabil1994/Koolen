@@ -30,7 +30,7 @@ const CouponCode = ({ setCodeCoupon }) => {
                     type="text"
                     id="input-coupon-code"
                     placeholder={formatMessage({ id: 'couponCode' })}
-                    className="form-control"
+                    className="form-control input-border"
                     onChange={(e) => setCode(e.target.value)}
                     value={code}
                 />
