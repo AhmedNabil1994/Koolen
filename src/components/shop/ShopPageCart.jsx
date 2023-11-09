@@ -6,10 +6,10 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-
 // application
 import { FormattedMessage } from 'react-intl';
 import { FaTrash } from 'react-icons/fa';
+// import handleAddMouseDown from'../shared/InputNumber';
 import AsyncAction from '../shared/AsyncAction';
 import Currency from '../shared/Currency';
 import InputNumber from '../shared/InputNumber';
@@ -18,6 +18,8 @@ import { url } from '../../services/utils';
 import './ShopPageCart.css';
 // data stubs
 import theme from '../../data/theme';
+// import { toastError, toastSuccess } from '../toast/toastComponent';
+// import { createOrder } from '../../api/orders';
 import CouponCode from './CouponCode';
 
 class ShopPageCart extends Component {
@@ -27,6 +29,9 @@ class ShopPageCart extends Component {
         this.state = {
             /** example: [{itemId: 8, value: 1}] */
             quantities: [],
+            // couponCode: null,
+            // isOrderSuccess: false,
+            // isDisabled: false,
         };
     }
 
@@ -35,6 +40,32 @@ class ShopPageCart extends Component {
         const quantity = quantities.find((x) => x.itemId === item.id);
         return quantity ? quantity.value : item.quantity;
     }
+
+    // makeANewOrder = (cart) => {
+    //     const { selectedAddress, couponCode, payment } = this.state;
+    //     this.setState({ isDisabled: true });
+    //     createOrder(
+    //         {
+    //             cart,
+    //             shipping_address_id: selectedAddress.id,
+    //             coupon_codes: couponCode,
+    //             payment_type: payment,
+    //         },
+    //         (success) => {
+    //             this.setState({ isDisabled: false });
+    //             if (success.success) {
+    //                 toastSuccess(success);
+    //                 this.setState({ isOrderSuccess: true });
+    //             } else {
+    //                 toastError(success);
+    //             }
+    //         },
+    //         (fail) => {
+    //             this.setState({ isDisabled: false });
+    //             toastError(fail);
+    //         },
+    //     );
+    // };
 
     handleChangeQuantity = (item, quantity) => {
         this.setState((state) => {
@@ -87,9 +118,7 @@ class ShopPageCart extends Component {
                 options = (
                     <ul className="cart-table__options">
                         {item.options.map((option, index) => (
-                            <li key={index}>
-                                {`${option.optionTitle}: ${option.valueTitle}`}
-                            </li>
+                            <li key={index}>{`${option.optionTitle}: ${option.valueTitle}`}</li>
                         ))}
                     </ul>
                 );
@@ -111,17 +140,41 @@ class ShopPageCart extends Component {
                     }}
                 />
             );
+            // const { cartUpdateQuantities } = this.props;
+            // const { quantities } = this.state;
+            // const updateCartButton = (
+            //     <AsyncAction
+            //         action={() => cartUpdateQuantities(quantities)}
+            //         render={({ run }) => {
+            //             const classes = classNames('btn btn-primary cart__update-button');
 
+            //             return (
+            //                 <button type="button" onClick={run} className={classes} disabled={!this.cartNeedUpdate()}>
+            //                     {/* <div className="input-number__add" /> */}
+            //                     <div
+            //                         className="input-number__add"
+            //                         onMouseDown={this.handleAddMouseDown}
+            //                         role="button"
+            //                         tabIndex={0}
+            //                         aria-label="button"
+            //                     />
+            //                 </button>
+            //                 // <InputNumber onClick={run} />
+            //             );
+            //         }}
+            //     />
+            // );
             return (
                 <div key={item.id} className="flex-center-between cart ">
                     <div className="d-flex">
                         <div className=" cart-table__column--image ">{image}</div>
-                        <div className=" cart-table__column--total  info ">
+                        {/* <div className=" cart-table__column--total  info "> */}
+                        <div className="info ">
                             <Link to={url.product(item.product)} className="cart-table__product-name">
                                 {item.product.name}
                             </Link>
                             <div className="price d-flex" data-title="Price">
-                                <span>Unit Price: </span>
+                                <span className="mr-1">Unit Price: </span>
                                 <Currency value={item.price} />
                             </div>
                             <div className="total" data-title="Total">
@@ -129,7 +182,7 @@ class ShopPageCart extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="d-flex">
+                    <div className="flex-center-between input-and-icon">
                         <div className="cart-table__column--product ">
                             <div className="quantity " data-title="Quantity">
                                 <InputNumber
@@ -137,6 +190,7 @@ class ShopPageCart extends Component {
                                     value={this.getItemQuantity(item)}
                                     min={1}
                                 />
+                                {/* {updateCartButton} */}
                             </div>
                             {options}
                         </div>
@@ -177,15 +231,15 @@ class ShopPageCart extends Component {
                         <button type="button" onClick={run} className={classes} disabled={!this.cartNeedUpdate()}>
                             <FormattedMessage id="updateCart" />
                         </button>
+                        // <InputNumber onClick={run} />
                     );
                 }}
             />
         );
-
         return (
-            <div className="cart block bg-color container">
-                <div className="row">
-                    <div className="container col-xl-7">
+            <div className="cart block container">
+                <div className="row mt-5 py-5">
+                    <div className="container products-container col-lg-7">
                         <div className="cart-products">
                             <h3>Shopping Cart</h3>
                             {this.renderItems()}
@@ -197,10 +251,7 @@ class ShopPageCart extends Component {
                                     {updateCartButton}
                                 </div>
                                 <div className="two">
-                                    <Link
-                                        to="/shop/checkout"
-                                        className="btn btn-primary"
-                                    >
+                                    <Link to="/shop/checkout" className="btn btn-primary">
                                         <FormattedMessage id="proceedToCheckout" />
                                         {this.renderTotals()}
                                     </Link>
@@ -208,22 +259,27 @@ class ShopPageCart extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="order-summary col-xl-5">
+                    <div className="order-summary col-lg-5">
                         <div className="card">
                             <h3>Order Summary</h3>
                             <div className="coupon-code">
                                 <CouponCode />
+                                {/* <CouponCode
+                                    setCodeCoupon={(couponNumber) => {
+                                        this.setState({ couponCode: couponNumber });
+                                    }}
+                                /> */}
                             </div>
                             <div className="details">
-                                <div className="flex-center-between">
+                                <div className="flex-center-between detail">
                                     <div>Subtotal</div>
                                     <div>{this.renderTotals()}</div>
                                 </div>
-                                <div className="flex-center-between">
+                                <div className="flex-center-between detail">
                                     <div>Discount</div>
                                     <div>000</div>
                                 </div>
-                                <div className="flex-center-between">
+                                <div className="flex-center-between detail">
                                     <div>Total</div>
                                     <div>{this.renderTotals()}</div>
                                 </div>

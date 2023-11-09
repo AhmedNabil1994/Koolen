@@ -1,21 +1,31 @@
 // react
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
 // third-party
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import AsyncAction from './AsyncAction';
+import { cartUpdateQuantities } from '../../store/cart';
 
 class InputNumber extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            /** example: [{itemId: 8, value: 1}] */
+            quantities: [],
+        };
+    }
+
     handleChange = (event) => {
         const { min, onChange } = this.props;
-
         if (onChange) {
             if (event.target.value.trim() === '') {
                 onChange('');
             } else {
                 const value = parseFloat(event.target.value);
 
-                onChange(Number.isNaN(value) ? (min || 0) : value);
+                onChange(Number.isNaN(value) ? min || 0 : value);
             }
         }
     };
@@ -30,16 +40,25 @@ class InputNumber extends Component {
         this.changeByTimer(-1);
     };
 
+    // cartNeedUpdate() {
+    //     const { quantities } = this.state;
+    //     const { cart } = this.props;
+
+    //     return (
+    //         quantities.filter((x) => {
+    //             const item = cart.items.find((item) => item.id === x.itemId);
+
+    //             return item && item.quantity !== x.value && x.value !== '';
+    //         }).length > 0
+    //     );
+    // }
+
     /**
      * @param direction - one of [-1, 1]
      */
     change(direction) {
         const {
-            value,
-            step,
-            max,
-            min,
-            onChange,
+            value, step, max, min, onChange,
         } = this.props;
         let newValue = (value === '' || Number.isNaN(value) ? 0 : value) + step * direction;
 
@@ -77,11 +96,40 @@ class InputNumber extends Component {
     }
 
     render() {
+        const { cartUpdateQuantities } = this.props;
+        const { quantities } = this.state;
+        const updateCartButton = (
+            <AsyncAction
+                action={() => cartUpdateQuantities(quantities)}
+                render={({ run }) => (
+                    <React.Fragment>
+                        <div
+                            className="input-number__add"
+                            role="button"
+                            aria-label="button"
+                            onMouseDown={this.handleAddMouseDown}
+                            onKeyDown={this.handleAddMouseDown}
+                            onClick={run}
+                            tabIndex={0}
+                        />
+                        <div
+                            className="input-number__sub"
+                            role="button"
+                            aria-label="button"
+                            onMouseDown={this.handleSubMouseDown}
+                            onKeyDown={this.handleAddMouseDown}
+                            onClick={run}
+                            tabIndex={0}
+                        />
+                    </React.Fragment>
+                )}
+            />
+        );
+        // <button type="button" onClick={run} className={classes} disabled={!this.cartNeedUpdate()}>
+        //     <FormattedMessage id="updateCart" />
+        // </button>
         const {
-            size,
-            className,
-            onChange,
-            ...otherProps
+            size, className, onChange, ...otherProps
         } = this.props;
 
         const classes = classNames('input-number', className);
@@ -92,17 +140,13 @@ class InputNumber extends Component {
 
         return (
             <div className={classes}>
-                <input
-                    className={formControlClasses}
-                    type="number"
-                    onChange={this.handleChange}
-                    {...otherProps}
-                />
+                <input className={formControlClasses} type="number" onChange={this.handleChange} {...otherProps} />
 
                 {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-                <div className="input-number__add" onMouseDown={this.handleAddMouseDown} />
+                {/* <div className="input-number__add" onMouseDown={this.handleAddMouseDown} /> */}
                 {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-                <div className="input-number__sub" onMouseDown={this.handleSubMouseDown} />
+                {/* <div className="input-number__sub" onMouseDown={this.handleSubMouseDown} /> */}
+                {updateCartButton}
             </div>
         );
     }
@@ -129,4 +173,12 @@ InputNumber.defaultProps = {
     min: null,
 };
 
-export default InputNumber;
+const mapStateToProps = (state) => ({
+    cart: state.cart,
+});
+const mapDispatchToProps = {
+    cartUpdateQuantities,
+};
+
+// export default InputNumber;
+export default connect(mapStateToProps, mapDispatchToProps)(InputNumber);

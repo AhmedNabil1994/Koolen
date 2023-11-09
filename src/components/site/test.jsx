@@ -1,26 +1,13 @@
-// // react
+// react
 // import React, { Component } from 'react';
-
+// import { connect } from 'react-redux';
 // // third-party
 // import classNames from 'classnames';
-// import { connect } from 'react-redux';
-// import { Helmet } from 'react-helmet-async';
-// import { Link } from 'react-router-dom';
+// import PropTypes from 'prop-types';
+// import AsyncAction from './AsyncAction';
+// import { cartUpdateQuantities } from '../../store/cart';
 
-// // application
-// import { FormattedMessage } from 'react-intl';
-// import AsyncAction from '../shared/AsyncAction';
-// import Currency from '../shared/Currency';
-// import InputNumber from '../shared/InputNumber';
-// import PageHeader from '../shared/PageHeader';
-// import { cartRemoveItem, cartUpdateQuantities } from '../../store/cart';
-// import { Cross12Svg } from '../../svg';
-// import { url } from '../../services/utils';
-
-// // data stubs
-// import theme from '../../data/theme';
-
-// class ShopPageCart extends Component {
+// class InputNumber extends Component {
 //     constructor(props) {
 //         super(props);
 
@@ -30,283 +17,171 @@
 //         };
 //     }
 
-//     getItemQuantity(item) {
-//         const { quantities } = this.state;
-//         const quantity = quantities.find((x) => x.itemId === item.id);
-
-//         return quantity ? quantity.value : item.quantity;
-//     }
-
-//     handleChangeQuantity = (item, quantity) => {
-//         this.setState((state) => {
-//             const stateQuantity = state.quantities.find((x) => x.itemId === item.id);
-
-//             if (!stateQuantity) {
-//                 state.quantities.push({ itemId: item.id, value: quantity });
+//     handleChange = (event) => {
+//         const { min, onChange } = this.props;
+//         if (onChange) {
+//             if (event.target.value.trim() === '') {
+//                 onChange('');
 //             } else {
-//                 stateQuantity.value = quantity;
-//             }
+//                 const value = parseFloat(event.target.value);
 
-//             return {
-//                 quantities: state.quantities,
-//             };
-//         });
+//                 onChange(Number.isNaN(value) ? min || 0 : value);
+//             }
+//         }
 //     };
 
-//     cartNeedUpdate() {
-//         const { quantities } = this.state;
-//         const { cart } = this.props;
+//     handleAddMouseDown = () => {
+//         this.change(1);
+//         this.changeByTimer(1);
+//     };
 
-//         return (
-//             quantities.filter((x) => {
-//                 const item = cart.items.find((item) => item.id === x.itemId);
+//     handleSubMouseDown = () => {
+//         this.change(-1);
+//         this.changeByTimer(-1);
+//     };
 
-//                 return item && item.quantity !== x.value && x.value !== '';
-//             }).length > 0
-//         );
-//     }
+//     // cartNeedUpdate() {
+//     //     const { quantities } = this.state;
+//     //     const { cart } = this.props;
 
-//     renderItems() {
-//         const { cart, cartRemoveItem } = this.props;
+//     //     return (
+//     //         quantities.filter((x) => {
+//     //             const item = cart.items.find((item) => item.id === x.itemId);
 
-//         return cart.items.map((item) => {
-//             let image;
-//             let options;
-//             const imgSrc = item.product.img || item.product.images[0];
+//     //             return item && item.quantity !== x.value && x.value !== '';
+//     //         }).length > 0
+//     //     );
+//     // }
 
-//             if (item.product.images.length > 0) {
-//                 image = (
-//                     <div className="product-image">
-//                         <Link to={url.product(item.product)} className="product-image__body">
-//                             <img className="product-image__img" src={imgSrc} alt={imgSrc} />
-//                         </Link>
-//                     </div>
-//                 );
-//             }
+//     /**
+//      * @param direction - one of [-1, 1]
+//      */
+//     change(direction) {
+//         const {
+//             value, step, max, min, onChange,
+//         } = this.props;
+//         let newValue = (value === '' || Number.isNaN(value) ? 0 : value) + step * direction;
 
-//             if (item.options.length > 0) {
-//                 options = (
-//                     <ul className="cart-table__options">
-//                         {item.options.map((option, index) => (
-//                             <li key={index}>{`${option.optionTitle}: ${option.valueTitle}`}</li>
-//                         ))}
-//                     </ul>
-//                 );
-//             }
-
-//             const removeButton = (
-//                 <AsyncAction
-//                     action={() => cartRemoveItem(item.id)}
-//                     render={({ run, loading }) => {
-//                         const classes = classNames('btn btn-light btn-sm btn-svg-icon', {
-//                             'btn-loading': loading,
-//                         });
-
-//                         return (
-//                             <button type="button" onClick={run} className={classes}>
-//                                 <Cross12Svg />
-//                             </button>
-//                         );
-//                     }}
-//                 />
-//             );
-
-//             return (
-//                 <tr key={item.id} className="cart-table__row">
-//                     <td className="cart-table__column cart-table__column--image">{image}</td>
-//                     <td className="cart-table__column cart-table__column--product">
-//                         <Link to={url.product(item.product)} className="cart-table__product-name">
-//                             {item.product.name}
-//                             {item.product.color && ` - ${item.product.color}`}
-//                         </Link>
-//                         {options}
-//                     </td>
-//                     <td className="cart-table__column cart-table__column--price" data-title="Price">
-//                         <Currency value={item.price} />
-//                     </td>
-//                     <td className="cart-table__column cart-table__column--quantity" data-title="Quantity">
-//                         <InputNumber
-//                             onChange={(quantity) => this.handleChangeQuantity(item, quantity)}
-//                             value={this.getItemQuantity(item)}
-//                             min={1}
-//                         />
-//                     </td>
-//                     <td className="cart-table__column cart-table__column--total" data-title="Total">
-//                         <Currency value={item.total} />
-//                     </td>
-//                     <td className="cart-table__column cart-table__column--remove">{removeButton}</td>
-//                 </tr>
-//             );
-//         });
-//     }
-
-//     renderTotals() {
-//         const { cart } = this.props;
-
-//         if (cart?.extraLines?.length <= 0) {
-//             return null;
+//         if (max !== null) {
+//             newValue = Math.min(max, newValue);
+//         }
+//         if (min !== null) {
+//             newValue = Math.max(min, newValue);
 //         }
 
-//         return (
-//             <React.Fragment>
-//                 <thead className="cart__totals-header">
-//                     <tr>
-//                         <th>
-//                             <FormattedMessage id="subtotal" />
-//                         </th>
-//                         <td>
-//                             <Currency value={cart.subtotal} />
-//                         </td>
-//                     </tr>
-//                 </thead>
-//                 {/* <tbody className="cart__totals-body">{extraLines}</tbody> */}
-//             </React.Fragment>
-//         );
+//         if (newValue !== value) {
+//             if (onChange) {
+//                 onChange(newValue);
+//             }
+//         }
 //     }
 
-//     renderCart() {
-//         const { cartUpdateQuantities } = this.props;
-//         const { quantities } = this.state;
+//     /**
+//      * @param direction - one of [-1, 1]
+//      */
+//     changeByTimer(direction) {
+//         let interval;
+//         const timer = setTimeout(() => {
+//             interval = setInterval(() => this.change(direction), 50);
+//         }, 300);
 
-//         const updateCartButton = (
-//             <AsyncAction
-//                 action={() => cartUpdateQuantities(quantities)}
-//                 render={({ run, loading }) => {
-//                     const classes = classNames('btn btn-primary cart__update-button', {
-//                         'btn-loading': loading,
-//                     });
+//         const documentMouseUp = () => {
+//             clearTimeout(timer);
+//             clearInterval(interval);
 
-//                     return (
-//                         <button type="button" onClick={run} className={classes} disabled={!this.cartNeedUpdate()}>
-//                             <FormattedMessage id="updateCart" />
-//                         </button>
-//                     );
-//                 }}
-//             />
-//         );
+//             document.removeEventListener('mouseup', documentMouseUp, false);
+//         };
 
-//         return (
-//             <div className="cart block">
-//                 <div className="container">
-//                     {/* <table className="cart__table cart-table"> */}
-//                     {/* <div className="cart-products"> */}
-//                     {/* <thead className="cart-table__head">
-//                         <tr className="cart-table__row">
-//                             <th className="cart-table__column cart-table__column--image">
-//                                 <React.Fragment>
-//                                     <FormattedMessage id="image" />
-//                                 </React.Fragment>
-//                             </th>
-//                             <th className="cart-table__column cart-table__column--product">
-//                                 <React.Fragment>
-//                                     <FormattedMessage id="product" />
-//                                 </React.Fragment>
-//                             </th>
-//                             <th className="cart-table__column cart-table__column--price">
-//                                 <React.Fragment>
-//                                     <FormattedMessage id="price" />
-//                                 </React.Fragment>
-//                             </th>
-//                             <th className="cart-table__column cart-table__column--quantity">
-//                                 <React.Fragment>
-//                                     <FormattedMessage id="quantity" />
-//                                 </React.Fragment>
-//                             </th>
-//                             <th className="cart-table__column cart-table__column--total">
-//                                 <React.Fragment>
-//                                     <FormattedMessage id="total" />
-//                                 </React.Fragment>
-//                             </th>
-//                             <th className="cart-table__column cart-table__column--remove" aria-label="Remove" />
-//                         </tr>
-//                     </thead> */}
-//                     <div className="cart-products">{this.renderItems()}</div>
-//                     {/* <tbody className="cart-table__body">{this.renderItems()}</tbody> */}
-//                     {/* </div> */}
-//                     {/* </table> */}
-//                     <div className="cart__actions">
-//                         <div />
-//                         <div className="cart__buttons">
-//                             <Link to="/" className="btn btn-light">
-//                                 <FormattedMessage id="continueShopping" />
-//                             </Link>
-//                             {updateCartButton}
-//                         </div>
-//                     </div>
-
-//                     <div className="row justify-content-end pt-md-5 pt-4">
-//                         <div className="col-12 col-md-7 col-lg-6 col-xl-5">
-//                             <div className="card">
-//                                 <div className="card-body">
-//                                     <h3 className="card-title">
-//                                         <FormattedMessage id="cartTotals" />
-//                                     </h3>
-//                                     <table className="cart__totals">{this.renderTotals()}</table>
-//                                     <Link
-//                                         to="/shop/checkout"
-//                                         className="btn btn-primary btn-xl btn-block cart__checkout-button"
-//                                     >
-//                                         <FormattedMessage id="proceedToCheckout" />
-//                                     </Link>
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </div>
-//             </div>
-//         );
+//         document.addEventListener('mouseup', documentMouseUp, false);
 //     }
 
 //     render() {
-//         const { cart } = this.props;
+//         const { cartUpdateQuantities } = this.props;
+//         const { quantities } = this.state;
+//         const updateCartButton = (
+//             <AsyncAction
+//                 action={() => cartUpdateQuantities(quantities)}
+//                 render={({ run }) => (
+//                     <React.Fragment>
+//                         <div
+//                             className="input-number__add"
+//                             role="button"
+//                             aria-label="button"
+//                             onMouseDown={this.handleAddMouseDown}
+//                             onKeyDown={this.handleAddMouseDown}
+//                             onClick={run}
+//                             tabIndex={0}
+//                         />
+//                         <div
+//                             className="input-number__sub"
+//                             role="button"
+//                             aria-label="button"
+//                             onMouseDown={this.handleSubMouseDown}
+//                             onKeyDown={this.handleAddMouseDown}
+//                             onClick={run}
+//                             tabIndex={0}
+//                         />
+//                     </React.Fragment>
+//                 )}
+//             />
+//         );
+//         // <button type="button" onClick={run} className={classes} disabled={!this.cartNeedUpdate()}>
+//         //     <FormattedMessage id="updateCart" />
+//         // </button>
+//         const {
+//             size, className, onChange, ...otherProps
+//         } = this.props;
 
-//         let content;
-
-//         if (cart.quantity) {
-//             content = this.renderCart();
-//         } else {
-//             content = (
-//                 <div className="block block-empty">
-//                     <div className="container">
-//                         <div className="block-empty__body">
-//                             <div className="block-empty__message">
-//                                 <FormattedMessage id="emptyCart" />
-//                             </div>
-//                             <div className="block-empty__actions">
-//                                 <Link to="/" className="btn btn-primary btn-sm">
-//                                     <FormattedMessage id="continue" />
-//                                 </Link>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </div>
-//             );
-//         }
+//         const classes = classNames('input-number', className);
+//         const formControlClasses = classNames('form-control input-number__input', {
+//             'form-control-sm': size === 'sm',
+//             'form-control-lg': size === 'lg',
+//         });
 
 //         return (
-//             <React.Fragment>
-//                 <Helmet>
-//                     <title>{`Shopping Cart — ${theme.name}`}</title>
-//                 </Helmet>
+//             <div className={classes}>
+//                 <input className={formControlClasses} type="number" onChange={this.handleChange} {...otherProps} />
 
-//                 <PageHeader header={<FormattedMessage id="shoppingCart" />} />
-
-//                 {content}
-//             </React.Fragment>
+//                 {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+//                 {/* <div className="input-number__add" onMouseDown={this.handleAddMouseDown} /> */}
+//                 {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+//                 {/* <div className="input-number__sub" onMouseDown={this.handleSubMouseDown} /> */}
+//                 {updateCartButton}
+//             </div>
 //         );
 //     }
 // }
 
+// InputNumber.propTypes = {
+//     onChange: PropTypes.func,
+//     size: PropTypes.oneOf(['sm', 'lg']),
+//     step: PropTypes.number,
+//     min: PropTypes.number,
+//     max: PropTypes.number,
+//     value: PropTypes.oneOfType([
+//         PropTypes.string,
+//         PropTypes.number,
+//     ]),
+//     disabled: PropTypes.bool,
+//     readonly: PropTypes.bool,
+// };
+
+// InputNumber.defaultProps = {
+//     value: '',
+//     step: 1,
+//     max: null,
+//     min: null,
+// };
+
 // const mapStateToProps = (state) => ({
 //     cart: state.cart,
 // });
-
 // const mapDispatchToProps = {
-//     cartRemoveItem,
 //     cartUpdateQuantities,
 // };
 
-// export default connect(mapStateToProps, mapDispatchToProps)(ShopPageCart);
+// // export default InputNumber;
+// export default connect(mapStateToProps, mapDispatchToProps)(InputNumber);
 
 
 
@@ -317,7 +192,8 @@
 
 
 
-// Old checkout design */ ----------------------------------------------------------------
+
+// Old checkout design ==> shop page cart */ ----------------------------------------------------------------
 
 // // react
 // import React, { Component } from 'react';
