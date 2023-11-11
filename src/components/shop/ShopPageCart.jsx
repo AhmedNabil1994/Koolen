@@ -261,7 +261,7 @@ class ShopPageCart extends Component {
                     </div>
                     <div className="order-summary col-lg-5">
                         <div className="card">
-                            <h3>Order Summary</h3>
+                            <h3 className="px-2">Order Summary</h3>
                             <div className="coupon-code">
                                 <CouponCode />
                                 {/* <CouponCode

@@ -25,7 +25,7 @@
 }
 
 .cart.block .order-summary .card .details{
-  padding: 2px;
+  padding: 10px;
   color: #666666;
   font-weight: bold;
 }
@@ -153,7 +153,7 @@
 
 /* media screens */
 
-/* less than 400px */ 
+/* less than 400px */
 @media(max-width:400px){
   .cart-products .cart .info {
     margin-left: 60px !important;
@@ -169,7 +169,7 @@
     margin: 20px 0 !important;
   }
 }
-/* greater than 400px and less than 450px */ 
+/* greater than 400px and less than 450px */
 @media(min-width:400px) and (max-width: 450px){
   .cart-products .cart .info {
     margin-left: 100px !important;
@@ -207,7 +207,7 @@
     flex-direction: column !important;
 
   }
-  
+
   .all-buttons .two a {
     display: block;
     margin-top: 10px;
@@ -219,7 +219,7 @@
   .cart.block .order-summary{
     padding: 20px;
   }
-  
+
 }
 
 /* Surface Duo */
