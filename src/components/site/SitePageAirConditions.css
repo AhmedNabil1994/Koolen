@@ -20,7 +20,7 @@ table tbody tr td.map {
   text-align: center;
   width: 1000px !important;
   border: 3px solid #b3b3b3;
-  background-color: #f2f2f2;  
+  background-color: #f2f2f2;
 }
 
 table th,
@@ -117,7 +117,9 @@ table tbody tr td.map a {
 /* Fold screen */
 @media(min-width:280px) and (max-width:300px){
   .site {
-      width: 315px !important;
+      /* width: 315px !important; */
+      width: 100% !important;
+      overflow: hidden;
     }
   .image-container .split-ac {
     height: 84px !important;
@@ -126,7 +128,7 @@ table tbody tr td.map a {
     }
   .table-container table {
     font-size: 9.6px;
-    } 
+    }
 }
 
 

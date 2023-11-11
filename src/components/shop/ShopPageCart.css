@@ -11,9 +11,25 @@
 .site__body {
   background-color: #f7f8fa;
 }
-.cart.block .container,
+
 .cart.block .order-summary{
-  /* padding: 35px; */
+  height: fit-content;
+
+}
+.cart.block .order-summary .card{
+  /* height: fit-content; */
+  border: none !important;
+  border-radius: none !important;
+}
+
+.cart.block .products-container,
+.cart.block .order-summary{
+    width:calc(100% - 13px) !important;
+}
+
+.cart.block .products-container .cart-products,
+.cart.block .order-summary .card{
+    background-color: white;
 }
 
 .cart.block .container .cart-products{
@@ -46,10 +62,6 @@
   background-color: #f2f2f2;
   position: absolute;
   top: 30px;
-}
-
-.cart.block .container .cart-products{
-    background-color: white;
 }
 
 .cart .remove-container {
@@ -192,20 +204,18 @@
     padding: 0 !important;
     overflow: hidden;
   }
-  .products-container {
-    width:calc(100% - 13px) !important;
+
+  .cart.block .products-container{
+    margin-bottom: 15px;
   }
+
   .flex-center-between {
     flex-wrap: wrap !important;
   }
-  /* .cart-products .cart .total div {
-    width: 83px;
-    margin: 13px 0;
-  } */
-    .all-buttons,
+
+  .all-buttons,
   .all-buttons .one {
     flex-direction: column !important;
-
   }
 
   .all-buttons .two a {
@@ -217,7 +227,8 @@
     /* flex-wrap: nowrap !important; */
   }
   .cart.block .order-summary{
-    padding: 20px;
+    /* padding: 20px; */
+    /* background-color: yellow !important; */
   }
 
 }
@@ -235,10 +246,16 @@
   .cart-table__column--remove {
     top: 10px !important;
   } */
+  .cart-products {
+    padding: 0 !important;
+  }
+  .cart-products .cart::after {
+    top: 74px;
+  }
+
   .all-buttons,
   .all-buttons .one {
     flex-direction: column !important;
-
   }
 
   .all-buttons .two a {
@@ -268,12 +285,18 @@
    .cart-table__column--remove {
     left: 10px !important;
   } */
+
+  .cart.block .container .cart-products,
+  .cart.block .order-summary .card {
+    padding: 0 !important;
+  }
+
   .cart-products .cart .info {
     margin-left: 20px !important;
     padding-left: 0px !important;
   }
   .input-and-icon{
-    width: 100%;
+    /* width: 280px; */
   }
   .cart-products .cart::after {
     top: 128px;

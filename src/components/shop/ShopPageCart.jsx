@@ -238,7 +238,8 @@ class ShopPageCart extends Component {
         );
         return (
             <div className="cart block container">
-                <div className="row mt-5 py-5">
+                {/* <div className="row mt-5 py-5"> */}
+                <div className="row py-5">
                     <div className="container products-container col-lg-7">
                         <div className="cart-products">
                             <h3>Shopping Cart</h3>
@@ -259,7 +260,7 @@ class ShopPageCart extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="order-summary col-lg-5">
+                    <div className="container order-summary col-lg-5">
                         <div className="card">
                             <h3 className="px-2">Order Summary</h3>
                             <div className="coupon-code">
