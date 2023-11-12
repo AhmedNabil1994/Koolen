@@ -166,7 +166,7 @@ class ShopPageCart extends Component {
             // );
             return (
                 <div key={item.id} className="flex-center-between cart ">
-                    <div className="d-flex">
+                    <div className="flex-center-between image-and-info">
                         <div className=" cart-table__column--image ">{image}</div>
                         {/* <div className=" cart-table__column--total  info "> */}
                         <div className="info ">
@@ -242,7 +242,7 @@ class ShopPageCart extends Component {
                 <div className="row py-5">
                     <div className="container products-container col-lg-7">
                         <div className="cart-products">
-                            <h3>Shopping Cart</h3>
+                            <h3 className="px-2">Shopping Cart</h3>
                             {this.renderItems()}
                             <div className="d-flex mt-4 all-buttons justify-content-between">
                                 <div className="one">
