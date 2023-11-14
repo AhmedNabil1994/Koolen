@@ -46,6 +46,7 @@
     @if ($both-directions == true) {
         html[dir=#{$direction}] & {
             @content;
+            // text-align: center !;
         }
 
         $original-direction: $direction;

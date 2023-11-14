@@ -85,8 +85,11 @@
 }
 .dropcart__totals {
     border-top: 1px solid $dropcart-divider-color;
-    line-height: 24px;
-    padding: 16px 20px 0;
+    // line-height: 24px;
+    // padding: 16px 20px 0;
+    line-height: 30px;
+    padding: 15px;
+    text-align: center;
 
     th {
         @include direction {

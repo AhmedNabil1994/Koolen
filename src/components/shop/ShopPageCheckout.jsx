@@ -114,14 +114,14 @@ class ShopPageCheckout extends Component {
                         </th>
                         <td><Currency value={cart.subtotal} /></td>
                     </tr>
-            <tr >
-                <th>{<FormattedMessage id="shipping" />}</th>
+                    <tr>
+                        <th>{<FormattedMessage id="shipping" />}</th>
 
-                {this.state.isShippingCostDone? 
-                <td><Currency value={this.state.shippingCost} /></td>
-                :<td></td> 
-                }
-            </tr>
+                        {this.state.isShippingCostDone? 
+                        <td><Currency value={this.state.shippingCost} /></td>
+                        :<td></td> 
+                        }
+                    </tr>
                 </tbody>
             </React.Fragment>
         );

@@ -6,10 +6,25 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { subscribe } from '../../api/footer';
 import { toastError, toastSuccess } from '../toast/toastComponent';
+import './FooterNewsletter.css';
 
 export default function FooterNewsletter({ data }) {
     const [email, setEmail] = useState('');
+    // const [error, setError] = useState(null);
     const intl = useIntl();
+
+    // function isValidEmail(email) {
+    //     return /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+    // }
+
+    // const handleChange = (event) => {
+    //     if (!isValidEmail(event.target.value)) {
+    //         setError('Email is invalid!');
+    //     } else {
+    //         setError(null);
+    //     }
+    //     setEmail(event.target.value);
+    // };
 
     function addEmail(e) {
         e.preventDefault();
@@ -20,6 +35,13 @@ export default function FooterNewsletter({ data }) {
                 toastError(success);
             }
         }, (fail) => { toastError(fail); });
+        // subscribe(email, (success) => {
+        //     if (success.success) {
+        //         toastSuccess(success);
+        //     } else {
+        //         toastError(success);
+        //     }
+        // }, () => { toastError(); });
     }
 
     return (
@@ -35,6 +57,7 @@ export default function FooterNewsletter({ data }) {
                     id="footer-newsletter-address"
                     placeholder={intl.formatMessage({ id: 'login.email' })}
                     value={email}
+                    // onChange={(e) => setEmail(e.target.value)}
                     onChange={(e) => setEmail(e.target.value)}
                 />
                 <button type="submit" onClick={addEmail} className="footer-newsletter__form-button btn btn-primary">{intl.formatMessage({ id: 'footer.subscribe' })}</button>

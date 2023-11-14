@@ -14,6 +14,7 @@ import Indicator from './Indicator';
 import { Cart20Svg, Cross10Svg } from '../../svg';
 import { cartRemoveItem } from '../../store/cart';
 import { url } from '../../services/utils';
+import './IndicatorCart.css';
 
 function IndicatorCart(props) {
     const { cart, cartRemoveItem } = props;
@@ -108,25 +109,54 @@ function IndicatorCart(props) {
     if (cart.quantity) {
         dropdown = (
             <div className="dropcart">
-                <div className="dropcart__products-list">
-                    {items}
-                </div>
+                <div className="dropcart__products-list">{items}</div>
 
                 <div className="dropcart__totals">
-                    <table>
+                    {/* <table>
                         <tbody>
                             {totals}
                             <tr>
                                 <th>{intl.formatMessage({ id: 'total' })}</th>
-                                <td><Currency value={cart.total} /></td>
+                                <td>
+                                    <Currency value={cart.total} />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>{intl.formatMessage({ id: 'subtotal' })}</th>
+                                <td>
+                                    <Currency value={cart.subtotal} />
+                                </td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table> */}
+                    {totals}
+                    <div className="details">
+                        <div className="flex-center-between detail">
+                            <div>{intl.formatMessage({ id: 'subtotal' })}</div>
+                            <div>
+                                <Currency value={cart.subtotal} />
+                            </div>
+                        </div>
+                        <div className="flex-center-between detail">
+                            <div>Discount</div>
+                            <div>000</div>
+                        </div>
+                        <div className="flex-center-between detail">
+                            <div>{intl.formatMessage({ id: 'total' })}</div>
+                            <div>
+                                <Currency value={cart.total} />
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="dropcart__buttons">
-                    <Link className="btn btn-secondary" to="/shop/cart">{intl.formatMessage({ id: 'viewCart' })}</Link>
-                    <Link className="btn btn-primary" to="/shop/checkout">{intl.formatMessage({ id: 'checkout' })}</Link>
+                    <Link className="btn btn-secondary" to="/shop/cart">
+                        {intl.formatMessage({ id: 'viewCart' })}
+                    </Link>
+                    <Link className="btn btn-primary" to="/shop/checkout">
+                        {intl.formatMessage({ id: 'checkout' })}
+                    </Link>
                 </div>
             </div>
         );

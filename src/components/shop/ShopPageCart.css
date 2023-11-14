@@ -182,10 +182,10 @@
         width: 100%;
     }
     .cart-products .cart::after {
-        top: 128px;
+        top: 150px;
     }
     .cart-products .cart {
-        margin: 20px 0 !important;
+        margin: 35px 0 !important;
     }
 }
 /* greater than 400px and less than 450px */
@@ -222,6 +222,10 @@
 
     .image-and-info {
       flex-basis: 100%;
+    }
+    
+    .cart-products .cart .info {
+      flex-basis: 66%;
     }
 
     .all-buttons,
@@ -284,6 +288,10 @@
     .input-and-icon {
       flex-basis: auto;
     }
+
+    .cart-products .cart .info {
+      flex-basis: auto;
+    }
 }
 
 /* Fold */
@@ -319,11 +327,11 @@
     }
 
     .cart-products .cart::after {
-        top: 128px;
+        top: 150px;
     }
 
     .cart-products .cart {
-        margin: 20px 0 !important;
+        margin: 35px 0 !important;
     }
 
     .cart__coupon-form input,

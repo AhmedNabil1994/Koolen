@@ -1,0 +1,6 @@
+button.footer-newsletter__form-button:hover,
+button.footer-newsletter__form-button:active,
+button.footer-newsletter__form-button:focus,
+button.footer-newsletter__form-button:visited {
+  background-color: #f4671b !important;
+}
