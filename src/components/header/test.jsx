@@ -1,3 +1,173 @@
+// Indicator cart old----------------------
+// react
+import React from 'react';
+import { useIntl } from 'react-intl';
+
+// third-party
+import classNames from 'classnames';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+
+// application
+import AsyncAction from '../shared/AsyncAction';
+import Currency from '../shared/Currency';
+import Indicator from './Indicator';
+import { Cart20Svg, Cross10Svg } from '../../svg';
+import { cartRemoveItem } from '../../store/cart';
+import { url } from '../../services/utils';
+
+function IndicatorCart(props) {
+    const { cart, cartRemoveItem } = props;
+    let dropdown;
+    let totals;
+    const intl = useIntl();
+
+    if (cart.extraLines?.length > 0) {
+        const extraLines = cart.extraLines.map((extraLine, index) => (
+            <tr key={index}>
+                <th>{extraLine.title}</th>
+                <td><Currency value={extraLine.price} /></td>
+            </tr>
+        ));
+
+        totals = (
+            <React.Fragment>
+                <tr>
+                    <th>{intl.formatMessage({ id: 'subtotal' })}</th>
+                    <td><Currency value={cart.subtotal} /></td>
+                </tr>
+                {extraLines}
+            </React.Fragment>
+        );
+    }
+
+    const items = cart.items.map((item) => {
+        let options;
+        let image;
+
+        if (item.options) {
+            options = (
+                <ul className="dropcart__product-options">
+                    {item.options.map((option, index) => (
+                        <li key={index}>{`${option.optionTitle}: ${option.valueTitle}`}</li>
+                    ))}
+                </ul>
+            );
+        }
+
+        if (item.product.images.length) {
+            const imgSrc = item.product.img || item.product.images[0];
+            image = (
+                <div className="product-image dropcart__product-image">
+                    <Link to={url.product(item.product)} className="product-image__body">
+                        <img className="product-image__img" src={imgSrc} alt="" />
+                    </Link>
+                </div>
+            );
+        }
+
+        const removeButton = (
+            <AsyncAction
+                action={() => cartRemoveItem(item.id)}
+                render={({ run, loading }) => {
+                    const classes = classNames('dropcart__product-remove btn btn-light btn-sm btn-svg-icon', {
+                        'btn-loading': loading,
+                    });
+
+                    return (
+                        <button type="button" onClick={run} className={classes}>
+                            <Cross10Svg />
+                        </button>
+                    );
+                }}
+            />
+        );
+
+        return (
+            <div key={item.id} className="dropcart__product">
+                {image}
+                <div className="dropcart__product-info">
+                    <div className="dropcart__product-name">
+                        <Link to={url.product(item.product)}>
+                            {item.product.name}
+                            {' '}
+                            {item.product.color && ` - ${item.product.color}`}
+                        </Link>
+                    </div>
+                    {options}
+                    <div className="dropcart__product-meta">
+                        <span className="dropcart__product-quantity">{item.quantity}</span>
+                        {' × '}
+                        <span className="dropcart__product-price"><Currency value={item.price} /></span>
+                    </div>
+                </div>
+                {removeButton}
+            </div>
+        );
+    });
+
+    if (cart.quantity) {
+        dropdown = (
+            <div className="dropcart">
+                <div className="dropcart__products-list">
+                    {items}
+                </div>
+
+                <div className="dropcart__totals">
+                    <table>
+                        <tbody>
+                            {totals}
+                            <tr>
+                                <th>{intl.formatMessage({ id: 'total' })}</th>
+                                <td><Currency value={cart.total} /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div className="dropcart__buttons">
+                    <Link className="btn btn-secondary" to="/shop/cart">{intl.formatMessage({ id: 'viewCart' })}</Link>
+                    <Link className="btn btn-primary" to="/shop/checkout">{intl.formatMessage({ id: 'checkout' })}</Link>
+                </div>
+            </div>
+        );
+    } else {
+        dropdown = (
+            <div className="dropcart">
+                <div className="dropcart__empty">
+                    {intl.formatMessage({ id: 'emptyCart' })}
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <Indicator url="/shop/cart" dropdown={dropdown} value={cart.quantity} icon={<Cart20Svg />} />
+    );
+}
+
+const mapStateToProps = (state) => ({
+    cart: state.cart,
+});
+
+const mapDispatchToProps = {
+    cartRemoveItem,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(IndicatorCart);
+
+
+
+
+
+
+
+
+
+
+
+
+// Shop page checkout old----------------------
 // react
 import React, { Component } from 'react';
 
@@ -11,7 +181,6 @@ import { FormattedMessage } from 'react-intl';
 import Collapse from '../shared/Collapse';
 import Currency from '../shared/Currency';
 import PageHeader from '../shared/PageHeader';
-import './ShopPageCheckout.css';
 // import { Check9x7Svg } from '../../svg';
 
 // data stubs
@@ -20,7 +189,7 @@ import theme from '../../data/theme';
 import ChooseAddress from '../blocks/ChooseAddress';
 import { getAddresses } from '../../api/addresses';
 import { toastError, toastSuccess } from '../toast/toastComponent';
-// import CouponCode from './CouponCode';
+import CouponCode from './CouponCode';
 import { getShippingCost } from '../../api/shippingAndPayment';
 import { createOrder } from '../../api/orders';
 import { emptyCartFromItems } from '../../store/cart';
@@ -32,7 +201,7 @@ class ShopPageCheckout extends Component {
         super(props);
 
         this.state = {
-            payment: 'cash_on_delivery',
+            payment: 'standard',
             selectedAddress: null,
             isLoading: true,
             shippingCost: 0,
@@ -77,11 +246,12 @@ class ShopPageCheckout extends Component {
         } = this.state;
         this.setState({ isDisabled: true });
         createOrder({
-            cart, shipping_address_id: selectedAddress.id, coupon_codes: couponCode, payment_type: payment,
+            cart, shipping_address_id: selectedAddress.id, coupon_codes: couponCode, delivery_type: payment,
         }, (success) => {
             this.setState({ isDisabled: false });
             if (success.success) {
                 toastSuccess(success);
+                // this.props?.emptyCartFromItems();
                 this.setState({ isOrderSuccess: true });
             } else {
                 toastError(success);
@@ -107,28 +277,23 @@ class ShopPageCheckout extends Component {
 
         return (
             <React.Fragment>
-                <div className="checkout__totals-subtotals">
+                <tbody className="checkout__totals-subtotals">
                     {/* eslint-disable */}
-                    <div className="flex-center-between detail">
-                        <div>
+                    <tr>
+                        <th>
                             <FormattedMessage id="subtotal" />
-                        </div>
-                        <div>
-                            <Currency value={cart.subtotal} />
-                        </div>
-                    </div>
-                    <div className="flex-center-between detail">
-                        <div>{<FormattedMessage id="Shipping" />}</div>
+                        </th>
+                        <td><Currency value={cart.subtotal} /></td>
+                    </tr>
+            <tr >
+                <th>{<FormattedMessage id="shipping" />}</th>
 
-                        {this.state.isShippingCostDone ? (
-                            <div>
-                                <Currency value={this.state.shippingCost} />
-                            </div>
-                        ) : (
-                            <div></div>
-                        )}
-                    </div>
-                </div>
+                {this.state.isShippingCostDone? 
+                <td><Currency value={this.state.shippingCost} /></td>
+                :<td></td> 
+                }
+            </tr>
+                </tbody>
             </React.Fragment>
         );
     }
@@ -137,55 +302,36 @@ class ShopPageCheckout extends Component {
         const { cart } = this.props;
 
         const items = cart.items.map((item) => (
-            <div key={item.id} className="flex-center-between detail product-item">
-                <div>{`${item.product.name} × ${item.quantity}`}</div>
-                <div>
-                    <Currency value={item.total} />
-                </div>
-            </div>
+            <tr key={item.id}>
+                <td>{`${item.product.name} × ${item.quantity}`}</td>
+                <td><Currency value={item.total} /></td>
+            </tr>
         ));
 
         return (
-            // <table className="checkout__totals">
-            //     {/* eslint-disable */}
-            //     <thead className="checkout__totals-header">
-            //         <tr>
-            //             <th><FormattedMessage id="total" /></th>
-            //             <th><FormattedMessage id="product" /></th>
-            //         </tr>
-            //     </thead>
-            //     <tbody className="checkout__totals-products">
-            //         {items}
-            //     </tbody>
-            //     {this.renderTotals()}
-            //     <tfoot className="checkout__totals-footer">
-            //         <tr>
-            //             <th><FormattedMessage id="total" /></th>
-            //             {
-            //                 this.state.isShippingCostDone ?
-            //                 <td><Currency value={0 ? (cart.total + this.state.shippingCost) :0+ cart.total} /></td>
-            //                 : <td></td>
-            //             }
-            //         </tr>
-            //     </tfoot>
-            // </table>
-            <div className="details-checkout">
-                {items}
+            <table className="checkout__totals">
+                {/* eslint-disable */}
+                <thead className="checkout__totals-header">
+                    <tr>
+                        <th><FormattedMessage id="total" /></th>
+                        <th><FormattedMessage id="product" /></th>
+                    </tr>
+                </thead>
+                <tbody className="checkout__totals-products">
+                    {items}
+                </tbody>
                 {this.renderTotals()}
-                <div className="flex-center-between detail">
-                    <div>
-                        <FormattedMessage id="total" />
-                    </div>
-                    {this.state.isShippingCostDone ? (
-                        <div>
-                            {/* <Currency value={0 ? cart.subtotal + this.state.shippingCost : 0 + cart.total} /> */}
-                            <Currency value={cart.subtotal + this.state.shippingCost} />
-                        </div>
-                    ) : (
-                        <div></div>
-                    )}
-                </div>
-            </div>
+                <tfoot className="checkout__totals-footer">
+                    <tr>
+                        <th><FormattedMessage id="total" /></th>
+                        {
+                            this.state.isShippingCostDone ? 
+                            <td><Currency value={0 ? (cart.total + this.state.shippingCost) :0+ cart.total} /></td>
+                            : <td></td>
+                        }
+                    </tr>
+                </tfoot>
+            </table>
         );
     }
 
@@ -202,7 +348,7 @@ class ShopPageCheckout extends Component {
                                 <input
                                     type="radio"
                                     className="input-radio__input"
-                                    name="payment_type"
+                                    name="checkout_payment_method"
                                     value={payment.key}
                                     checked={currentPayment === payment.key}
                                     onChange={this.handlePaymentChange}
@@ -217,9 +363,7 @@ class ShopPageCheckout extends Component {
                         </span>
                     </label>
                     <div className="payment-methods__item-container" ref={setContentRef}>
-                        <div className="payment-methods__item-description text-muted">
-                            <FormattedMessage id={payment.description} />
-                        </div>
+                        <div className="payment-methods__item-description text-muted"><FormattedMessage id={payment.description} /></div>
                     </div>
                 </li>
             );
@@ -297,7 +441,7 @@ class ShopPageCheckout extends Component {
 
                                         {this.renderCart()}
 
-                                        {/* <CouponCode setCodeCoupon={(couponNumber)=>{this.setState({couponCode: couponNumber})}} /> */}
+                                        <CouponCode setCodeCoupon={(couponNumber)=>{this.setState({couponCode: couponNumber})}} />
 
                                         {this.renderPaymentsList()}
 

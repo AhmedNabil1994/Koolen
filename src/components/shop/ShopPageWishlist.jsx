@@ -7,14 +7,16 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import './ShopPageWishlist.css';
 
 // application
+import { FaTrash } from 'react-icons/fa';
 import AsyncAction from '../shared/AsyncAction';
 import Currency from '../shared/Currency';
-import PageHeader from '../shared/PageHeader';
+// import PageHeader from '../shared/PageHeader';
 import Rating from '../shared/Rating';
 import { cartAddItem } from '../../store/cart';
-import { Cross12Svg } from '../../svg';
+// import { Cross12Svg } from '../../svg';
 import { url } from '../../services/utils';
 import { wishlistRemoveItem } from '../../store/wishlist';
 
@@ -53,67 +55,81 @@ function ShopPageWishlist(props) {
                     'btn-loading': loading,
                 });
 
-                return <button type="button" onClick={run} className={classes} aria-label="Remove"><Cross12Svg /></button>;
+                return (
+                    <button type="button" onClick={run} className={classes} aria-label="Remove">
+                        <FaTrash />
+                    </button>
+                );
             };
 
             return (
-                <tr key={item.id} className="wishlist__row">
-                    <td className="wishlist__column wishlist__column--image">
-                        {image}
-                    </td>
-                    <td className="wishlist__column wishlist__column--product">
-                        <Link to={url.product(item)} className="wishlist__product-name">{item.name}</Link>
+                <div key={item.id} className="product-row row mb-3 align-items-center">
+                    {/* <div key={item.id} className="product-row d-flex mb-3 justify-content-between align-items-center"> */}
+                    <div className=" column col-md-3 col-lg-2 ">{image}</div>
+                    {/* <div className="">{image}</div> */}
+                    <div className=" column col-md-7 col-lg-3 ">
+                        <Link to={url.product(item)} className="wishlist__product-name">
+                            {item.name}
+                        </Link>
                         <div className="wishlist__product-rating">
                             <Rating value={item.rating} />
                             <div className="wishlist__product-rating-legend">{`${item.reviews} Reviews`}</div>
                         </div>
-                    </td>
-                    <td className="wishlist__column wishlist__column--stock">
+                    </div>
+                    {/* <div className="">
+                        <Link to={url.product(item)} className="wishlist__product-name">
+                            {item.name}
+                        </Link>
+                        <div className="wishlist__product-rating">
+                            <Rating value={item.rating} />
+                            <div className="wishlist__product-rating-legend">{`${item.reviews} Reviews`}</div>
+                        </div>
+                    </div> */}
+                    <div className=" column col-md-2 col-lg-2 ">
                         <div className="badge badge-success">{formatMessage({ id: 'inStock' })}</div>
-                    </td>
-                    <td className="wishlist__column wishlist__column--price"><Currency value={item.price} /></td>
-                    <td className="wishlist__column wishlist__column--tocart">
+                    </div>
+                    {/* <div className="">
+                        <div className="badge badge-success">{formatMessage({ id: 'inStock' })}</div>
+                    </div> */}
+                    {/* <div className="section-one">
+                    </div> */}
+                    {/* <div className="">
+                        <Currency value={item.price} />
+                    </div>
+                    <div className="">
                         <AsyncAction
                             action={() => cartAddItem(item, [], 1, formatMessage({ id: 'productHasBeenAddedToCartSuccessfully' }))}
                             render={renderAddToCarButton}
                         />
-                    </td>
-                    <td className="wishlist__column wishlist__column--remove">
+                    </div>
+                    <div className="">
+                        <AsyncAction action={() => wishlistRemoveItem(item.id)} render={renderRemoveButton} />
+                    </div> */}
+                    <div className=" column col-md-3 col-lg-2 ">
+                        <Currency value={item.price} />
+                    </div>
+                    <div className=" column col-md-7 col-lg-2 ">
                         <AsyncAction
-                            action={() => wishlistRemoveItem(item.id)}
-                            render={renderRemoveButton}
+                            action={() => cartAddItem(item, [], 1, formatMessage({ id: 'productHasBeenAddedToCartSuccessfully' }))}
+                            render={renderAddToCarButton}
                         />
-                    </td>
-                </tr>
+                    </div>
+                    <div className=" column col-md-2 col-lg-1 ">
+                        <AsyncAction action={() => wishlistRemoveItem(item.id)} render={renderRemoveButton} />
+                    </div>
+                    {/* <div className="section-two">
+                    </div> */}
+                </div>
             );
         });
 
         content = (
             <div className="block">
                 <div className="container">
-                    <table className="wishlist">
-                        <thead className="wishlist__head">
-                            <tr className="wishlist__row">
-                                <th className="wishlist__column wishlist__column--image">
-                                    {formatMessage({ id: 'image' })}
-                                </th>
-                                <th className="wishlist__column wishlist__column--product">
-                                    {formatMessage({ id: 'product' })}
-                                </th>
-                                <th className="wishlist__column wishlist__column--stock">
-                                    {formatMessage({ id: 'stockState' })}
-                                </th>
-                                <th className="wishlist__column wishlist__column--price">
-                                    {formatMessage({ id: 'price' })}
-                                </th>
-                                <th className="wishlist__column wishlist__column--tocart" aria-label="Add to cart" />
-                                <th className="wishlist__column wishlist__column--remove" aria-label="Remove" />
-                            </tr>
-                        </thead>
-                        <tbody className="wishlist__body">
-                            {itemsList}
-                        </tbody>
-                    </table>
+                    <div className="wishlist-items mt-5">
+                        <h2>{formatMessage({ id: 'wishlist' })}</h2>
+                        {itemsList}
+                    </div>
                 </div>
             </div>
         );
@@ -138,7 +154,7 @@ function ShopPageWishlist(props) {
                 <title>{`Wish List — ${theme.name}`}</title>
             </Helmet>
 
-            <PageHeader header={formatMessage({ id: 'wishlist' })} />
+            {/* <PageHeader header={formatMessage({ id: 'wishlist' })} /> */}
             {content}
         </React.Fragment>
     );

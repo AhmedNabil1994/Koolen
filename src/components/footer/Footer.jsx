@@ -31,7 +31,7 @@ function Footer(props) {
         { title: 'footer.shipment-policy', url: '/site/shipment-policy' },
         { title: 'footer.refundPolicy', url: '/site/refund-policy' },
         { title: 'footer.privacyPolicy', url: '/site/privacy-policy' },
-        { title: 'footer.faqs', url: '/site/faq' },
+        // { title: 'footer.faqs', url: '/site/faq' },
     ];
 
     const accountLinks = [

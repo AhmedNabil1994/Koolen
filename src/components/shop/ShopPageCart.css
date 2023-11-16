@@ -185,7 +185,7 @@
         top: 150px;
     }
     .cart-products .cart {
-        margin: 35px 0 !important;
+        margin: 30px 0 !important;
     }
 }
 /* greater than 400px and less than 450px */
@@ -221,11 +221,19 @@
     }
 
     .image-and-info {
-      flex-basis: 100%;
+        flex-basis: 100%;
     }
     
     .cart-products .cart .info {
-      flex-basis: 66%;
+        /* flex-basis: 66%; */
+    }
+
+    .cart-products .cart .info a{
+        width: 166px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
     }
 
     .all-buttons,
@@ -348,7 +356,7 @@
 /* Meduim Small screens */
 @media ((min-width: 401px) and (max-width:767px)) {
     .cart-products .cart::after {
-      top: 70px !important;
+      top: 140px !important;
     }
 }
 

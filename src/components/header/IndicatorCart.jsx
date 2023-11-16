@@ -112,23 +112,6 @@ function IndicatorCart(props) {
                 <div className="dropcart__products-list">{items}</div>
 
                 <div className="dropcart__totals">
-                    {/* <table>
-                        <tbody>
-                            {totals}
-                            <tr>
-                                <th>{intl.formatMessage({ id: 'total' })}</th>
-                                <td>
-                                    <Currency value={cart.total} />
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>{intl.formatMessage({ id: 'subtotal' })}</th>
-                                <td>
-                                    <Currency value={cart.subtotal} />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table> */}
                     {totals}
                     <div className="details">
                         <div className="flex-center-between detail">

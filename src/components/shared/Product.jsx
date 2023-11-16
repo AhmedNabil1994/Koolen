@@ -36,6 +36,7 @@ class Product extends Component {
 
 selectColor=(index, name) => {
     this.setState({ selectedColor: { id: this.props?.product.variations[index].id, name, img: this.props?.product.variations[index].img } });
+    console.log(this.state);
 }
 
 render() {
