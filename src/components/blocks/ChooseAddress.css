@@ -1,0 +1,51 @@
+.custom-address {
+  position: relative;
+}
+
+.custom-address .info .address,
+.custom-address .info .city {
+  margin-inline-end: 5px ;
+}
+
+.custom-address .edit-button {
+  background-color: #fc671a;
+  padding: 15px;
+  border-radius: 4px;
+  /* height: 50px; */
+}
+
+.custom-address .edit-button a{
+  color: white;
+  font-weight: bold;
+}
+
+.custom-address input{
+  position: absolute;
+  top: 7px;
+  left: 4px;
+  z-index: 2;
+}
+
+.custom-address input:checked + div.custom-address__card {
+  border: 2px solid #fc671a;
+  border-radius: 4px;
+}
+.custom-address__card > input:checked {
+  /* border: 2px solid #fc671a; */
+}
+.custom-address input{
+  align-self: flex-start;
+}
+
+/* Fold screen */
+@media((min-width:280px) and (max-width:300px)){
+  .custom-address .address-card__body{
+    display: block !important;
+  }
+
+  .custom-address .edit-button {
+    text-align: center;
+    margin: 10px auto 0;
+    width: 80% ;
+  }
+}

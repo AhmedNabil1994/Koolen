@@ -1,3 +1,5 @@
+// product card--------------------
+
 // react
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -10,7 +12,8 @@ import { Link } from 'react-router-dom';
 
 // application
 import AsyncAction from './AsyncAction';
-import Currency from './Currency'; import Rating from './Rating';
+import Currency from './Currency';
+import Rating from './Rating';
 import { cartAddItem } from '../../store/cart';
 import { Wishlist16Svg } from '../../svg';
 import { compareAddItem } from '../../store/compare';
@@ -19,10 +22,9 @@ import { url } from '../../services/utils';
 import { wishlistAddItem } from '../../store/wishlist';
 
 function ProductCard(props) {
+    console.log('props', props);
     const { formatMessage } = useIntl();
-    const {
-        product, cartAddItem, wishlistAddItem,
-    } = props;
+    const { product, cartAddItem, wishlistAddItem } = props;
 
     let badges = [];
     let image;
@@ -66,10 +68,12 @@ function ProductCard(props) {
                     )}
                 </Link>
                 <div className="k-product__actions">
-
                     <div>
                         <AsyncAction
-                            action={() => wishlistAddItem(product, formatMessage({ id: 'productHasBeenAddedToWishlistSuccessfully' }))}
+                            action={() => wishlistAddItem(
+                                product,
+                                formatMessage({ id: 'productHasBeenAddedToWishlistSuccessfully' }),
+                            )}
                             render={({ run, loading }) => (
                                 <button
                                     type="button"
@@ -86,32 +90,18 @@ function ProductCard(props) {
                             )}
                         />
                     </div>
-                    {/* <div>
-                        <AsyncAction
-                            action={() => compareAddItem(product)}
-                            render={({ run, loading }) => (
-                                <button
-                                    type="button"
-                                    onClick={run}
-                                    className={classNames(
-                                        'btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__compare',
-                                        {
-                                            'btn-loading': loading,
-                                        },
-                                    )}
-                                >
-                                    <Compare16Svg />
-                                </button>
-                            )}
-                        />
-                    </div> */}
                 </div>
                 <div className="button-container">
                     <AsyncAction
-                        action={() => cartAddItem({
-                            ...product,
-                            id: product?.variations[0]?.id,
-                        }, [], 1, formatMessage({ id: 'productHasBeenAddedToCartSuccessfully' }))}
+                        action={() => cartAddItem(
+                            {
+                                ...product,
+                                id: product?.variations[0]?.id,
+                            },
+                            [],
+                            1,
+                            formatMessage({ id: 'productHasBeenAddedToCartSuccessfully' }),
+                        )}
                         render={({ run, loading }) => (
                             <React.Fragment>
                                 <button
@@ -126,9 +116,12 @@ function ProductCard(props) {
                                 <button
                                     type="button"
                                     onClick={run}
-                                    className={classNames('k-product__btn btn btn-secondary product-card__addtocart product-card__addtocart--list', {
-                                        'btn-loading': loading,
-                                    })}
+                                    className={classNames(
+                                        'k-product__btn btn btn-secondary product-card__addtocart product-card__addtocart--list',
+                                        {
+                                            'btn-loading': loading,
+                                        },
+                                    )}
                                 >
                                     {formatMessage({ id: 'addToCart' })}
                                 </button>
@@ -175,8 +168,7 @@ function ProductCard(props) {
                 <div className="k-product__rating">
                     <Rating value={product.rating} />
                     <div className="ms-2 review ">
-                        { product.reviews }
-                        {' '}
+                        {product.reviews}
                         {formatMessage({ id: 'reviews' })}
                     </div>
                 </div>

@@ -44,9 +44,20 @@ export default function AccountPageEditAddress(props) {
             getAddressById(addressId, (success) => {
                 setIsLoading(false);
                 if (success.success) {
+                    // console.log('Data from getAddress by id', success.data);
+                    console.log('id', addressId);
                     const {
                         address: yourAddress, country_id: countryId, city_id: cityId, state_id: stateId, phone, postal_code: postalCode,
-                    } = success.data[0];
+                    } = success.data.filter((address) => addressId === address.id)[0];
+                    // console.log({
+                    //     address: yourAddress,
+                    //     country_id: countryId,
+                    //     city_id: cityId,
+                    //     state_id: stateId,
+                    //     phone,
+                    //     postal_code: postalCode,
+                    // });
+                    console.log('Data from getAddress by id', success.data);
                     setAddress(yourAddress);
                     setSelectedCountry(countryId);
                     setSelectedCity(cityId);
@@ -124,6 +135,7 @@ export default function AccountPageEditAddress(props) {
             payload.id = +addressId;
             editAddress(payload, (success) => {
                 if (success.success) {
+                    console.log('data when edit', success.data);
                     history.push('/account/addresses');
                     toastSuccess(success);
                 } else {
@@ -185,7 +197,7 @@ export default function AccountPageEditAddress(props) {
                             <select
                                 autoComplete="off"
                                 id="checkout-country"
-                                vlaue={null}
+                                value={null}
                                 onChange={(e) => setSelectedCountry(e.target.value)}
                                 className="form-control form-control-select2"
                             >

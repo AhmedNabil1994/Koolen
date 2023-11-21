@@ -40,7 +40,8 @@
 .address-card__name {
     font-size: 16px;
     font-weight: $font-weight-bold;
-    margin-bottom: 1.125rem;
+    // margin-bottom: 1.125rem;
+    margin-bottom: .5rem;
 }
 .address-card__row + .address-card__row {
     margin-top: .75rem;

@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 // third-party
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
+// import { Link } from 'react-router-dom'; //  Link,
 import { Redirect, Link } from 'react-router-dom'; //  Link,
 
 // application
@@ -33,7 +34,8 @@ class ShopPageCheckout extends Component {
 
         this.state = {
             payment: 'cash_on_delivery',
-            selectedAddress: null,
+            // selectedAddress: [],
+            selectedAddresses: [],
             isLoading: true,
             shippingCost: 0,
             isShippingCostDone: false,
@@ -46,21 +48,23 @@ class ShopPageCheckout extends Component {
     componentDidMount() {
         getAddresses((success) => {
             this.setState({
-                selectedAddress: success.data[0],
+                // selectedAddress: success.data[0],
+                selectedAddresses: success.data,
                 isLoading: false,
             });
         }, (fail) => {
             toastError(fail);
             this.setState({
-                selectedAddress: null,
+                // selectedAddress: null,
+                selectedAddresses: [],
                 isLoading: false,
             });
         });
     }
 
     componentDidUpdate() {
-        if (this.state?.selectedAddress && !this.state?.isShippingCostDone) {
-            getShippingCost(this.state?.selectedAddress?.id,
+        if (this.state?.selectedAddresses && !this.state?.isShippingCostDone) {
+            getShippingCost(this.state?.selectedAddresses[0]?.id,
                 (success) => {
                     if (success?.success) {
                         this.setState({ shippingCost: success.standard_delivery_cost, isShippingCostDone: true });
@@ -73,23 +77,34 @@ class ShopPageCheckout extends Component {
 
     makeANewOrder = (cart) => {
         const {
-            selectedAddress, couponCode, payment,
+            // selectedAddress, couponCode, payment,
+            selectedAddresses,
+            couponCode,
+            payment,
         } = this.state;
         this.setState({ isDisabled: true });
-        createOrder({
-            cart, shipping_address_id: selectedAddress.id, coupon_codes: couponCode, payment_type: payment,
-        }, (success) => {
-            this.setState({ isDisabled: false });
-            if (success.success) {
-                toastSuccess(success);
-                this.setState({ isOrderSuccess: true });
-            } else {
-                toastError(success);
-            }
-        }, (fail) => {
-            this.setState({ isDisabled: false });
-            toastError(fail);
-        });
+        createOrder(
+            {
+                // cart, shipping_address_id: selectedAddress.id, coupon_codes: couponCode, payment_type: payment,
+                cart,
+                shipping_address_id: selectedAddresses[0].id,
+                coupon_codes: couponCode,
+                payment_type: payment,
+            },
+            (success) => {
+                this.setState({ isDisabled: false });
+                if (success.success) {
+                    toastSuccess(success);
+                    this.setState({ isOrderSuccess: true });
+                } else {
+                    toastError(success);
+                }
+            },
+            (fail) => {
+                this.setState({ isDisabled: false });
+                toastError(fail);
+            },
+        );
     }
 
     handlePaymentChange = (event) => {
@@ -261,39 +276,42 @@ class ShopPageCheckout extends Component {
             return <Redirect to="/shop/checkout/success"/>
         }
 
-        
+console.log('selected addresses',this.state.selectedAddresses);        
         return (
             <React.Fragment>
                 <Helmet>
                     <title>{`Checkout — ${theme.name}`}</title>
                 </Helmet>
 
-                <PageHeader header={<FormattedMessage id={"checkout"} /> }  />
+                <PageHeader header={<FormattedMessage id={'checkout'} />} />
 
                 <div className="checkout block">
                     <div className="container">
                         <div className="row">
                             <div className="col-12 col-lg-6 col-xl-7">
-                                {
-                                    !this.state?.isLoading && !this.state?.selectedAddress ?  
-                                    <div className="alert alert-danger" style={{lineHeight: 1.75}}>
-                                        {/* You Don't have address information available        */}
-                                        <FormattedMessage id="youDon'tHaveAddress" />
-                                        <br />
-                                        <FormattedMessage id="pleaseMakeYourAddressAvailable" />
-                                        
-                                        <Link style={{marginInlineStart: "0.5rem"}} to="/account/addresses/add">
-                                            <FormattedMessage id="AddYourAddress"/>
-                                        </Link>
-                                    </div>: 
-                                <ChooseAddress isLoading={this.state?.isLoading} address={this.state?.selectedAddress} />
-                                }
+                                {this.state.selectedAddresses.map((selectedAddress) => {
+                                    // console.log('selected address',selectedAddress);
+                                    // console.log('selected address id',selectedAddress.id);
+                                    return (
+                                        <ChooseAddress isLoading={this.state?.isLoading} address={selectedAddress} />
+                                    );
+                                })}
+                            <Link
+                                to="/account/addresses/add"
+                                className="addresses-list__item addresses-list__item--new"
+                            >
+                                <div className="addresses-list__plus" />
+                                <div className="btn btn-secondary btn-sm">
+                                    <FormattedMessage id="addNew" />
+                                </div>
+                            </Link>
                             </div>
-
                             <div className="col-12 col-lg-6 col-xl-5 mt-4 mt-lg-0">
                                 <div className="card mb-0">
                                     <div className="card-body">
-                                        <h3 className="card-title"><FormattedMessage id="yourOrder"/></h3>
+                                        <h3 className="card-title">
+                                            <FormattedMessage id="yourOrder" />
+                                        </h3>
 
                                         {this.renderCart()}
 
@@ -302,7 +320,12 @@ class ShopPageCheckout extends Component {
                                         {this.renderPaymentsList()}
 
                                         {/* ${this.state.isDisabled && "btn-loading"} */}
-                                        <button  disabled={this.state.isDisabled} type="submit" onClick={()=>this.makeANewOrder(cartItems)} className={`btn btn-primary btn-xl btn-block `}>
+                                        <button
+                                            disabled={this.state.isDisabled}
+                                            type="submit"
+                                            onClick={() => this.makeANewOrder(cartItems)}
+                                            className={`btn btn-primary btn-xl btn-block `}
+                                        >
                                             <FormattedMessage id="placeOrder" />
                                         </button>
                                     </div>
