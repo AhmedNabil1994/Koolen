@@ -15,12 +15,18 @@ export function orderRequest({ data }, onSuccess, onFail) {
     postRequest(path, payload, onSuccess, onFail);
 }
 
-export function createOrder({
-    shipping_address_id, payment_type, coupon_codes, cart,
-}, onSuccess, onFail) {
+export function createOrder(
+    {
+        // shipping_address_id, payment_type, coupon_codes, cart, shipping_address_id2,
+        shipping_address_id, payment_type, coupon_codes, cart,
+    },
+    onSuccess,
+    onFail,
+) {
     const path = '/api/v1/checkout/order/store';
     const payload = {
         shipping_address_id,
+        // shipping_address_id2,
         billing_address_id: shipping_address_id,
         payment_type,
         coupon_codes,

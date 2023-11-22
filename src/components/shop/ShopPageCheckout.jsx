@@ -42,6 +42,7 @@ class ShopPageCheckout extends Component {
             couponCode: null,
             isOrderSuccess: false,
             isDisabled: false,
+            selectedAddrerssId: null,
         };
     }
 
@@ -77,17 +78,18 @@ class ShopPageCheckout extends Component {
 
     makeANewOrder = (cart) => {
         const {
-            // selectedAddress, couponCode, payment,
-            selectedAddresses,
+            // selectedAddresses,
             couponCode,
             payment,
+            selectedAddrerssId,
         } = this.state;
         this.setState({ isDisabled: true });
         createOrder(
             {
                 // cart, shipping_address_id: selectedAddress.id, coupon_codes: couponCode, payment_type: payment,
                 cart,
-                shipping_address_id: selectedAddresses[0].id,
+                // shipping_address_id: selectedAddresses[0].id,
+                shipping_address_id: selectedAddrerssId,
                 coupon_codes: couponCode,
                 payment_type: payment,
             },
@@ -111,6 +113,10 @@ class ShopPageCheckout extends Component {
         if (event.target.checked) {
             this.setState({ payment: event.target.value });
         }
+    };
+
+    handleAddressClick = (addressId) => {
+        this.setState({ selectedAddrerssId: addressId });
     };
 
     renderTotals() {
@@ -161,29 +167,6 @@ class ShopPageCheckout extends Component {
         ));
 
         return (
-            // <table className="checkout__totals">
-            //     {/* eslint-disable */}
-            //     <thead className="checkout__totals-header">
-            //         <tr>
-            //             <th><FormattedMessage id="total" /></th>
-            //             <th><FormattedMessage id="product" /></th>
-            //         </tr>
-            //     </thead>
-            //     <tbody className="checkout__totals-products">
-            //         {items}
-            //     </tbody>
-            //     {this.renderTotals()}
-            //     <tfoot className="checkout__totals-footer">
-            //         <tr>
-            //             <th><FormattedMessage id="total" /></th>
-            //             {
-            //                 this.state.isShippingCostDone ?
-            //                 <td><Currency value={0 ? (cart.total + this.state.shippingCost) :0+ cart.total} /></td>
-            //                 : <td></td>
-            //             }
-            //         </tr>
-            //     </tfoot>
-            // </table>
             <div className="details-checkout">
                 {items}
                 {this.renderTotals()}
@@ -293,7 +276,14 @@ console.log('selected addresses',this.state.selectedAddresses);
                                     // console.log('selected address',selectedAddress);
                                     // console.log('selected address id',selectedAddress.id);
                                     return (
-                                        <ChooseAddress isLoading={this.state?.isLoading} address={selectedAddress} />
+                                        <div key={selectedAddress.id}>
+                                            <ChooseAddress
+                                                isLoading={this.state?.isLoading}
+                                                address={selectedAddress}
+                                                handleAddressClick={this.handleAddressClick}
+                                                // selectedAddressId={selectedAddress.id}
+                                            />
+                                        </div>
                                     );
                                 })}
                             <Link

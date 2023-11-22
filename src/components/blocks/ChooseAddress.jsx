@@ -5,14 +5,22 @@ import { Link } from 'react-router-dom';
 import BlockLoader from './BlockLoader';
 import './ChooseAddress.css';
 
-const ChooseAddress = ({ address, isLoading }) => {
+const ChooseAddress = ({
+    // address, isLoading, handleAddressClick, selectedAddressId,
+    address, isLoading, handleAddressClick,
+}) => {
     // const { formatMessage } = useIntl();
     if (isLoading && !address) return <BlockLoader />;
 
     if (address) {
         return (
             <div className="custom-address mb-2">
-                <input type="radio" name="radio-group" />
+                <input
+                    type="radio"
+                    name="radio-group"
+                    onChange={() => handleAddressClick(address.id)}
+                    // checked={selectedAddressId === address.id}
+                />
                 <div className="card custom-address__card">
                     <div className="address-card">
                         <div className="address-card__body d-flex justify-content-between align-items-center">
