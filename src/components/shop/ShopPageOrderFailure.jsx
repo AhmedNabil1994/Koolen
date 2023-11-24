@@ -12,7 +12,7 @@ import closeIcon from '../../svg/cancel.png';
 // data stubs
 import theme from '../../data/theme';
 
-function ShopPageOrderSuccess() {
+function ShopPageOrderFailure() {
     const { formatMessage } = useIntl();
 
     return (
@@ -38,4 +38,4 @@ function ShopPageOrderSuccess() {
     );
 }
 
-export default ShopPageOrderSuccess;
+export default ShopPageOrderFailure;

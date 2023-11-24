@@ -247,7 +247,7 @@ class ShopPageCheckout extends Component {
                 return {
                     id: item.product.id,
                     qty: item.quantity
-                } 
+                }
             })
 
 
@@ -258,8 +258,7 @@ class ShopPageCheckout extends Component {
         if (this.state.isOrderSuccess){
             return <Redirect to="/shop/checkout/success"/>
         }
-
-console.log('selected addresses',this.state.selectedAddresses);        
+console.log('selected addresses',this.state.selectedAddresses);
         return (
             <React.Fragment>
                 <Helmet>
