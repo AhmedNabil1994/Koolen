@@ -43,6 +43,7 @@ class ShopPageCheckout extends Component {
             isOrderSuccess: false,
             isDisabled: false,
             selectedAddrerssId: null,
+            success: true,
         };
     }
 
@@ -100,11 +101,13 @@ class ShopPageCheckout extends Component {
                     this.setState({ isOrderSuccess: true });
                 } else {
                     toastError(success);
+                    this.setState({ success: false });
                 }
             },
             (fail) => {
                 this.setState({ isDisabled: false });
                 toastError(fail);
+                this.setState({ success: false });
             },
         );
     }
@@ -257,6 +260,10 @@ class ShopPageCheckout extends Component {
 
         if (this.state.isOrderSuccess){
             return <Redirect to="/shop/checkout/success"/>
+        }
+
+        if (this.state.success=== false){
+            return <Redirect to="/shop/checkout/failure"/>
         }
 console.log('selected addresses',this.state.selectedAddresses);
         return (
