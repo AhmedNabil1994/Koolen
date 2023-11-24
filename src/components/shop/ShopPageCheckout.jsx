@@ -62,6 +62,9 @@ class ShopPageCheckout extends Component {
                 isLoading: false,
             });
         });
+        if (this.state?.selectedAddrerssId === null) {
+            // this.setState({ isDisabled: true });
+        }
     }
 
     componentDidUpdate() {
@@ -262,9 +265,13 @@ class ShopPageCheckout extends Component {
             return <Redirect to="/shop/checkout/success"/>
         }
 
-        if (this.state.success=== false){
+        if (this.state.success === false){
             return <Redirect to="/shop/checkout/failure"/>
         }
+
+        // if (this.state.selectedAddrerssId === null) {
+        //     this.setState({isDisabled : true})
+        // }
 console.log('selected addresses',this.state.selectedAddresses);
         return (
             <React.Fragment>

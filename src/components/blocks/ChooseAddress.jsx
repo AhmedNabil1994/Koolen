@@ -20,6 +20,7 @@ const ChooseAddress = ({
                     name="radio-group"
                     onChange={() => handleAddressClick(address.id)}
                     // checked={selectedAddressId === address.id}
+                    checked
                 />
                 <div className="card custom-address__card">
                     <div className="address-card">
