@@ -20,7 +20,8 @@ import payments from '../../data/shopPayments';
 import theme from '../../data/theme';
 import ChooseAddress from '../blocks/ChooseAddress';
 import { getAddresses } from '../../api/addresses';
-import { toastError, toastSuccess } from '../toast/toastComponent';
+// import { toastError, toastSuccess } from '../toast/toastComponent';
+import { toastError } from '../toast/toastComponent';
 // import CouponCode from './CouponCode';
 import { getShippingCost, paymentGateway } from '../../api/shippingAndPayment';
 // import { getShippingCost } from '../../api/shippingAndPayment';
@@ -44,107 +45,181 @@ class ShopPageCheckout extends Component {
             isOrderSuccess: false,
             isDisabled: false,
             selectedAddrerssId: null,
-            orderCode: '',
-            userId: 0,
+            // orderCode: '',
+            // userId: null,
             // selectedCardDiv: null,
         };
     }
 
     componentDidMount() {
-        getAddresses((success) => {
-            this.setState({
-                // selectedAddress: success.data[0],
-                selectedAddresses: success.data,
-                isLoading: false,
-            });
-        }, (fail) => {
-            toastError(fail);
-            this.setState({
-                // selectedAddress: null,
-                selectedAddresses: [],
-                isLoading: false,
-            });
-        });
+        getAddresses(
+            (success) => {
+                this.setState({
+                    // selectedAddress: success.data[0],
+                    selectedAddresses: success.data,
+                    isLoading: false,
+                });
+            },
+            (fail) => {
+                toastError(fail);
+                this.setState({
+                    // selectedAddress: null,
+                    selectedAddresses: [],
+                    isLoading: false,
+                });
+            },
+        );
+        // this.setState({userId: this.state.auth.user.id});
+        // console.log(userId);
+        // paymentGateway(
+        //     {
+        //         user_Id: this.props?.auth.user?.id,
+        //         // order_Code: orderCode,
+        //     },
+        //     (success) => {
+        //         this.setState({ isDisabled: false });
+        //         if (success.success) {
+        //             console.log('payment data', success);
+        //             // console.log(orderCode);
+        //             // console.log('order code', success.order_code);
+        //             this.makeANewOrder(success.order_code);
+        //             // console.log('user id', success.user_id);
+        //             toastSuccess(success);
+        //             // this.setState({ orderCode: success.order_code });
+        //             // this.setState({ userId: success.user_id });
+        //         } else {
+        //             toastError(success);
+        //         }
+        //     },
+        //     (fail) => {
+        //         console.log('payment error', fail);
+        //         this.setState({ isDisabled: false });
+        //         toastError(fail);
+        //     },
+        // );
+        // const fetchOrderCode = () => {
+        //     makeANewOrder = (cart) => {
+        //         const {
+        //             // selectedAddresses,
+        //             couponCode,
+        //             payment,
+        //             selectedAddrerssId,
+        //             orderCode,
+        //             // userId: this.props.auth.user.id,
+        //         } = this.state;
+        //         this.setState({ isDisabled: true });
+        //         createOrder(
+        //             {
+        //                 // cart, shipping_address_id: selectedAddress.id, coupon_codes: couponCode, payment_type: payment,
+        //                 cart,
+        //                 // shipping_address_id: selectedAddresses[0].id,
+        //                 shipping_address_id: selectedAddrerssId,
+        //                 coupon_codes: couponCode,
+        //                 payment_type: payment,
+        //             },
+        //             (success) => {
+        //                 this.setState({ isDisabled: false });
+        //                 if (success.success) {
+        //                     // window.location.replace(); the link of payment
+        //                     this.setsState({ orderCode: success.order_code });
+        //                 } else {
+        //                     toastError(success);
+        //                 }
+        //             },
+        //             (fail) => {
+        //                 this.setState({ isDisabled: false });
+        //                 toastError(fail);
+        //             },
+        //         );
+        //     };
+        // };
+        // const makeANewOrder = (cart) => {
+        //     const {
+        //         // selectedAddresses,
+        //         couponCode,
+        //         payment,
+        //         selectedAddrerssId,
+        //         orderCode,
+        //         // userId: this.props.auth.user.id,
+        //     } = this.state;
+        //     this.setState({ isDisabled: true });
+        //     createOrder(
+        //         {
+        //             // cart, shipping_address_id: selectedAddress.id, coupon_codes: couponCode, payment_type: payment,
+        //             cart,
+        //             // shipping_address_id: selectedAddresses[0].id,
+        //             shipping_address_id: selectedAddrerssId,
+        //             coupon_codes: couponCode,
+        //             payment_type: payment,
+        //             order_code: orderCode,
+        //         },
+        //         (success) => {
+        //             this.setState({ isDisabled: false });
+        //             if (success.success) {
+        //                 // window.location.replace(); the link of payment
+        //                 this.setsState({ orderCode: success.order_code });
+        //             } else {
+        //                 toastError(success);
+        //             }
+        //         },
+        //         (fail) => {
+        //             this.setState({ isDisabled: false });
+        //             toastError(fail);
+        //         }
+        //     );
+        // };
+        // makeANewOrder();
     }
 
     componentDidUpdate() {
         if (this.state?.selectedAddresses && !this.state?.isShippingCostDone) {
-            getShippingCost(this.state?.selectedAddresses[0]?.id,
+            getShippingCost(
+                this.state?.selectedAddresses[0]?.id,
                 (success) => {
                     if (success?.success) {
                         this.setState({ shippingCost: success.standard_delivery_cost, isShippingCostDone: true });
                     }
-                }, (fail) => {
+                },
+                (fail) => {
                     toastError(fail);
-                });
+                },
+            );
         }
     }
 
-    makeANewOrder = (cart) => {
-        const {
-            // selectedAddresses,
-            couponCode,
-            payment,
-            selectedAddrerssId,
-            orderCode,
-            userId,
-        } = this.state;
-        this.setState({ isDisabled: true });
-        createOrder(
-            {
-                // cart, shipping_address_id: selectedAddress.id, coupon_codes: couponCode, payment_type: payment,
-                cart,
-                // shipping_address_id: selectedAddresses[0].id,
-                shipping_address_id: selectedAddrerssId,
-                coupon_codes: couponCode,
-                payment_type: payment,
-            },
-            (success) => {
-                this.setState({ isDisabled: false });
-                if (success.success) {
-                    // console.log(success.go_to_payment);
-                    // console.log('order code', success.order_code);
-                    this.setState({ isOrderSuccess: true });
-                    this.setState({ orderCode: success.order_code });
-                    this.setState({ userId: success.user_id });
-                    console.log('user id', success.user_id);
-                    console.log('user id', userId);
-                    toastSuccess(success);
-                } else {
-                    toastError(success);
-                }
-            },
-            (fail) => {
-                this.setState({ isDisabled: false });
-                toastError(fail);
-            },
-        );
-        paymentGateway(
-            {
-                user_Id: userId,
-                order_Code: orderCode,
-            },
-            (success) => {
-                this.setState({ isDisabled: false });
-                if (success.success) {
-                    console.log('payment data', success);
-                    console.log(orderCode);
-                    // console.log('order code', success.order_code);
-                    // console.log('user id', success.user_id);
-                    toastSuccess(success);
-                    // this.setState({ orderCode: success.order_code });
-                    // this.setState({ userId: success.user_id });
-                } else {
-                    toastError(success);
-                }
-            },
-            (fail) => {
-                console.log('payment error', fail);
-                this.setState({ isDisabled: false });
-                toastError(fail);
-            },
-        );
-    }
+    // makeANewOrder = (cart) => {
+    //     const {
+    //         // selectedAddresses,
+    //         couponCode,
+    //         payment,
+    //         selectedAddrerssId,
+    //         // orderCode,
+    //         // userId: this.props.auth.user.id,
+    //     } = this.state;
+    //     this.setState({ isDisabled: true });
+    //     createOrder(
+    //         {
+    //             // cart, shipping_address_id: selectedAddress.id, coupon_codes: couponCode, payment_type: payment,
+    //             cart,
+    //             // shipping_address_id: selectedAddresses[0].id,
+    //             shipping_address_id: selectedAddrerssId,
+    //             coupon_codes: couponCode,
+    //             payment_type: payment,
+    //         },
+    //         (success) => {
+    //             this.setState({ isDisabled: false });
+    //             if (success.success) {
+    //                 // window.location.replace(); the link of payment
+    //             } else {
+    //                 toastError(success);
+    //             }
+    //         },
+    //         (fail) => {
+    //             this.setState({ isDisabled: false });
+    //             toastError(fail);
+    //         },
+    //     );
+    // }
 
     handlePaymentChange = (event) => {
         if (event.target.checked) {
@@ -156,6 +231,55 @@ class ShopPageCheckout extends Component {
         this.setState({ selectedAddrerssId: addressId });
     };
 
+    makeACheckout = (cart) => {
+        this.createNewOrder(cart);
+    };
+
+    createNewOrder = (cart) => {
+        createOrder(
+            {
+                cart,
+                shipping_address_id: this.state?.selectedAddrerssId,
+                coupon_codes: this.state?.couponCode,
+                payment_type: this.state?.payment,
+            },
+            (success) => {
+                this.setState({ isDisabled: false });
+                if (success.success) {
+                    this.payAnOrder(success.order_code);
+                } else {
+                    toastError(success);
+                }
+            },
+            (fail) => {
+                this.setState({ isDisabled: false });
+                toastError(fail);
+            },
+        );
+    };
+
+    payAnOrder = (orderCode) => {
+        paymentGateway(
+            {
+                user_Id: this.props?.auth.user?.id,
+                order_Code: orderCode,
+            },
+            (success) => {
+                if (success.success) {
+                    console.log('response', success);
+                    window.location.replace(success.payment_url);
+                    // window.open(success.payment_url, '_blank').focus();
+                } else {
+                    toastError(success);
+                }
+            },
+            (fail) => {
+                console.log('payment error', fail);
+                // this.setState({ isDisabled: false });
+                toastError(fail);
+            },
+        );
+    };
     // handleDivClick = (divId) => {
     //     // if (selectedCardDiv === divId) {
     //     //     this.setState({ selectedCardDiv: null });
@@ -280,32 +404,32 @@ class ShopPageCheckout extends Component {
 
         return (
             <div className="payment-methods">
-                <ul className="payment-methods__list">
-                    {payments}
-                </ul>
+                <ul className="payment-methods__list">{payments}</ul>
             </div>
         );
     }
 
     render() {
+        // console.log('user id state', this.state?.userId);
+        // console.log('id', this.props.auth.user.id);
         const { cart } = this.props;
-        const cartItems = cart.items.map(item=>{
-                return {
-                    id: item.product.id,
-                    qty: item.quantity
-                } 
-            })
-
+        const cartItems = cart.items.map((item) => {
+            return {
+                id: item.product.id,
+                qty: item.quantity,
+            };
+        });
+        // console.log('auth' ,this.props.auth)
 
         if (cart.items.length < 1) {
             return <Redirect to="cart" />;
         }
 
-        if (this.state.isOrderSuccess){
-            return <Redirect to="/shop/checkout/success"/>
+        if (this.state.isOrderSuccess) {
+            return <Redirect to="/shop/checkout/success" />;
         }
 
-// console.log('selected addresses',this.state.selectedAddresses);        
+        // console.log('selected addresses',this.state.selectedAddresses);
         return (
             <React.Fragment>
                 <Helmet>
@@ -329,7 +453,7 @@ class ShopPageCheckout extends Component {
                                             <ChooseAddress
                                                 isLoading={this.state?.isLoading}
                                                 address={selectedAddress}
-                                                handleAddressClick={this.handleAddressClick}z
+                                                handleAddressClick={this.handleAddressClick}
                                                 // onAddressClick={this.handleAddressClick}
                                                 // isSelected={selectedAddress.id === this.state.selectedAddrerssId}
                                                 // handleDivClick={this.handleDivClick}
@@ -339,15 +463,15 @@ class ShopPageCheckout extends Component {
                                         </div>
                                     );
                                 })}
-                            <Link
-                                to="/account/addresses/add"
-                                className="addresses-list__item addresses-list__item--new"
-                            >
-                                <div className="addresses-list__plus" />
-                                {/* <div className="btn btn-secondary btn-sm">
+                                <Link
+                                    to="/account/addresses/add"
+                                    className="addresses-list__item addresses-list__item--new"
+                                >
+                                    <div className="addresses-list__plus" />
+                                    {/* <div className="btn btn-secondary btn-sm">
                                     <FormattedMessage id="addNew" />
                                 </div> */}
-                            </Link>
+                                </Link>
                             </div>
                             <div className="col-12 col-lg-6 col-xl-5 mt-4 mt-lg-0">
                                 <div className="card mb-0">
@@ -366,7 +490,8 @@ class ShopPageCheckout extends Component {
                                         <button
                                             disabled={this.state.isDisabled}
                                             type="submit"
-                                            onClick={() => this.makeANewOrder(cartItems)}
+                                            // onClick={() => this.makeANewOrder(cartItems)}
+                                            onClick={() => this.makeACheckout(cartItems)}
                                             className={`btn btn-primary btn-xl btn-block `}
                                         >
                                             <FormattedMessage id="placeOrder" />
@@ -384,10 +509,11 @@ class ShopPageCheckout extends Component {
 
 const mapStateToProps = (state) => ({
     cart: state.cart,
+    auth: state.auth,
 });
 
 const mapDispatchToProps = {
-    emptyCartFromItems
+    emptyCartFromItems,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShopPageCheckout);

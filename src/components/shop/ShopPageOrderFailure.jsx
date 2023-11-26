@@ -12,7 +12,7 @@ import closeIcon from '../../svg/cancel.png';
 // data stubs
 import theme from '../../data/theme';
 
-function ShopPageOrderSuccess() {
+function ShopPageOrderFailure() {
     const { formatMessage } = useIntl();
 
     return (
@@ -26,16 +26,19 @@ function ShopPageOrderSuccess() {
                     <div className="order-success__header">
                         <img width="100px" src={closeIcon} alt="cancel" />
                         <h1 className="order-success__title">{formatMessage({ id: 'sorry' })}</h1>
-                        <div className="order-success__subtitle mt-2">{formatMessage({ id: 'something_went_wrong' })}</div>
+                        <div className="order-success__subtitle mt-2">
+                            {formatMessage({ id: 'something_went_wrong' })}
+                        </div>
                         <div className="order-success__actions">
-                            <Link to="/" className="btn btn-xs btn-secondary">{formatMessage({ id: 'goToHome' })}</Link>
+                            <Link to="/" className="btn btn-xs btn-secondary">
+                                {formatMessage({ id: 'goToHome' })}
+                            </Link>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     );
 }
 
-export default ShopPageOrderSuccess;
+export default ShopPageOrderFailure;

@@ -10,15 +10,23 @@ export function getShippingCost(addressId, onSuccess, onFail) {
 //     "express_delivery_cost": 25
 // }
 
-export function orderNow({
-    shippingshipping_address_id,
-    billing_address_id,
-    payment_type, // payment_type : "standard" || "payment"
-    coupon_codes,
-    cart,
-}, onSuccess, onFail) {
+export function orderNow(
+    {
+        shippingshipping_address_id,
+        billing_address_id,
+        payment_type, // payment_type : "standard" || "payment"
+        coupon_codes,
+        cart,
+    },
+    onSuccess,
+    onFail,
+) {
     const data = {
-        shippingshipping_address_id, billing_address_id, payment_type, coupon_codes, cart,
+        shippingshipping_address_id,
+        billing_address_id,
+        payment_type,
+        coupon_codes,
+        cart,
     };
     const path = '/api/v1/checkout/order/store';
     postRequest(path, data, onSuccess, onFail);
@@ -27,8 +35,8 @@ export function orderNow({
 export function paymentGateway({ user_Id, order_Code }, onSuccess, onFail) {
     const data = {
         user_Id,
-        order_Code,
+        order_code: order_Code,
     };
-    const path = '/api/v1/payment/:gateway/pay';
+    const path = `/api/v1/payment/paytabs/pay?user_id=${user_Id}&order_code=${order_Code}`;
     postRequest(path, data, onSuccess, onFail);
 }
