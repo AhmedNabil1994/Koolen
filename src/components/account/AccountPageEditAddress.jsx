@@ -31,6 +31,10 @@ export default function AccountPageEditAddress(props) {
     const [postalCode, setPostalCode] = useState('');
     const [phone, setPhone] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [addressErrorMessage, setAddressErrorMessage] = useState('');
+    const [postalCodeErrorMessage, setPostalCodeErrorMessage] = useState('');
+    const [phoneErrorMessage, setPhoneErrorMessage] = useState('');
+    const [isDisabled, setIsDisabled] = useState(true);
     const { formatMessage } = useIntl();
     const history = useHistory();
 
@@ -120,6 +124,7 @@ export default function AccountPageEditAddress(props) {
             postalCode: +postalCode,
             phone,
         };
+        // handleButtonClick();
         if (isAddAddress) {
             addNewAddress(payload, (success) => {
                 if (success.success) {
@@ -147,29 +152,95 @@ export default function AccountPageEditAddress(props) {
         }
     }
 
+    const handleChangeAddress = (e) => {
+        setAddress(e.target.value);
+        // if (!/^[a-zA-Z ]+$/.test(e.target.value)) {
+        //     setAddressErrorMessage('* Please enter only text characters! *');
+        //     return;
+        // }
+        if (address) {
+            setAddressErrorMessage('');
+        }
+    };
+
+    const handleChangeCountry = (e) => {
+        setSelectedCountry(e.target.value);
+    };
+
+    const handleChangeState = (e) => {
+        setSelectedState(e.target.value);
+    };
+
+    const handleChangeCity = (e) => {
+        setSelectedCity(e.target.value);
+    };
+
+    const handleChangePostalCode = (e) => {
+        if (!/^[0-9]+$/.test(e.target.value)) {
+            setPostalCodeErrorMessage('* Please enter a valid postal code! *');
+            setIsDisabled(true);
+            return;
+        }
+        setPostalCode(e.target.value);
+        setPostalCodeErrorMessage('');
+        setIsDisabled(false);
+        // if (postalCode) {
+        //     setPostalCodeErrorMessage('');
+        // }
+        // if (postalCode && /^[0-9]+$/.test(e.target.value)) {
+        // }
+    };
+
+    const handleChangePhone = (e) => {
+        if (!/^[0-9]+$/.test(e.target.value)) {
+            setPhoneErrorMessage('* Please enter only valid phone number digits! *');
+            setIsDisabled(true);
+            return;
+        }
+        setPhone(e.target.value);
+        setPhoneErrorMessage('');
+        setIsDisabled(false);
+        // if (phone && /^[0-9]+$/.test(e.target.value)) {
+        // }
+    };
+
+    const handleButtonClick = () => {
+        if (!address) {
+            setAddressErrorMessage('* Address can not be null! *');
+        }
+        if (!postalCode) {
+            setPostalCodeErrorMessage('* Postal Code can not be null! *');
+        }
+        if (!phone) {
+            setPhoneErrorMessage('* Phone Number can not be null! *');
+        }
+        if (address && postalCode && phone) {
+            // setIsDisabled(false);
+            submitNewAddress();
+        }
+        // if (address && postalCode && /^[0-9]{5}(?:-[0-9]{4})?$/.test(e.target.value)) {
+        //     submitNewAddress();
+        // }
+    };
+
     if (isLoading) return <BlockLoader />;
 
     return (
-
         <div className="card">
             <Helmet>
                 <title>{`Edit Address — ${theme.name}`}</title>
             </Helmet>
 
             <div className="card-header">
-                {
-                    addressId === 'add'
-                        ? (
-                            <h5>
-                                <FormattedMessage id="account.addAddress" />
-                            </h5>
-                        )
-                        : (
-                            <h5>
-                                <FormattedMessage id="account.editAddress" />
-                            </h5>
-                        )
-                }
+                {addressId === 'add' ? (
+                    <h5>
+                        <FormattedMessage id="account.addAddress" />
+                    </h5>
+                ) : (
+                    <h5>
+                        <FormattedMessage id="account.editAddress" />
+                    </h5>
+                )}
             </div>
             <div className="card-divider" />
             <div className="card-body">
@@ -186,9 +257,11 @@ export default function AccountPageEditAddress(props) {
                                 placeholder={formatMessage({ id: 'streetAddress' })}
                                 name="address"
                                 value={address}
-                                onChange={(e) => setAddress(e.target.value)}
+                                // onChange={(e) => setAddress(e.target.value)}
+                                onChange={handleChangeAddress}
                                 autoComplete="off"
                             />
+                            {addressErrorMessage && <p style={{ color: 'red' }}>{addressErrorMessage}</p>}
                         </div>
                         <div className="form-group">
                             <label htmlFor="checkout-country">
@@ -198,16 +271,15 @@ export default function AccountPageEditAddress(props) {
                                 autoComplete="off"
                                 id="checkout-country"
                                 value={null}
-                                onChange={(e) => setSelectedCountry(e.target.value)}
+                                // onChange={(e) => setSelectedCountry(e.target.value)}
+                                onChange={handleChangeCountry}
                                 className="form-control form-control-select2"
                             >
-                                {
-                                    [...countries].map(({ id, name }) => (
-                                        <option key={id} value={id}>
-                                            {name}
-                                        </option>
-                                    ))
-                                }
+                                {[...countries].map(({ id, name }) => (
+                                    <option key={id} value={id}>
+                                        {name}
+                                    </option>
+                                ))}
                             </select>
                         </div>
                         <div className="form-group">
@@ -218,16 +290,15 @@ export default function AccountPageEditAddress(props) {
                                 autoComplete="off"
                                 id="checkout-country"
                                 vlaue={selectedState}
-                                onChange={(e) => setSelectedState(e.target.value)}
+                                // onChange={(e) => setSelectedState(e.target.value)}
+                                onChange={handleChangeState}
                                 className="form-control form-control-select2"
                             >
-                                {
-                                    states.map(({ id, name }) => (
-                                        <option key={id} value={id}>
-                                            {name}
-                                        </option>
-                                    ))
-                                }
+                                {states.map(({ id, name }) => (
+                                    <option key={id} value={id}>
+                                        {name}
+                                    </option>
+                                ))}
                             </select>
                         </div>
                         <div className="form-group">
@@ -238,16 +309,15 @@ export default function AccountPageEditAddress(props) {
                                 autoComplete="off"
                                 id="checkout-country"
                                 vlaue={selectedCity}
-                                onChange={(e) => setSelectedCity(e.target.value)}
+                                // onChange={(e) => setSelectedCity(e.target.value)}
+                                onChange={handleChangeCity}
                                 className="form-control form-control-select2"
                             >
-                                {
-                                    cities.map(({ id, name }) => (
-                                        <option key={id} value={id}>
-                                            {name}
-                                        </option>
-                                    ))
-                                }
+                                {cities.map(({ id, name }) => (
+                                    <option key={id} value={id}>
+                                        {name}
+                                    </option>
+                                ))}
                             </select>
                         </div>
                         <div className="form-group">
@@ -261,9 +331,11 @@ export default function AccountPageEditAddress(props) {
                                 name="postalCode"
                                 placeholder={formatMessage({ id: 'postCodeZip' })}
                                 value={postalCode}
-                                onChange={(e) => setPostalCode(e.target.value)}
+                                // onChange={(e) => setPostalCode(e.target.value)}
+                                onChange={handleChangePostalCode}
                                 autoComplete="off"
                             />
+                            {postalCodeErrorMessage && <p style={{ color: 'red' }}>{postalCodeErrorMessage}</p>}
                         </div>
 
                         <div className="form-group ">
@@ -277,15 +349,24 @@ export default function AccountPageEditAddress(props) {
                                 placeholder={formatMessage({ id: 'phone' })}
                                 name="phone"
                                 value={phone}
-                                onChange={(e) => setPhone(e.target.value)}
+                                // onChange={(e) => setPhone(e.target.value)}
+                                onChange={handleChangePhone}
                                 autoComplete="off"
                             />
+                            {phoneErrorMessage && <p style={{ color: 'red' }}>{phoneErrorMessage}</p>}
                         </div>
 
                         <div className="form-group mt-3 mb-0">
-                            <button onClick={submitNewAddress} className="btn btn-primary" type="button">
+                            <button
+                                // onClick={(submitNewAddress, handleButtonClick)}
+                                onClick={handleButtonClick}
+                                className="btn btn-primary"
+                                type="button"
+                                disabled={isDisabled}
+                            >
                                 <FormattedMessage id="save" />
                             </button>
+                            {/* {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} */}
                         </div>
                     </div>
                 </div>

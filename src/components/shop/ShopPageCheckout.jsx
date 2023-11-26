@@ -22,7 +22,8 @@ import ChooseAddress from '../blocks/ChooseAddress';
 import { getAddresses } from '../../api/addresses';
 import { toastError, toastSuccess } from '../toast/toastComponent';
 // import CouponCode from './CouponCode';
-import { getShippingCost } from '../../api/shippingAndPayment';
+import { getShippingCost, paymentGateway } from '../../api/shippingAndPayment';
+// import { getShippingCost } from '../../api/shippingAndPayment';
 import { createOrder } from '../../api/orders';
 import { emptyCartFromItems } from '../../store/cart';
 
@@ -43,6 +44,9 @@ class ShopPageCheckout extends Component {
             isOrderSuccess: false,
             isDisabled: false,
             selectedAddrerssId: null,
+            orderCode: '',
+            userId: 0,
+            // selectedCardDiv: null,
         };
     }
 
@@ -82,6 +86,8 @@ class ShopPageCheckout extends Component {
             couponCode,
             payment,
             selectedAddrerssId,
+            orderCode,
+            userId,
         } = this.state;
         this.setState({ isDisabled: true });
         createOrder(
@@ -96,13 +102,44 @@ class ShopPageCheckout extends Component {
             (success) => {
                 this.setState({ isDisabled: false });
                 if (success.success) {
-                    toastSuccess(success);
+                    // console.log(success.go_to_payment);
+                    // console.log('order code', success.order_code);
                     this.setState({ isOrderSuccess: true });
+                    this.setState({ orderCode: success.order_code });
+                    this.setState({ userId: success.user_id });
+                    console.log('user id', success.user_id);
+                    console.log('user id', userId);
+                    toastSuccess(success);
                 } else {
                     toastError(success);
                 }
             },
             (fail) => {
+                this.setState({ isDisabled: false });
+                toastError(fail);
+            },
+        );
+        paymentGateway(
+            {
+                user_Id: userId,
+                order_Code: orderCode,
+            },
+            (success) => {
+                this.setState({ isDisabled: false });
+                if (success.success) {
+                    console.log('payment data', success);
+                    console.log(orderCode);
+                    // console.log('order code', success.order_code);
+                    // console.log('user id', success.user_id);
+                    toastSuccess(success);
+                    // this.setState({ orderCode: success.order_code });
+                    // this.setState({ userId: success.user_id });
+                } else {
+                    toastError(success);
+                }
+            },
+            (fail) => {
+                console.log('payment error', fail);
                 this.setState({ isDisabled: false });
                 toastError(fail);
             },
@@ -118,6 +155,15 @@ class ShopPageCheckout extends Component {
     handleAddressClick = (addressId) => {
         this.setState({ selectedAddrerssId: addressId });
     };
+
+    // handleDivClick = (divId) => {
+    //     // if (selectedCardDiv === divId) {
+    //     //     this.setState({ selectedCardDiv: null });
+    //     // } else {
+    //     //     this.setState({ selectedCardDiv: divId });
+    //     // }
+    //     this.setState({ selectedCardDiv: divId });
+    // };
 
     renderTotals() {
         const { cart } = this.props;
@@ -259,7 +305,7 @@ class ShopPageCheckout extends Component {
             return <Redirect to="/shop/checkout/success"/>
         }
 
-console.log('selected addresses',this.state.selectedAddresses);        
+// console.log('selected addresses',this.state.selectedAddresses);        
         return (
             <React.Fragment>
                 <Helmet>
@@ -275,12 +321,19 @@ console.log('selected addresses',this.state.selectedAddresses);
                                 {this.state.selectedAddresses.map((selectedAddress) => {
                                     // console.log('selected address',selectedAddress);
                                     // console.log('selected address id',selectedAddress.id);
+                                    // const divId = selectedAddress.id;
+                                    // const isSelected = divId === selectedCardDiv;
+                                    // const style = isSelected ? { border: '2px solid #fc671a' } : { border: 'none' };
                                     return (
                                         <div key={selectedAddress.id}>
                                             <ChooseAddress
                                                 isLoading={this.state?.isLoading}
                                                 address={selectedAddress}
-                                                handleAddressClick={this.handleAddressClick}
+                                                handleAddressClick={this.handleAddressClick}z
+                                                // onAddressClick={this.handleAddressClick}
+                                                // isSelected={selectedAddress.id === this.state.selectedAddrerssId}
+                                                // handleDivClick={this.handleDivClick}
+                                                // style={style}
                                                 // selectedAddressId={selectedAddress.id}
                                             />
                                         </div>
@@ -291,9 +344,9 @@ console.log('selected addresses',this.state.selectedAddresses);
                                 className="addresses-list__item addresses-list__item--new"
                             >
                                 <div className="addresses-list__plus" />
-                                <div className="btn btn-secondary btn-sm">
+                                {/* <div className="btn btn-secondary btn-sm">
                                     <FormattedMessage id="addNew" />
-                                </div>
+                                </div> */}
                             </Link>
                             </div>
                             <div className="col-12 col-lg-6 col-xl-5 mt-4 mt-lg-0">

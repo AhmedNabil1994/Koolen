@@ -22,7 +22,7 @@ import { url } from '../../services/utils';
 import { wishlistAddItem } from '../../store/wishlist';
 
 function ProductCard(props) {
-    console.log('props', props);
+    // console.log('props', props);
     const { formatMessage } = useIntl();
     const { product, cartAddItem, wishlistAddItem } = props;
 

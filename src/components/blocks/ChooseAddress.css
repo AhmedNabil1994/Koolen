@@ -1,51 +1,85 @@
 .custom-address {
-  position: relative;
+    position: relative;
 }
 
 .custom-address .info .address,
 .custom-address .info .city {
-  margin-inline-end: 5px ;
+    margin-inline-end: 5px;
 }
 
 .custom-address .edit-button {
-  background-color: #fc671a;
-  padding: 15px;
-  border-radius: 4px;
-  /* height: 50px; */
+    background-color: #fc671a;
+    padding: 15px;
+    border-radius: 4px;
+    /* height: 50px; */
 }
 
-.custom-address .edit-button a{
-  color: white;
-  font-weight: bold;
+.custom-address .edit-button a {
+    color: white;
+    font-weight: bold;
 }
 
-.custom-address input{
-  position: absolute;
-  top: 7px;
-  left: 4px;
-  z-index: 2;
+.custom-address input {
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    z-index: 2;
+    width: 30px;
+    height: 30px;
 }
 
-.custom-address input:checked + div.custom-address__card {
-  border: 2px solid #fc671a;
-  border-radius: 4px;
+.custom-address input::after {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    top: 0px;
+    left: 0px;
+    position: relative;
+    /* background-color: #d1d3d1; */
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    /* border: 2px solid white; */
 }
-.custom-address__card > input:checked {
-  /* border: 2px solid #fc671a; */
+
+.custom-address input[type='radio']:checked::after {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    top: 0px;
+    left: 0px;
+    position: relative;
+    background-color:white;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 8px solid #fc671a;
 }
-.custom-address input{
-  align-self: flex-start;
+
+.custom-address input:checked + label.custom-address__card {
+    border: 2px solid #fc671a;
+    border-radius: 4px;
+}
+
+.custom-address input {
+    align-self: flex-start;
 }
 
 /* Fold screen */
-@media((min-width:280px) and (max-width:300px)){
-  .custom-address .address-card__body{
-    display: block !important;
-  }
+@media ((min-width: 280px) and (max-width:300px)) {
+    .custom-address .address-card__body {
+        display: block !important;
+    }
 
-  .custom-address .edit-button {
-    text-align: center;
-    margin: 10px auto 0;
-    width: 80% ;
-  }
+    .custom-address .edit-button {
+        text-align: center;
+        margin: 10px auto 0;
+        width: 80%;
+    }
+
+    .custom-address input {
+        right: 12px;
+        width: 20px;
+        height: 20px;
+    }
 }

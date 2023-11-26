@@ -23,3 +23,12 @@ export function orderNow({
     const path = '/api/v1/checkout/order/store';
     postRequest(path, data, onSuccess, onFail);
 }
+
+export function paymentGateway({ user_Id, order_Code }, onSuccess, onFail) {
+    const data = {
+        user_Id,
+        order_Code,
+    };
+    const path = '/api/v1/payment/:gateway/pay';
+    postRequest(path, data, onSuccess, onFail);
+}

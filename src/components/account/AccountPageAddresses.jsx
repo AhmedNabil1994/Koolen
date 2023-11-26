@@ -125,9 +125,9 @@ export default function AccountPageAddresses({ showOnly }) {
                     <React.Fragment>
                         <Link to="/account/addresses/add" className="addresses-list__item addresses-list__item--new">
                             <div className="addresses-list__plus" />
-                            <div className="btn btn-secondary btn-sm">
+                            {/* <div className="btn btn-secondary btn-sm">
                                 <FormattedMessage id="addNew" />
-                            </div>
+                            </div> */}
                         </Link>
                         <div className="addresses-list__divider" />
                     </React.Fragment>
