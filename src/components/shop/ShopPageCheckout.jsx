@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 // third-party
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
-// import { Link } from 'react-router-dom'; //  Link,
 import { Redirect, Link } from 'react-router-dom'; //  Link,
 
 // application
@@ -22,9 +21,7 @@ import ChooseAddress from '../blocks/ChooseAddress';
 import { getAddresses } from '../../api/addresses';
 // import { toastError, toastSuccess } from '../toast/toastComponent';
 import { toastError } from '../toast/toastComponent';
-// import CouponCode from './CouponCode';
 import { getShippingCost, paymentGateway } from '../../api/shippingAndPayment';
-// import { getShippingCost } from '../../api/shippingAndPayment';
 import { createOrder } from '../../api/orders';
 import { emptyCartFromItems } from '../../store/cart';
 
@@ -45,9 +42,6 @@ class ShopPageCheckout extends Component {
             isOrderSuccess: false,
             isDisabled: false,
             selectedAddrerssId: null,
-            // orderCode: '',
-            // userId: null,
-            // selectedCardDiv: null,
         };
     }
 
@@ -55,7 +49,6 @@ class ShopPageCheckout extends Component {
         getAddresses(
             (success) => {
                 this.setState({
-                    // selectedAddress: success.data[0],
                     selectedAddresses: success.data,
                     isLoading: false,
                 });
@@ -63,112 +56,11 @@ class ShopPageCheckout extends Component {
             (fail) => {
                 toastError(fail);
                 this.setState({
-                    // selectedAddress: null,
                     selectedAddresses: [],
                     isLoading: false,
                 });
             },
         );
-        // this.setState({userId: this.state.auth.user.id});
-        // console.log(userId);
-        // paymentGateway(
-        //     {
-        //         user_Id: this.props?.auth.user?.id,
-        //         // order_Code: orderCode,
-        //     },
-        //     (success) => {
-        //         this.setState({ isDisabled: false });
-        //         if (success.success) {
-        //             console.log('payment data', success);
-        //             // console.log(orderCode);
-        //             // console.log('order code', success.order_code);
-        //             this.makeANewOrder(success.order_code);
-        //             // console.log('user id', success.user_id);
-        //             toastSuccess(success);
-        //             // this.setState({ orderCode: success.order_code });
-        //             // this.setState({ userId: success.user_id });
-        //         } else {
-        //             toastError(success);
-        //         }
-        //     },
-        //     (fail) => {
-        //         console.log('payment error', fail);
-        //         this.setState({ isDisabled: false });
-        //         toastError(fail);
-        //     },
-        // );
-        // const fetchOrderCode = () => {
-        //     makeANewOrder = (cart) => {
-        //         const {
-        //             // selectedAddresses,
-        //             couponCode,
-        //             payment,
-        //             selectedAddrerssId,
-        //             orderCode,
-        //             // userId: this.props.auth.user.id,
-        //         } = this.state;
-        //         this.setState({ isDisabled: true });
-        //         createOrder(
-        //             {
-        //                 // cart, shipping_address_id: selectedAddress.id, coupon_codes: couponCode, payment_type: payment,
-        //                 cart,
-        //                 // shipping_address_id: selectedAddresses[0].id,
-        //                 shipping_address_id: selectedAddrerssId,
-        //                 coupon_codes: couponCode,
-        //                 payment_type: payment,
-        //             },
-        //             (success) => {
-        //                 this.setState({ isDisabled: false });
-        //                 if (success.success) {
-        //                     // window.location.replace(); the link of payment
-        //                     this.setsState({ orderCode: success.order_code });
-        //                 } else {
-        //                     toastError(success);
-        //                 }
-        //             },
-        //             (fail) => {
-        //                 this.setState({ isDisabled: false });
-        //                 toastError(fail);
-        //             },
-        //         );
-        //     };
-        // };
-        // const makeANewOrder = (cart) => {
-        //     const {
-        //         // selectedAddresses,
-        //         couponCode,
-        //         payment,
-        //         selectedAddrerssId,
-        //         orderCode,
-        //         // userId: this.props.auth.user.id,
-        //     } = this.state;
-        //     this.setState({ isDisabled: true });
-        //     createOrder(
-        //         {
-        //             // cart, shipping_address_id: selectedAddress.id, coupon_codes: couponCode, payment_type: payment,
-        //             cart,
-        //             // shipping_address_id: selectedAddresses[0].id,
-        //             shipping_address_id: selectedAddrerssId,
-        //             coupon_codes: couponCode,
-        //             payment_type: payment,
-        //             order_code: orderCode,
-        //         },
-        //         (success) => {
-        //             this.setState({ isDisabled: false });
-        //             if (success.success) {
-        //                 // window.location.replace(); the link of payment
-        //                 this.setsState({ orderCode: success.order_code });
-        //             } else {
-        //                 toastError(success);
-        //             }
-        //         },
-        //         (fail) => {
-        //             this.setState({ isDisabled: false });
-        //             toastError(fail);
-        //         }
-        //     );
-        // };
-        // makeANewOrder();
     }
 
     componentDidUpdate() {
@@ -186,40 +78,6 @@ class ShopPageCheckout extends Component {
             );
         }
     }
-
-    // makeANewOrder = (cart) => {
-    //     const {
-    //         // selectedAddresses,
-    //         couponCode,
-    //         payment,
-    //         selectedAddrerssId,
-    //         // orderCode,
-    //         // userId: this.props.auth.user.id,
-    //     } = this.state;
-    //     this.setState({ isDisabled: true });
-    //     createOrder(
-    //         {
-    //             // cart, shipping_address_id: selectedAddress.id, coupon_codes: couponCode, payment_type: payment,
-    //             cart,
-    //             // shipping_address_id: selectedAddresses[0].id,
-    //             shipping_address_id: selectedAddrerssId,
-    //             coupon_codes: couponCode,
-    //             payment_type: payment,
-    //         },
-    //         (success) => {
-    //             this.setState({ isDisabled: false });
-    //             if (success.success) {
-    //                 // window.location.replace(); the link of payment
-    //             } else {
-    //                 toastError(success);
-    //             }
-    //         },
-    //         (fail) => {
-    //             this.setState({ isDisabled: false });
-    //             toastError(fail);
-    //         },
-    //     );
-    // }
 
     handlePaymentChange = (event) => {
         if (event.target.checked) {
@@ -266,28 +124,16 @@ class ShopPageCheckout extends Component {
             },
             (success) => {
                 if (success.success) {
-                    console.log('response', success);
                     window.location.replace(success.payment_url);
-                    // window.open(success.payment_url, '_blank').focus();
                 } else {
                     toastError(success);
                 }
             },
             (fail) => {
-                console.log('payment error', fail);
-                // this.setState({ isDisabled: false });
                 toastError(fail);
             },
         );
     };
-    // handleDivClick = (divId) => {
-    //     // if (selectedCardDiv === divId) {
-    //     //     this.setState({ selectedCardDiv: null });
-    //     // } else {
-    //     //     this.setState({ selectedCardDiv: divId });
-    //     // }
-    //     this.setState({ selectedCardDiv: divId });
-    // };
 
     renderTotals() {
         const { cart } = this.props;
@@ -346,7 +192,6 @@ class ShopPageCheckout extends Component {
                     </div>
                     {this.state.isShippingCostDone ? (
                         <div>
-                            {/* <Currency value={0 ? cart.subtotal + this.state.shippingCost : 0 + cart.total} /> */}
                             <Currency value={cart.subtotal + this.state.shippingCost} />
                         </div>
                     ) : (
@@ -410,8 +255,6 @@ class ShopPageCheckout extends Component {
     }
 
     render() {
-        // console.log('user id state', this.state?.userId);
-        // console.log('id', this.props.auth.user.id);
         const { cart } = this.props;
         const cartItems = cart.items.map((item) => {
             return {
@@ -419,8 +262,6 @@ class ShopPageCheckout extends Component {
                 qty: item.quantity,
             };
         });
-        // console.log('auth' ,this.props.auth)
-
         if (cart.items.length < 1) {
             return <Redirect to="cart" />;
         }
@@ -429,7 +270,6 @@ class ShopPageCheckout extends Component {
             return <Redirect to="/shop/checkout/success" />;
         }
 
-        // console.log('selected addresses',this.state.selectedAddresses);
         return (
             <React.Fragment>
                 <Helmet>
@@ -443,22 +283,12 @@ class ShopPageCheckout extends Component {
                         <div className="row">
                             <div className="col-12 col-lg-6 col-xl-7">
                                 {this.state.selectedAddresses.map((selectedAddress) => {
-                                    // console.log('selected address',selectedAddress);
-                                    // console.log('selected address id',selectedAddress.id);
-                                    // const divId = selectedAddress.id;
-                                    // const isSelected = divId === selectedCardDiv;
-                                    // const style = isSelected ? { border: '2px solid #fc671a' } : { border: 'none' };
                                     return (
                                         <div key={selectedAddress.id}>
                                             <ChooseAddress
                                                 isLoading={this.state?.isLoading}
                                                 address={selectedAddress}
                                                 handleAddressClick={this.handleAddressClick}
-                                                // onAddressClick={this.handleAddressClick}
-                                                // isSelected={selectedAddress.id === this.state.selectedAddrerssId}
-                                                // handleDivClick={this.handleDivClick}
-                                                // style={style}
-                                                // selectedAddressId={selectedAddress.id}
                                             />
                                         </div>
                                     );
@@ -468,9 +298,6 @@ class ShopPageCheckout extends Component {
                                     className="addresses-list__item addresses-list__item--new"
                                 >
                                     <div className="addresses-list__plus" />
-                                    {/* <div className="btn btn-secondary btn-sm">
-                                    <FormattedMessage id="addNew" />
-                                </div> */}
                                 </Link>
                             </div>
                             <div className="col-12 col-lg-6 col-xl-5 mt-4 mt-lg-0">
@@ -481,16 +308,10 @@ class ShopPageCheckout extends Component {
                                         </h3>
 
                                         {this.renderCart()}
-
-                                        {/* <CouponCode setCodeCoupon={(couponNumber)=>{this.setState({couponCode: couponNumber})}} /> */}
-
                                         {this.renderPaymentsList()}
-
-                                        {/* ${this.state.isDisabled && "btn-loading"} */}
                                         <button
                                             disabled={this.state.isDisabled}
                                             type="submit"
-                                            // onClick={() => this.makeANewOrder(cartItems)}
                                             onClick={() => this.makeACheckout(cartItems)}
                                             className={`btn btn-primary btn-xl btn-block `}
                                         >

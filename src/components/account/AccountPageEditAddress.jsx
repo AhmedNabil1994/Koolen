@@ -11,9 +11,7 @@ import theme from '../../data/theme';
 
 // apis
 import {
-    getCountry, getStates, getCities, addNewAddress,
-    editAddress,
-    getAddressById,
+    getCountry, getStates, getCities, addNewAddress, editAddress, getAddressById,
 } from '../../api/addresses';
 
 // components
@@ -22,6 +20,7 @@ import BlockLoader from '../blocks/BlockLoader';
 
 export default function AccountPageEditAddress(props) {
     const [address, setAddress] = useState('');
+    const [validAddress, setValidAddress] = useState(false);
     const [countries, setCountries] = useState([]);
     const [selectedCountry, setSelectedCountry] = useState(null);
     const [states, setStates] = useState([]);
@@ -29,72 +28,84 @@ export default function AccountPageEditAddress(props) {
     const [cities, setCities] = useState([]);
     const [selectedCity, setSelectedCity] = useState(null);
     const [postalCode, setPostalCode] = useState('');
+    const [validPostalCode, setValidPostalCode] = useState(false);
     const [phone, setPhone] = useState('');
+    const [validPhone, setValidPhone] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [addressErrorMessage, setAddressErrorMessage] = useState('');
     const [postalCodeErrorMessage, setPostalCodeErrorMessage] = useState('');
     const [phoneErrorMessage, setPhoneErrorMessage] = useState('');
-    const [isDisabled, setIsDisabled] = useState(true);
+    // const [isDisabled, setIsDisabled] = useState(true);
     const { formatMessage } = useIntl();
     const history = useHistory();
 
     // routes
-    const { match: { params: { addressId } } } = props;
+    const {
+        match: {
+            params: { addressId },
+        },
+    } = props;
     const isAddAddress = addressId === 'add';
 
     useEffect(() => {
         if (!isAddAddress) {
             setIsLoading(true);
-            getAddressById(addressId, (success) => {
-                setIsLoading(false);
-                if (success.success) {
-                    // console.log('Data from getAddress by id', success.data);
-                    console.log('id', addressId);
-                    const {
-                        address: yourAddress, country_id: countryId, city_id: cityId, state_id: stateId, phone, postal_code: postalCode,
-                    } = success.data.filter((address) => addressId === address.id)[0];
-                    // console.log({
-                    //     address: yourAddress,
-                    //     country_id: countryId,
-                    //     city_id: cityId,
-                    //     state_id: stateId,
-                    //     phone,
-                    //     postal_code: postalCode,
-                    // });
-                    console.log('Data from getAddress by id', success.data);
-                    setAddress(yourAddress);
-                    setSelectedCountry(countryId);
-                    setSelectedCity(cityId);
-                    setSelectedState(stateId);
-                    setPhone(phone);
-                    setPostalCode(postalCode);
-                } else {
-                    toastError(success);
-                }
-            }, (fail) => {
-                setIsLoading(false);
-                toastError(fail);
-            });
+            getAddressById(
+                addressId,
+                (success) => {
+                    setIsLoading(false);
+                    if (success.success) {
+                        console.log('id', addressId);
+                        const {
+                            address: yourAddress,
+                            country_id: countryId,
+                            city_id: cityId,
+                            state_id: stateId,
+                            phone,
+                            postal_code: postalCode,
+                        } = success.data.filter((address) => addressId === address.id)[0];
+                        setAddress(yourAddress);
+                        setSelectedCountry(countryId);
+                        setSelectedCity(cityId);
+                        setSelectedState(stateId);
+                        setPhone(phone);
+                        setPostalCode(postalCode);
+                    } else {
+                        toastError(success);
+                    }
+                },
+                (fail) => {
+                    setIsLoading(false);
+                    toastError(fail);
+                },
+            );
         }
     }, [isAddAddress]);
 
     useEffect(() => {
-        getCountry((success) => {
-            if (success.success) {
-                setCountries(success.data);
-                if (isAddAddress) setSelectedCountry(success.data[0].id);
-            } else toastError(success);
-        }, (fail) => toastError(fail));
+        getCountry(
+            (success) => {
+                if (success.success) {
+                    setCountries(success.data);
+                    if (isAddAddress) setSelectedCountry(success.data[0].id);
+                } else toastError(success);
+            },
+            (fail) => toastError(fail),
+        );
     }, []);
 
     useEffect(() => {
         if (selectedCountry) {
-            getStates(selectedCountry, (success) => {
-                if (success.success) {
-                    setStates(success.data);
-                    if (isAddAddress) setSelectedState(success.data[0].id);
-                } else toastError(success);
-            }, (fail) => toastError(fail));
+            getStates(
+                selectedCountry,
+                (success) => {
+                    if (success.success) {
+                        setStates(success.data);
+                        if (isAddAddress) setSelectedState(success.data[0].id);
+                    } else toastError(success);
+                },
+                (fail) => toastError(fail),
+            );
         } else {
             setStates([]);
             setSelectedState(null);
@@ -103,12 +114,16 @@ export default function AccountPageEditAddress(props) {
 
     useEffect(() => {
         if (selectedState) {
-            getCities(selectedState, (success) => {
-                if (success.success) {
-                    setCities(success.data);
-                    if (isAddAddress) setSelectedCity(success.data[0].id);
-                } else toastError(success);
-            }, (fail) => toastError(fail));
+            getCities(
+                selectedState,
+                (success) => {
+                    if (success.success) {
+                        setCities(success.data);
+                        if (isAddAddress) setSelectedCity(success.data[0].id);
+                    } else toastError(success);
+                },
+                (fail) => toastError(fail),
+            );
         } else {
             setCities([]);
             setSelectedCity(null);
@@ -124,45 +139,40 @@ export default function AccountPageEditAddress(props) {
             postalCode: +postalCode,
             phone,
         };
-        // handleButtonClick();
         if (isAddAddress) {
-            addNewAddress(payload, (success) => {
-                if (success.success) {
-                    history.push('/account/addresses');
-                    toastSuccess(success);
-                } else {
-                    toastError(success);
-                }
-            }, (fail) => {
-                toastError(fail);
-            });
+            addNewAddress(
+                payload,
+                (success) => {
+                    if (success.success) {
+                        history.push('/account/addresses');
+                        toastSuccess(success);
+                    } else {
+                        toastError(success);
+                    }
+                },
+                (fail) => {
+                    toastError(fail);
+                },
+            );
         } else {
             payload.id = +addressId;
-            editAddress(payload, (success) => {
-                if (success.success) {
-                    console.log('data when edit', success.data);
-                    history.push('/account/addresses');
-                    toastSuccess(success);
-                } else {
-                    toastError(success);
-                }
-            }, (fail) => {
-                toastError(fail);
-            });
+            editAddress(
+                payload,
+                (success) => {
+                    if (success.success) {
+                        console.log('data when edit', success.data);
+                        history.push('/account/addresses');
+                        toastSuccess(success);
+                    } else {
+                        toastError(success);
+                    }
+                },
+                (fail) => {
+                    toastError(fail);
+                },
+            );
         }
     }
-
-    const handleChangeAddress = (e) => {
-        setAddress(e.target.value);
-        // if (!/^[a-zA-Z ]+$/.test(e.target.value)) {
-        //     setAddressErrorMessage('* Please enter only text characters! *');
-        //     return;
-        // }
-        if (address) {
-            setAddressErrorMessage('');
-        }
-    };
-
     const handleChangeCountry = (e) => {
         setSelectedCountry(e.target.value);
     };
@@ -175,52 +185,61 @@ export default function AccountPageEditAddress(props) {
         setSelectedCity(e.target.value);
     };
 
+    const handleChangeAddress = (e) => {
+        setAddress(e.target.value);
+        setAddressErrorMessage('');
+    };
+
     const handleChangePostalCode = (e) => {
-        if (!/^[0-9]+$/.test(e.target.value)) {
-            setPostalCodeErrorMessage('* Please enter a valid postal code! *');
-            setIsDisabled(true);
-            return;
-        }
         setPostalCode(e.target.value);
         setPostalCodeErrorMessage('');
-        setIsDisabled(false);
-        // if (postalCode) {
-        //     setPostalCodeErrorMessage('');
-        // }
-        // if (postalCode && /^[0-9]+$/.test(e.target.value)) {
-        // }
     };
 
     const handleChangePhone = (e) => {
-        if (!/^[0-9]+$/.test(e.target.value)) {
-            setPhoneErrorMessage('* Please enter only valid phone number digits! *');
-            setIsDisabled(true);
-            return;
-        }
         setPhone(e.target.value);
         setPhoneErrorMessage('');
-        setIsDisabled(false);
-        // if (phone && /^[0-9]+$/.test(e.target.value)) {
-        // }
     };
 
-    const handleButtonClick = () => {
-        if (!address) {
-            setAddressErrorMessage('* Address can not be null! *');
+    const handleClick = () => {
+        if (address === '') {
+            setAddressErrorMessage('* Address should not be null! *');
+            setValidAddress(false);
+        } else if (/^\d+$/.test(address)) {
+            setAddressErrorMessage('* Please enter a valid address! *');
+            setValidAddress(false);
+        } else {
+            setAddress('');
+            setAddressErrorMessage('');
+            setValidAddress(true);
+            console.log('valid address', validAddress);
         }
-        if (!postalCode) {
-            setPostalCodeErrorMessage('* Postal Code can not be null! *');
+        if (postalCode === '') {
+            setPostalCodeErrorMessage('* Postal code should not be null! *');
+            setValidPostalCode(false);
+        } else if (!/^[0-9]+$/.test(postalCode)) {
+            setPostalCodeErrorMessage('* Please enter a valid postal code! *');
+            setValidPostalCode(false);
+        } else {
+            setPostalCode('');
+            setPostalCodeErrorMessage('');
+            setValidPostalCode(true);
+            console.log('valid postal code', validPostalCode);
         }
-        if (!phone) {
-            setPhoneErrorMessage('* Phone Number can not be null! *');
+        if (phone === '') {
+            setPhoneErrorMessage('* Phone number should not be null! *');
+            setValidPhone(false);
+        } else if (!/^[0-9]+$/.test(phone)) {
+            setPhoneErrorMessage('* Please enter a valid phone number! *');
+            setValidPhone(false);
+        } else {
+            setPhone('');
+            setPhoneErrorMessage('');
+            setValidPhone(true);
+            console.log('valid phone', validPhone);
         }
-        if (address && postalCode && phone) {
-            // setIsDisabled(false);
+        if ((validAddress === true && validPostalCode === true && validPhone === true)) {
             submitNewAddress();
         }
-        // if (address && postalCode && /^[0-9]{5}(?:-[0-9]{4})?$/.test(e.target.value)) {
-        //     submitNewAddress();
-        // }
     };
 
     if (isLoading) return <BlockLoader />;
@@ -331,7 +350,6 @@ export default function AccountPageEditAddress(props) {
                                 name="postalCode"
                                 placeholder={formatMessage({ id: 'postCodeZip' })}
                                 value={postalCode}
-                                // onChange={(e) => setPostalCode(e.target.value)}
                                 onChange={handleChangePostalCode}
                                 autoComplete="off"
                             />
@@ -359,10 +377,11 @@ export default function AccountPageEditAddress(props) {
                         <div className="form-group mt-3 mb-0">
                             <button
                                 // onClick={(submitNewAddress, handleButtonClick)}
-                                onClick={handleButtonClick}
+                                // onClick={handleButtonClick}
+                                onClick={handleClick}
                                 className="btn btn-primary"
                                 type="button"
-                                disabled={isDisabled}
+                                // disabled={isDisabled}
                             >
                                 <FormattedMessage id="save" />
                             </button>
