@@ -22,6 +22,7 @@ export default function AccountPageEditAddress(props) {
     const [address, setAddress] = useState('');
     // const [validAddress, setValidAddress] = useState(false);
     const [countries, setCountries] = useState([]);
+    const [errorMessage, setErrorMessage] = useState('');
     const [selectedCountry, setSelectedCountry] = useState(null);
     const [states, setStates] = useState([]);
     const [selectedState, setSelectedState] = useState(null);
@@ -181,50 +182,9 @@ export default function AccountPageEditAddress(props) {
         }
     }
 
-    // const fetcheedAddresses = allAddresses.map((add) => add.address);
-    const validatePostalCode = (value) => {
-        // const postalCodeRegex = /^\d{5}$/;
-        const postalCodeRegex = /^\d{5}$/;
-        if (!postalCodeRegex.test(value)) {
-            return ' Please enter a valid postal code! ';
-        }
-        return '';
-    };
-
-    const validatePhone = (value) => {
-        // const phoneRegex = /^\d{12}$/;
-        const phoneRegex = /^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$/;
-        if (!phoneRegex.test(value)) {
-            return ' Please enter a valid saudi phone number! ';
-        }
-        return '';
-    };
-
-    const handleChangeCountry = (e) => {
-        setSelectedCountry(e.target.value);
-    };
-
-    const handleChangeState = (e) => {
-        setSelectedState(e.target.value);
-    };
-
-    const handleChangeCity = (e) => {
-        setSelectedCity(e.target.value);
-    };
-
-    const handleChangeAddress = (e) => {
+    const handleChange = (e) => {
         setAddress(e.target.value);
-        setAddressErrorMessage('');
-    };
-
-    const handleChangePostalCode = (e) => {
-        setPostalCode(e.target.value);
-        setPostalCodeErrorMessage(validatePostalCode(e.target.value));
-    };
-
-    const handleChangePhone = (e) => {
-        setPhone(e.target.value);
-        setPhoneErrorMessage(validatePhone(e.target.value));
+        setErrorMessage('');
     };
 
     const handleClick = () => {
@@ -378,12 +338,7 @@ export default function AccountPageEditAddress(props) {
                         </div>
 
                         <div className="form-group mt-3 mb-0">
-                            <button
-                                onClick={handleClick}
-                                className="btn btn-primary"
-                                type="button"
-                                // disabled={isDisabled}
-                            >
+                            <button onClick={handleClick} className="btn btn-primary" type="button">
                                 <FormattedMessage id="save" />
                             </button>
                         </div>

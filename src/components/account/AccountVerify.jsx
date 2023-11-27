@@ -1,31 +1,42 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './AccountVerify.css';
-import { resendCode, verifyCode } from '../../api/auth';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { useIntl } from 'react-intl';
 import { toastSuccess, toastError } from '../toast/toastComponent';
+import { resendCode, verifyCode } from '../../api/auth';
 import { LOGIN } from '../../store/auth/auth.types';
 import { getToken } from '../../api/network';
 
 const AccountVerify = (props) => {
     const { dispatch } = props;
     console.log('the props', props);
-    const [email, setEmail] = useState('');
-    const [code, setCode] = useState(null);
+    const intl = useIntl();
     const history = useHistory();
 
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-    };
-
-    const handleCodeChange = (e) => {
-        setCode(e.target.value);
-    };
-
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            code: '',
+        },
+        validationSchema: Yup.object({
+            email: Yup.string()
+                .email(intl.formatMessage({ id: 'validation.email.format' }))
+                .required(intl.formatMessage({ id: 'validation.email.required' })),
+            code: Yup.number()
+                .typeError('code must be a number')
+                .required('code is required'),
+        }),
+        onSubmit: (values) => {
+            console.log(values);
+        },
+    });
     const resendCodeFn = (e) => {
         e.preventDefault();
         const payload = {
-            email,
+            email: formik.values.email,
         };
         resendCode(
             payload,
@@ -43,8 +54,8 @@ const AccountVerify = (props) => {
     const verifyCodeFn = (e) => {
         e.preventDefault();
         const payload = {
-            email,
-            code,
+            email: formik.values.email,
+            code: formik.values.code,
         };
         verifyCode(
             payload,
@@ -81,7 +92,7 @@ const AccountVerify = (props) => {
                                 <div className="d-block fw-900 grey--text text--darken-3">Account</div>
                             </h3>
                             <div className="title-2 mb-3">Enter your email address, verification code</div>
-                            <form action="" noValidate="novalidate" className="v-form">
+                            <form onSubmit={formik.handleSubmit}>
                                 <div className="mb-4">
                                     <div className="mb-1 fs-13 fw-500">Email</div>
                                     <div className="v-input v-input--hide-details theme--light v-text-field v-text-field--is-booted v-text-field--enclosed v-text-field--outlined v-text-field--placeholder">
@@ -89,14 +100,24 @@ const AccountVerify = (props) => {
                                             <div className="v-input__slot">
                                                 <div className="v-text-field__slot">
                                                     <input
+                                                        id="email"
                                                         type="email"
                                                         name="email"
-                                                        required
-                                                        id="email"
                                                         placeholder="Email address"
-                                                        className="form-control"
-                                                        onChange={handleEmailChange}
+                                                        className={`form-control ${formik.touched.email && formik.errors.email && 'is-invalid'}`}
+                                                        value={formik.values.email}
+                                                        onChange={formik.handleChange}
+                                                        {...formik.getFieldProps('email')}
                                                     />
+                                                    {
+                                                        formik.touched.email && formik.errors.email
+                                                            ? (
+                                                                <div className="invalid-feedback">
+                                                                    {formik.errors.email}
+                                                                </div>
+                                                            )
+                                                            : null
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
@@ -110,14 +131,24 @@ const AccountVerify = (props) => {
                                                 <div className="v-input__slot">
                                                     <div className="v-text-field__slot">
                                                         <input
-                                                            type="number"
-                                                            required
-                                                            id="in-0"
-                                                            min={0}
-                                                            autoComplete="one-time-code"
-                                                            className="otp-field-box--0 form-control"
-                                                            onChange={handleCodeChange}
+                                                            type="text"
+                                                            id="code"
+                                                            name="code"
+                                                            placeholder="Enter the code"
+                                                            className={`form-control ${formik.touched.code && formik.errors.code && 'is-invalid'}`}
+                                                            value={formik.values.code}
+                                                            onChange={formik.handleChange}
+                                                            {...formik.getFieldProps('code')}
                                                         />
+                                                        {
+                                                            formik.touched.code && formik.errors.code
+                                                                ? (
+                                                                    <div className="invalid-feedback">
+                                                                        {formik.errors.code}
+                                                                    </div>
+                                                                )
+                                                                : null
+                                                        }
                                                     </div>
                                                 </div>
                                             </div>
