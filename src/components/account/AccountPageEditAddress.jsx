@@ -35,6 +35,7 @@ export default function AccountPageEditAddress(props) {
     const [addressErrorMessage, setAddressErrorMessage] = useState('');
     const [postalCodeErrorMessage, setPostalCodeErrorMessage] = useState('');
     const [phoneErrorMessage, setPhoneErrorMessage] = useState('');
+    // const [allAddresses, setAllAddresses] = useState([]);
     // const [isDisabled, setIsDisabled] = useState(true);
     const { formatMessage } = useIntl();
     const history = useHistory();
@@ -55,7 +56,7 @@ export default function AccountPageEditAddress(props) {
                 (success) => {
                     setIsLoading(false);
                     if (success.success) {
-                        console.log('id', addressId);
+                        const filteredAddress = success.data?.filter((address) => address.id === parseInt(addressId, 10));
                         const {
                             address: yourAddress,
                             country_id: countryId,
@@ -63,13 +64,18 @@ export default function AccountPageEditAddress(props) {
                             state_id: stateId,
                             phone,
                             postal_code: postalCode,
-                        } = success.data.filter((address) => addressId === address.id)[0];
+                            // city,
+                        // } = success.data[1];
+                        } = filteredAddress.length > 0 && filteredAddress[0];
                         setAddress(yourAddress);
                         setSelectedCountry(countryId);
+                        // setSelectedCity(city);
                         setSelectedCity(cityId);
                         setSelectedState(stateId);
                         setPhone(phone);
                         setPostalCode(postalCode);
+                        console.log('success');
+                        console.log('phone', phone);
                     } else {
                         toastError(success);
                     }
@@ -77,6 +83,7 @@ export default function AccountPageEditAddress(props) {
                 (fail) => {
                     setIsLoading(false);
                     toastError(fail);
+                    console.log('Error');
                 },
             );
         }
@@ -174,11 +181,12 @@ export default function AccountPageEditAddress(props) {
         }
     }
 
+    // const fetcheedAddresses = allAddresses.map((add) => add.address);
     const validatePostalCode = (value) => {
         // const postalCodeRegex = /^\d{5}$/;
         const postalCodeRegex = /^\d{5}$/;
         if (!postalCodeRegex.test(value)) {
-            return '* Please enter a valid postal code! *';
+            return ' Please enter a valid postal code! ';
         }
         return '';
     };
@@ -187,7 +195,7 @@ export default function AccountPageEditAddress(props) {
         // const phoneRegex = /^\d{12}$/;
         const phoneRegex = /^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$/;
         if (!phoneRegex.test(value)) {
-            return '* Please enter a valid saudi phone number! *';
+            return ' Please enter a valid saudi phone number! ';
         }
         return '';
     };
@@ -221,13 +229,13 @@ export default function AccountPageEditAddress(props) {
 
     const handleClick = () => {
         if (address === '') {
-            setAddressErrorMessage('* Address should not be null! *');
+            setAddressErrorMessage(' Address should not be empty ! ');
         }
         if (postalCode === '') {
-            setPostalCodeErrorMessage('* Postal code should not be null! *');
+            setPostalCodeErrorMessage(' Postal code should not be empty ! ');
         }
         if (phone === '') {
-            setPhoneErrorMessage('* Phone number should not be null! *');
+            setPhoneErrorMessage(' Phone number should not be empty ! ');
         }
         // if (addressErrorMessage || postalCodeErrorMessage || phoneErrorMessage) {
         if (address === '' || postalCode === '' || phone === '') {
@@ -275,7 +283,6 @@ export default function AccountPageEditAddress(props) {
                                 placeholder={formatMessage({ id: 'streetAddress' })}
                                 name="address"
                                 value={address}
-                                // onChange={(e) => setAddress(e.target.value)}
                                 onChange={handleChangeAddress}
                                 autoComplete="off"
                             />
@@ -289,7 +296,6 @@ export default function AccountPageEditAddress(props) {
                                 autoComplete="off"
                                 id="checkout-country"
                                 value={null}
-                                // onChange={(e) => setSelectedCountry(e.target.value)}
                                 onChange={handleChangeCountry}
                                 className="form-control form-control-select2"
                             >
@@ -307,8 +313,7 @@ export default function AccountPageEditAddress(props) {
                             <select
                                 autoComplete="off"
                                 id="checkout-country"
-                                vlaue={selectedState}
-                                // onChange={(e) => setSelectedState(e.target.value)}
+                                value={selectedState}
                                 onChange={handleChangeState}
                                 className="form-control form-control-select2"
                             >
@@ -326,7 +331,7 @@ export default function AccountPageEditAddress(props) {
                             <select
                                 autoComplete="off"
                                 id="checkout-country"
-                                vlaue={selectedCity}
+                                value={selectedCity}
                                 // onChange={(e) => setSelectedCity(e.target.value)}
                                 onChange={handleChangeCity}
                                 className="form-control form-control-select2"
@@ -366,7 +371,6 @@ export default function AccountPageEditAddress(props) {
                                 placeholder={formatMessage({ id: 'phone' })}
                                 name="phone"
                                 value={phone}
-                                // onChange={(e) => setPhone(e.target.value)}
                                 onChange={handleChangePhone}
                                 autoComplete="off"
                             />
@@ -375,8 +379,6 @@ export default function AccountPageEditAddress(props) {
 
                         <div className="form-group mt-3 mb-0">
                             <button
-                                // onClick={(submitNewAddress, handleButtonClick)}
-                                // onClick={handleButtonClick}
                                 onClick={handleClick}
                                 className="btn btn-primary"
                                 type="button"
@@ -384,8 +386,8 @@ export default function AccountPageEditAddress(props) {
                             >
                                 <FormattedMessage id="save" />
                             </button>
-                            {/* {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} */}
                         </div>
+                        {/* <p>{fetcheedAddresses}</p> */}
                     </div>
                 </div>
             </div>
