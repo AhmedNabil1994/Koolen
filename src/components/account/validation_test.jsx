@@ -10,9 +10,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import theme from '../../data/theme';
 
 // apis
-import {
-    getCountry, getStates, getCities, addNewAddress, editAddress, getAddressById,
-} from '../../api/addresses';
+import { getCountry, getStates, getCities, addNewAddress, editAddress, getAddressById } from '../../api/addresses';
 
 // components
 import { toastError, toastSuccess } from '../toast/toastComponent';
@@ -20,7 +18,7 @@ import BlockLoader from '../blocks/BlockLoader';
 
 export default function AccountPageEditAddress(props) {
     const [address, setAddress] = useState('');
-    // const [validAddress, setValidAddress] = useState(false);
+    const [validAddress, setValidAddress] = useState(false);
     const [countries, setCountries] = useState([]);
     const [selectedCountry, setSelectedCountry] = useState(null);
     const [states, setStates] = useState([]);
@@ -28,9 +26,9 @@ export default function AccountPageEditAddress(props) {
     const [cities, setCities] = useState([]);
     const [selectedCity, setSelectedCity] = useState(null);
     const [postalCode, setPostalCode] = useState('');
-    // const [validPostalCode, setValidPostalCode] = useState(false);
+    const [validPostalCode, setValidPostalCode] = useState(false);
     const [phone, setPhone] = useState('');
-    // const [validPhone, setValidPhone] = useState(false);
+    const [validPhone, setValidPhone] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [addressErrorMessage, setAddressErrorMessage] = useState('');
     const [postalCodeErrorMessage, setPostalCodeErrorMessage] = useState('');
@@ -77,7 +75,7 @@ export default function AccountPageEditAddress(props) {
                 (fail) => {
                     setIsLoading(false);
                     toastError(fail);
-                },
+                }
             );
         }
     }, [isAddAddress]);
@@ -90,7 +88,7 @@ export default function AccountPageEditAddress(props) {
                     if (isAddAddress) setSelectedCountry(success.data[0].id);
                 } else toastError(success);
             },
-            (fail) => toastError(fail),
+            (fail) => toastError(fail)
         );
     }, []);
 
@@ -104,7 +102,7 @@ export default function AccountPageEditAddress(props) {
                         if (isAddAddress) setSelectedState(success.data[0].id);
                     } else toastError(success);
                 },
-                (fail) => toastError(fail),
+                (fail) => toastError(fail)
             );
         } else {
             setStates([]);
@@ -122,7 +120,7 @@ export default function AccountPageEditAddress(props) {
                         if (isAddAddress) setSelectedCity(success.data[0].id);
                     } else toastError(success);
                 },
-                (fail) => toastError(fail),
+                (fail) => toastError(fail)
             );
         } else {
             setCities([]);
@@ -152,7 +150,7 @@ export default function AccountPageEditAddress(props) {
                 },
                 (fail) => {
                     toastError(fail);
-                },
+                }
             );
         } else {
             payload.id = +addressId;
@@ -169,29 +167,10 @@ export default function AccountPageEditAddress(props) {
                 },
                 (fail) => {
                     toastError(fail);
-                },
+                }
             );
         }
     }
-
-    const validatePostalCode = (value) => {
-        // const postalCodeRegex = /^\d{5}$/;
-        const postalCodeRegex = /^\d{5}$/;
-        if (!postalCodeRegex.test(value)) {
-            return '* Please enter a valid postal code! *';
-        }
-        return '';
-    };
-
-    const validatePhone = (value) => {
-        // const phoneRegex = /^\d{12}$/;
-        const phoneRegex = /^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$/;
-        if (!phoneRegex.test(value)) {
-            return '* Please enter a valid saudi phone number! *';
-        }
-        return '';
-    };
-
     const handleChangeCountry = (e) => {
         setSelectedCountry(e.target.value);
     };
@@ -211,34 +190,54 @@ export default function AccountPageEditAddress(props) {
 
     const handleChangePostalCode = (e) => {
         setPostalCode(e.target.value);
-        setPostalCodeErrorMessage(validatePostalCode(e.target.value));
+        setPostalCodeErrorMessage('');
     };
 
     const handleChangePhone = (e) => {
         setPhone(e.target.value);
-        setPhoneErrorMessage(validatePhone(e.target.value));
+        setPhoneErrorMessage('');
     };
 
     const handleClick = () => {
         if (address === '') {
             setAddressErrorMessage('* Address should not be null! *');
+            setValidAddress(false);
+        } else if (/^\d+$/.test(address)) {
+            setAddressErrorMessage('* Please enter a valid address! *');
+            setValidAddress(false);
+        } else {
+            setAddress('');
+            setAddressErrorMessage('');
+            setValidAddress(true);
+            console.log('valid address', validAddress);
         }
         if (postalCode === '') {
             setPostalCodeErrorMessage('* Postal code should not be null! *');
+            setValidPostalCode(false);
+        } else if (!/^[0-9]+$/.test(postalCode)) {
+            setPostalCodeErrorMessage('* Please enter a valid postal code! *');
+            setValidPostalCode(false);
+        } else {
+            setPostalCode('');
+            setPostalCodeErrorMessage('');
+            setValidPostalCode(true);
+            console.log('valid postal code', validPostalCode);
         }
         if (phone === '') {
             setPhoneErrorMessage('* Phone number should not be null! *');
+            setValidPhone(false);
+        } else if (!/^[0-9]+$/.test(phone)) {
+            setPhoneErrorMessage('* Please enter a valid phone number! *');
+            setValidPhone(false);
+        } else {
+            setPhone('');
+            setPhoneErrorMessage('');
+            setValidPhone(true);
+            console.log('valid phone', validPhone);
         }
-        // if (addressErrorMessage || postalCodeErrorMessage || phoneErrorMessage) {
-        if (address === '' || postalCode === '' || phone === '') {
-            console.log('null return');
-            return;
+        if (validAddress === true && validPostalCode === true && validPhone === true) {
+            submitNewAddress();
         }
-        if (postalCodeErrorMessage || phoneErrorMessage) {
-            console.log('last condition');
-            return;
-        }
-        submitNewAddress();
     };
 
     if (isLoading) return <BlockLoader />;
