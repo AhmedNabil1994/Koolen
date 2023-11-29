@@ -229,13 +229,13 @@ export default function AccountPageEditAddress(props) {
 
     const handleClick = () => {
         if (address === '') {
-            setAddressErrorMessage(' Address should not be empty ! ');
+            setAddressErrorMessage(' Address should not be empty. ');
         }
         if (postalCode === '') {
-            setPostalCodeErrorMessage(' Postal code should not be empty ! ');
+            setPostalCodeErrorMessage(' Postal code should not be empty. ');
         }
         if (phone === '') {
-            setPhoneErrorMessage(' Phone number should not be empty ! ');
+            setPhoneErrorMessage(' Phone number should not be empty. ');
         }
         // if (addressErrorMessage || postalCodeErrorMessage || phoneErrorMessage) {
         if (address === '' || postalCode === '' || phone === '') {

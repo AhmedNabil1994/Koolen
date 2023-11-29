@@ -40,7 +40,7 @@ class ShopPageCheckout extends Component {
             isShippingCostDone: false,
             couponCode: null,
             isOrderSuccess: false,
-            isDisabled: false,
+            isDisabled: true,
             selectedAddrerssId: null,
         };
     }
@@ -87,6 +87,10 @@ class ShopPageCheckout extends Component {
 
     handleAddressClick = (addressId) => {
         this.setState({ selectedAddrerssId: addressId });
+    };
+
+    handleClick = () => {
+        this.setState({ isDisabled: false });
     };
 
     makeACheckout = (cart) => {
@@ -289,6 +293,7 @@ class ShopPageCheckout extends Component {
                                                 isLoading={this.state?.isLoading}
                                                 address={selectedAddress}
                                                 handleAddressClick={this.handleAddressClick}
+                                                handleClick={this.handleClick}
                                             />
                                         </div>
                                     );

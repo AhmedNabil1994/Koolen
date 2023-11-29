@@ -10,6 +10,7 @@ const ChooseAddress = ({
     address,
     isLoading,
     handleAddressClick,
+    handleClick,
     // style,
     // handleDivClick,
     // isSelected,
@@ -26,21 +27,20 @@ const ChooseAddress = ({
                 // style={style}
                 // onClick={handleDivClick(address.id)}
                 // onClick={onAddressClick}
-                // role="button"
-                // onKeyDown={onAddressClick}
-                // tabIndex={0}
+                role="button"
+                onKeyDown={handleClick}
+                tabIndex={0}
+                onClick={handleClick}
             >
                 <input
                     type="radio"
                     name="radio-group"
                     id={`radio-input-label-${address.id}`}
                     onChange={() => handleAddressClick(address.id)}
+                    // checked
                 />
                 {/* <div className="input-radio__circle"/> */}
-                <label
-                    htmlFor={`radio-input-label-${address.id}`}
-                    className="card custom-address__card"
-                >
+                <label htmlFor={`radio-input-label-${address.id}`} className="card custom-address__card">
                     <div className="address-card">
                         <div className="address-card__body d-flex justify-content-between align-items-center">
                             <div className="info">
