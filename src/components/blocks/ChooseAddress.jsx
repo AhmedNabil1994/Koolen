@@ -6,38 +6,41 @@ import BlockLoader from './BlockLoader';
 import './ChooseAddress.css';
 
 const ChooseAddress = ({
-    // address, isLoading, handleAddressClick, selectedAddressId,
     address,
     isLoading,
     handleAddressClick,
     handleClick,
-    // style,
+    // checkedVal,
+    // isChecked,
+    // checked,
+    // handleChange,
+    // handleCheck,
     // handleDivClick,
     // isSelected,
     // onAddressClick,
 }) => {
-    // const style = isSelected ? { border: '2px solid #fc671a' } : {};
     // const { formatMessage } = useIntl();
     if (isLoading && !address) return <BlockLoader />;
-
+    // console.log(checkedVal);
     if (address) {
         return (
             <div
                 className="custom-address mb-2"
-                // style={style}
-                // onClick={handleDivClick(address.id)}
-                // onClick={onAddressClick}
                 role="button"
                 onKeyDown={handleClick}
                 tabIndex={0}
                 onClick={handleClick}
+                // onClick={handleCheck}
             >
                 <input
                     type="radio"
                     name="radio-group"
                     id={`radio-input-label-${address.id}`}
-                    onChange={() => handleAddressClick(address.id)}
-                    // checked
+                    // onChange={() => handleAddressClick(address.id)}
+                    onClick={() => handleAddressClick(address.id)}
+                    // checked={checkedVal}
+                    // checked={checked}
+                    // onChange={handleChange}
                 />
                 {/* <div className="input-radio__circle"/> */}
                 <label htmlFor={`radio-input-label-${address.id}`} className="card custom-address__card">

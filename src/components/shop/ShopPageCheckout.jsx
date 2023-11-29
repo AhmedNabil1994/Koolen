@@ -24,6 +24,7 @@ import { toastError } from '../toast/toastComponent';
 import { getShippingCost, paymentGateway } from '../../api/shippingAndPayment';
 import { createOrder } from '../../api/orders';
 import { emptyCartFromItems } from '../../store/cart';
+// import { array } from 'prop-types';
 
 class ShopPageCheckout extends Component {
     payments = payments;
@@ -42,6 +43,7 @@ class ShopPageCheckout extends Component {
             isOrderSuccess: false,
             isDisabled: true,
             selectedAddrerssId: null,
+            // checkedItem: selectedAddresses.length === 1 ? selectedAddresses[0] : null,
         };
     }
 
@@ -52,6 +54,7 @@ class ShopPageCheckout extends Component {
                     selectedAddresses: success.data,
                     isLoading: false,
                 });
+                // console.log(success.data.length);
             },
             (fail) => {
                 toastError(fail);
@@ -92,6 +95,10 @@ class ShopPageCheckout extends Component {
     handleClick = () => {
         this.setState({ isDisabled: false });
     };
+
+    // handleChange = (selectedItem) => {
+    //     this.setState({ checkedItem: selectedItem });
+    // };
 
     makeACheckout = (cart) => {
         this.createNewOrder(cart);
@@ -273,7 +280,7 @@ class ShopPageCheckout extends Component {
         if (this.state.isOrderSuccess) {
             return <Redirect to="/shop/checkout/success" />;
         }
-
+        console.log('first address', this.state.selectedAddresses[0]);
         return (
             <React.Fragment>
                 <Helmet>
@@ -298,6 +305,45 @@ class ShopPageCheckout extends Component {
                                         </div>
                                     );
                                 })}
+                                {/* {this.state.selectedAddresses.map((selectedAddress) => {
+                                    return (
+                                        <div key={selectedAddress.id}>
+                                            <ChooseAddress
+                                                isLoading={this.state?.isLoading}
+                                                address={selectedAddress}
+                                                handleAddressClick={this.handleAddressClick}
+                                                handleClick={this.handleClick}
+                                                // checked={this.state.selectedAddresses.length === 1}
+                                                checked={checkedItem === selectedAddress}
+                                                // handleChange={this.handleChange}
+                                                handleChange={() => this.handleChange(selectedAddress)}
+                                            />
+                                        </div>
+                                    );
+                                })} */}
+                                {/* {this.state.selectedAddresses.map((selectedAddress,index) => {
+                                    return (
+                                        <div key={selectedAddress.id}>
+                                            {index === 0 ? (
+                                                <ChooseAddress
+                                                    isLoading={this.state?.isLoading}
+                                                    address={selectedAddress}
+                                                    handleAddressClick={this.handleAddressClick}
+                                                    handleClick={this.handleClick}
+                                                    checkedVal
+                                                />
+                                            ) : (
+                                                <ChooseAddress
+                                                    isLoading={this.state?.isLoading}
+                                                    address={selectedAddress}
+                                                    handleAddressClick={this.handleAddressClick}
+                                                    handleClick={this.handleClick}
+                                                    checkedVal={false}
+                                                />
+                                            )}
+                                        </div>
+                                    );
+                                })} */}
                                 <Link
                                     to="/account/addresses/add"
                                     className="addresses-list__item addresses-list__item--new"
