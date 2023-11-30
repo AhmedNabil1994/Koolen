@@ -10,18 +10,11 @@ const ChooseAddress = ({
     isLoading,
     handleAddressClick,
     handleClick,
-    // checkedVal,
-    // isChecked,
-    // checked,
-    // handleChange,
-    // handleCheck,
-    // handleDivClick,
-    // isSelected,
-    // onAddressClick,
+    checked,
 }) => {
     // const { formatMessage } = useIntl();
+    console.log('checked value is', checked);
     if (isLoading && !address) return <BlockLoader />;
-    // console.log(checkedVal);
     if (address) {
         return (
             <div
@@ -30,17 +23,13 @@ const ChooseAddress = ({
                 onKeyDown={handleClick}
                 tabIndex={0}
                 onClick={handleClick}
-                // onClick={handleCheck}
             >
                 <input
                     type="radio"
                     name="radio-group"
                     id={`radio-input-label-${address.id}`}
-                    // onChange={() => handleAddressClick(address.id)}
                     onClick={() => handleAddressClick(address.id)}
-                    // checked={checkedVal}
-                    // checked={checked}
-                    // onChange={handleChange}
+                    defaultChecked={checked}
                 />
                 {/* <div className="input-radio__circle"/> */}
                 <label htmlFor={`radio-input-label-${address.id}`} className="card custom-address__card">

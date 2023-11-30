@@ -41,9 +41,7 @@ class ShopPageCheckout extends Component {
             isShippingCostDone: false,
             couponCode: null,
             isOrderSuccess: false,
-            isDisabled: true,
             selectedAddrerssId: null,
-            // checkedItem: selectedAddresses.length === 1 ? selectedAddresses[0] : null,
         };
     }
 
@@ -52,9 +50,9 @@ class ShopPageCheckout extends Component {
             (success) => {
                 this.setState({
                     selectedAddresses: success.data,
+                    selectedAddrerssId: success.data.length === 1 ? success.data[0].id : null,
                     isLoading: false,
                 });
-                // console.log(success.data.length);
             },
             (fail) => {
                 toastError(fail);
@@ -92,14 +90,6 @@ class ShopPageCheckout extends Component {
         this.setState({ selectedAddrerssId: addressId });
     };
 
-    handleClick = () => {
-        this.setState({ isDisabled: false });
-    };
-
-    // handleChange = (selectedItem) => {
-    //     this.setState({ checkedItem: selectedItem });
-    // };
-
     makeACheckout = (cart) => {
         this.createNewOrder(cart);
     };
@@ -113,7 +103,8 @@ class ShopPageCheckout extends Component {
                 payment_type: this.state?.payment,
             },
             (success) => {
-                this.setState({ isDisabled: false });
+                // this.setState({ isDisabled: false });
+                this.setState({ selectedAddrerssId: null });
                 if (success.success) {
                     this.payAnOrder(success.order_code);
                 } else {
@@ -121,7 +112,8 @@ class ShopPageCheckout extends Component {
                 }
             },
             (fail) => {
-                this.setState({ isDisabled: false });
+                // this.setState({ isDisabled: false });
+                this.setState({ selectedAddrerssId: null });
                 toastError(fail);
             },
         );
@@ -300,50 +292,11 @@ class ShopPageCheckout extends Component {
                                                 isLoading={this.state?.isLoading}
                                                 address={selectedAddress}
                                                 handleAddressClick={this.handleAddressClick}
-                                                handleClick={this.handleClick}
+                                                checked = {this.state.selectedAddresses.length ===1}
                                             />
                                         </div>
                                     );
                                 })}
-                                {/* {this.state.selectedAddresses.map((selectedAddress) => {
-                                    return (
-                                        <div key={selectedAddress.id}>
-                                            <ChooseAddress
-                                                isLoading={this.state?.isLoading}
-                                                address={selectedAddress}
-                                                handleAddressClick={this.handleAddressClick}
-                                                handleClick={this.handleClick}
-                                                // checked={this.state.selectedAddresses.length === 1}
-                                                checked={checkedItem === selectedAddress}
-                                                // handleChange={this.handleChange}
-                                                handleChange={() => this.handleChange(selectedAddress)}
-                                            />
-                                        </div>
-                                    );
-                                })} */}
-                                {/* {this.state.selectedAddresses.map((selectedAddress,index) => {
-                                    return (
-                                        <div key={selectedAddress.id}>
-                                            {index === 0 ? (
-                                                <ChooseAddress
-                                                    isLoading={this.state?.isLoading}
-                                                    address={selectedAddress}
-                                                    handleAddressClick={this.handleAddressClick}
-                                                    handleClick={this.handleClick}
-                                                    checkedVal
-                                                />
-                                            ) : (
-                                                <ChooseAddress
-                                                    isLoading={this.state?.isLoading}
-                                                    address={selectedAddress}
-                                                    handleAddressClick={this.handleAddressClick}
-                                                    handleClick={this.handleClick}
-                                                    checkedVal={false}
-                                                />
-                                            )}
-                                        </div>
-                                    );
-                                })} */}
                                 <Link
                                     to="/account/addresses/add"
                                     className="addresses-list__item addresses-list__item--new"
@@ -361,7 +314,7 @@ class ShopPageCheckout extends Component {
                                         {this.renderCart()}
                                         {this.renderPaymentsList()}
                                         <button
-                                            disabled={this.state.isDisabled}
+                                            disabled={!this.state.selectedAddrerssId}
                                             type="submit"
                                             onClick={() => this.makeACheckout(cartItems)}
                                             className={`btn btn-primary btn-xl btn-block `}
