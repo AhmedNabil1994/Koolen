@@ -1,0 +1,12 @@
+.content {
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.content .info--text {
+  color: #2196f3 ;
+}
+
+.content h3 div:first-child {
+  color: #fc671a;
+}
