@@ -20,11 +20,16 @@ export function signUpUser({
     postRequest(path, data, onSuccess, onFail);
 }
 export function resendCode(
-    onSuccess, onFail,
+    data, onSuccess, onFail,
 ) {
     const path = '/api/v1/auth/resend-code';
-
-    getRequest(path, onSuccess, onFail);
+    postRequest(path, data, onSuccess, onFail);
+}
+export function verifyCode(
+    data, onSuccess, onFail,
+) {
+    const path = '/api/v1/auth/verify';
+    postRequest(path, data, onSuccess, onFail);
 }
 export function getUserInfo(onSuccess, onFail) {
     const path = '/api/v1/user/info';

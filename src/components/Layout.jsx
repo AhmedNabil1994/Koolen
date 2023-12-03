@@ -38,6 +38,7 @@ import SitePageTypography from './site/SitePageTypography';
 import CategoriesPage from './categories/Categories';
 import AirConditions from './site/SitePageAirConditions';
 import ShopPageOrderFailure from './shop/ShopPageOrderFailure';
+import AccountVerify from './account/AccountVerify';
 
 // data stubs
 import theme from '../data/theme';
@@ -169,6 +170,7 @@ function Layout(props) {
                                 return <Redirect to="/account/login" />;
                             }}
                         />
+                        <Route exact path="/account/verify" component={AccountVerify} />
                         <Route exact path="/shop/checkout/success" component={ShopPageOrderSuccess} />
                         <Route exact path="/shop/checkout/failure" component={ShopPageOrderFailure} />
                         <Route exact path="/shop/wishlist" component={PageWishlist} />

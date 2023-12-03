@@ -24,7 +24,7 @@ import { toastError } from '../toast/toastComponent';
 import { getShippingCost, paymentGateway } from '../../api/shippingAndPayment';
 import { createOrder } from '../../api/orders';
 import { emptyCartFromItems } from '../../store/cart';
-import AccountVerify from '../account/AccountVerify';
+// import AccountVerify from '../account/AccountVerify';
 // import { array } from 'prop-types';
 
 class ShopPageCheckout extends Component {
@@ -328,7 +328,7 @@ class ShopPageCheckout extends Component {
                         </div>
                     </div>
                 </div>
-                <AccountVerify />
+                {/* <AccountVerify /> */}
             </React.Fragment>
         );
     }

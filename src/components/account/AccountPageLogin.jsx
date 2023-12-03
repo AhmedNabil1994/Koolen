@@ -1,12 +1,13 @@
 // react
 import React from 'react';
+import { useHistory, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 // third-party
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 // application
 import { useIntl } from 'react-intl';
@@ -24,6 +25,7 @@ import { getToken } from '../../api/network';
 
 function AccountPageLogin(props) {
     const { dispatch } = props;
+    const history = useHistory();
     const intl = useIntl();
     const formik = useFormik({
         initialValues: {
@@ -75,6 +77,7 @@ function AccountPageLogin(props) {
                 if (success.success) {
                     toastSuccess(success);
                     registrationFormik.resetForm();
+                    history.push('/account/verify');
                 } else {
                     toastError(success);
                     registrationFormik.resetForm();
@@ -164,6 +167,7 @@ function AccountPageLogin(props) {
                                 <div className="card-body">
                                     <h3 className="card-title">{intl.formatMessage({ id: 'login.register' })}</h3>
                                     <form onSubmit={registrationFormik.handleSubmit}>
+                                        {/* <form onSubmit={handleSubmit}> */}
                                         <div className="form-group">
                                             <label htmlFor="name">{intl.formatMessage({ id: 'login.fullName' })}</label>
                                             <input

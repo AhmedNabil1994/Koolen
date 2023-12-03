@@ -132,7 +132,6 @@ class Indicator extends Component {
                     {button}
                     {dropdown}
                 </div>
-
             </React.Fragment>
 
         );
