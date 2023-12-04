@@ -171,6 +171,8 @@ function Layout(props) {
                             }}
                         />
                         <Route exact path="/account/verify" component={AccountVerify} />
+                        <Route exact path="/account/forget-password" component={ForgetPassword} />
+                        <Route exact path="/account/change-password" component={ChangePassword} />
                         <Route exact path="/shop/checkout/success" component={ShopPageOrderSuccess} />
                         <Route exact path="/shop/checkout/failure" component={ShopPageOrderFailure} />
                         <Route exact path="/shop/wishlist" component={PageWishlist} />
@@ -184,44 +186,32 @@ function Layout(props) {
                         <Route
                             exact
                             path="/blog/category-classic"
-                            render={(props) => (
-                                <BlogPageCategory {...props} layout="classic" sidebarPosition="end" />
-                            )}
+                            render={(props) => <BlogPageCategory {...props} layout="classic" sidebarPosition="end" />}
                         />
                         <Route
                             exact
                             path="/blog/category-grid"
-                            render={(props) => (
-                                <BlogPageCategory {...props} layout="grid" sidebarPosition="end" />
-                            )}
+                            render={(props) => <BlogPageCategory {...props} layout="grid" sidebarPosition="end" />}
                         />
                         <Route
                             exact
                             path="/blog/category-list"
-                            render={(props) => (
-                                <BlogPageCategory {...props} layout="list" sidebarPosition="end" />
-                            )}
+                            render={(props) => <BlogPageCategory {...props} layout="list" sidebarPosition="end" />}
                         />
                         <Route
                             exact
                             path="/blog/category-left-sidebar"
-                            render={(props) => (
-                                <BlogPageCategory {...props} layout="classic" sidebarPosition="start" />
-                            )}
+                            render={(props) => <BlogPageCategory {...props} layout="classic" sidebarPosition="start" />}
                         />
                         <Route
                             exact
                             path="/blog/post-classic"
-                            render={(props) => (
-                                <BlogPagePost {...props} layout="classic" sidebarPosition="end" />
-                            )}
+                            render={(props) => <BlogPagePost {...props} layout="classic" sidebarPosition="end" />}
                         />
                         <Route
                             exact
                             path="/blog/post-full"
-                            render={(props) => (
-                                <BlogPagePost {...props} layout="full" />
-                            )}
+                            render={(props) => <BlogPagePost {...props} layout="full" />}
                         />
 
                         {/*
@@ -230,22 +220,17 @@ function Layout(props) {
                         */}
                         <Route
                             path="/account/forget-password"
-                            render={
-                                () => {
-                                    if (auth.token) return <ForgetPassword />;
-                                    return <Redirect to="/account/login" />;
-                                }
-
-                            }
+                            render={() => {
+                                if (auth.token) return <ForgetPassword />;
+                                return <Redirect to="/account/login" />;
+                            }}
                         />
                         <Route
                             path="/account/change-password"
-                            render={
-                                () => {
-                                    if (auth.token) return <ChangePassword />;
-                                    return <Redirect to="/account/login" />;
-                                }
-                            }
+                            render={() => {
+                                if (auth.token) return <ChangePassword />;
+                                return <Redirect to="/account/login" />;
+                            }}
                         />
                         <Route
                             exact

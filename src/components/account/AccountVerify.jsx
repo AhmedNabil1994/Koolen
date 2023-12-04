@@ -90,6 +90,7 @@ const AccountVerify = (props) => {
                                                 <div className="v-text-field__slot">
                                                     <input
                                                         type="email"
+                                                        name="email"
                                                         required
                                                         id="email"
                                                         placeholder="Email address"
