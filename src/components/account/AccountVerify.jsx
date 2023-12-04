@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
 import './AccountVerify.css';
 import { resendCode, verifyCode } from '../../api/auth';
 import { toastSuccess, toastError } from '../toast/toastComponent';
+import { LOGIN } from '../../store/auth/auth.types';
+import { getToken } from '../../api/network';
 
-const AccountVerify = () => {
+const AccountVerify = (props) => {
+    const { dispatch } = props;
+    console.log('the props', props);
     const [email, setEmail] = useState('');
     const [code, setCode] = useState(null);
     const history = useHistory();
@@ -18,7 +23,6 @@ const AccountVerify = () => {
     };
 
     const resendCodeFn = (e) => {
-        console.log('Received');
         e.preventDefault();
         const payload = {
             email,
@@ -27,10 +31,8 @@ const AccountVerify = () => {
             payload,
             (success) => {
                 if (success.success) {
-                    console.log(success.message);
                     toastSuccess(success);
                 } else {
-                    console.log(success.message);
                     toastError(success);
                 }
             },
@@ -39,7 +41,6 @@ const AccountVerify = () => {
     };
 
     const verifyCodeFn = (e) => {
-        // console.log('Received');
         e.preventDefault();
         const payload = {
             email,
@@ -49,11 +50,16 @@ const AccountVerify = () => {
             payload,
             (success) => {
                 if (success.success) {
-                    console.log(success.message);
                     toastSuccess(success);
+                    // edit
+                    const { access_token: token, user } = success;
+                    console.log(token);
+                    console.log(user);
+                    getToken(token);
+                    dispatch({ type: LOGIN, payload: { token, user } });
                     history.push('/');
+                    // history.push('/account/login');
                 } else {
-                    console.log(success.message);
                     toastError(success);
                 }
             },
@@ -115,86 +121,6 @@ const AccountVerify = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        {/* <div className="v-input v-input--hide-details theme--light v-text-field v-text-field--is-booted v-text-field--outlined">
-                                            <div className="v-input__control">
-                                                <div className="v-input__slot">
-                                                    <div className="v-text-field__slot">
-                                                        <input
-                                                            type="number"
-                                                            required
-                                                            id="in-1"
-                                                            min={0}
-                                                            autoComplete="one-time-code"
-                                                            className="otp-field-box--1"
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="v-input v-input--hide-details theme--light v-text-field v-text-field--is-booted v-text-field--outlined">
-                                            <div className="v-input__control">
-                                                <div className="v-input__slot">
-                                                    <div className="v-text-field__slot">
-                                                        <input
-                                                            type="number"
-                                                            required
-                                                            id="in-2"
-                                                            min={0}
-                                                            autoComplete="one-time-code"
-                                                            className="otp-field-box--2"
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="v-input v-input--hide-details theme--light v-text-field v-text-field--is-booted v-text-field--outlined">
-                                            <div className="v-input__control">
-                                                <div className="v-input__slot">
-                                                    <div className="v-text-field__slot">
-                                                        <input
-                                                            type="number"
-                                                            required
-                                                            id="in-3"
-                                                            min={0}
-                                                            autoComplete="one-time-code"
-                                                            className="otp-field-box--3"
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="v-input v-input--hide-details theme--light v-text-field v-text-field--is-booted v-text-field--outlined">
-                                            <div className="v-input__control">
-                                                <div className="v-input__slot">
-                                                    <div className="v-text-field__slot">
-                                                        <input
-                                                            type="number"
-                                                            required
-                                                            id="in-4"
-                                                            min={0}
-                                                            autoComplete="one-time-code"
-                                                            className="otp-field-box--4"
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="v-input v-input--hide-details theme--light v-text-field v-text-field--is-booted v-text-field--outlined">
-                                            <div className="v-input__control">
-                                                <div className="v-input__slot">
-                                                    <div className="v-text-field__slot">
-                                                        <input
-                                                            type="number"
-                                                            required
-                                                            id="in-5"
-                                                            min={0}
-                                                            autoComplete="one-time-code"
-                                                            className="otp-field-box--5"
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> */}
                                     </div>
                                 </div>
                                 <div className="buttons-container d-flex justify-content-between">
@@ -214,4 +140,9 @@ const AccountVerify = () => {
     );
 };
 
-export default AccountVerify;
+function mapStateToProps(state) {
+    return {
+        auth: state,
+    };
+}
+export default connect(mapStateToProps)(AccountVerify);

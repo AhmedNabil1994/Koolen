@@ -1,13 +1,13 @@
 // react
 import React from 'react';
 import { useHistory, Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 // third-party
 import { Helmet } from 'react-helmet-async';
-// import { Link } from 'react-router-dom';
 
 // application
 import { useIntl } from 'react-intl';
@@ -25,6 +25,7 @@ import { getToken } from '../../api/network';
 
 function AccountPageLogin(props) {
     const { dispatch } = props;
+    console.log(props);
     const history = useHistory();
     const intl = useIntl();
     const formik = useFormik({
@@ -77,6 +78,10 @@ function AccountPageLogin(props) {
                 if (success.success) {
                     toastSuccess(success);
                     registrationFormik.resetForm();
+                    // edit
+                    const { access_token: token, user } = success;
+                    getToken(token);
+                    dispatch({ type: LOGIN, payload: { token, user } });
                     history.push('/account/verify');
                 } else {
                     toastError(success);
