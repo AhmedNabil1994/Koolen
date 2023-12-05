@@ -24,7 +24,7 @@ const ForgetPassword = () => {
                     toastSuccess(success);
                     history.push('/account/change-password');
                 } else {
-                    toastSuccess(success);
+                    toastError(success);
                 }
             }, (fail) => {
                 toastError(fail);

@@ -47,14 +47,8 @@ export function createNewPassword(email, onSuccess, onFail) {
     postRequest(path, data, onSuccess, onFail);
 }
 
-export function resetPassword({
-    code,
-    email,
-    password,
-}, onSuccess, onFail) {
+export function resetPassword(data, onSuccess, onFail) {
     const path = '/api/v1/auth/password/reset';
-    const data = { password, email, code };
-
     postRequest(path, data, onSuccess, onFail);
 }
 

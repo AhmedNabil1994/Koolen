@@ -25,7 +25,7 @@ import { getToken } from '../../api/network';
 
 function AccountPageLogin(props) {
     const { dispatch } = props;
-    console.log(props);
+    // console.log(props);
     const history = useHistory();
     const intl = useIntl();
     const formik = useFormik({

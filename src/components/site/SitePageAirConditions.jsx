@@ -20,6 +20,7 @@ const SitePageAirConditions = () => {
             },
         );
     }, []);
+    // console.log('AC data', airConditionsData);
     const items = Object.keys(airConditionsData).map((arrayOfObj) => (airConditionsData[arrayOfObj].map((obj, index) => (
         (index > 0 && obj.branch === airConditionsData[arrayOfObj][index - 1].branch) ? (
             <tr>
