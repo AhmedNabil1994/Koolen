@@ -59,7 +59,7 @@ class ShopPageCheckout extends Component {
                     selectedAddresses: [],
                     isLoading: false,
                 });
-            },
+            }
         );
     }
 
@@ -74,7 +74,7 @@ class ShopPageCheckout extends Component {
                 },
                 (fail) => {
                     toastError(fail);
-                },
+                }
             );
         }
     }
@@ -114,7 +114,7 @@ class ShopPageCheckout extends Component {
                 // this.setState({ isDisabled: false });
                 this.setState({ selectedAddrerssId: null });
                 toastError(fail);
-            },
+            }
         );
     };
 
@@ -133,7 +133,7 @@ class ShopPageCheckout extends Component {
             },
             (fail) => {
                 toastError(fail);
-            },
+            }
         );
     };
 
@@ -291,7 +291,7 @@ class ShopPageCheckout extends Component {
                                                 isLoading={this.state?.isLoading}
                                                 address={selectedAddress}
                                                 handleAddressClick={this.handleAddressClick}
-                                                checked = {this.state.selectedAddresses.length ===1}
+                                                checked={this.state.selectedAddresses.length === 1}
                                             />
                                         </div>
                                     );
